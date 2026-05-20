@@ -1,0 +1,461 @@
+:hide-uri-scheme:
+:doctype: book
+
+:site_resource: .
+include::{site_resource}/pj-settings.adoc[opts=optional]
+include::{site_resource}/adoc-cmmn-all.adoc[opts=optional]
+
+:source-highlighter: highlight.js
+
+= {pj_gh_repo} - Examples
+:toc:
+:toclevels: 2
+
+== PHPUnit
+
+=== ConstantCheckTestCase
+
+.Constants cross check
+[source,php]
+----
+<?php
+----
+
+.Log output
+[source,text]
+----
+----
+
+=== EasyGoingTestCase
+
+.Business Class
+[source,php]
+----
+<?php
+
+declare(strict_types=1);
+
+namespace foo;
+
+class FooClazz
+{
+    public function isValid(): bool
+    {
+        return true; // not very complex, i know ;-)
+    }
+}
+----
+
+.Related test class
+[source,php]
+----
+<?php
+
+declare(strict_types=1);
+
+namespace foo;
+
+require_once __DIR__ . './bootstrap.php';
+
+use PHPUnit\Framework\EasyGoingTestCase;
+
+class FooClazzTest extends EasyGoingTestCase
+{
+    protected function prepareO2t(): FooClazz // cast to business class
+    {
+        return new FooClazz();
+    }
+
+    protected function getCasto2t(): FooClazz // cast to business class
+    {
+        return $this->o2t;
+    }
+
+    public function testFoo(): void
+    {
+        $this->logger->debug('testFoo() - Start');
+
+        // test code
+        static::assertTrue($this->getCasto2t()->isValid());
+        // or
+        static::assertTrue($this->o2t->isValid());
+
+        $this->logger->info('testFoo() - End');
+    }
+}
+----
+
+.Log output
+[source,text]
+----
+20250821-162846.609 [DEBUG   ] PHPUnit\Framework\EasyGoingTestCase->testFoo() - testFoo() - Start
+20250821-162846.611 [INFO    ] PHPUnit\Framework\EasyGoingTestCase->testFoo() - testFoo() - End
+..
+----
+
+== Reflection
+
+=== ChildClazzesHelper
+
+.getAllChildren
+[source,php]
+----
+<?php
+    $clazzName = \Exception::class;
+    $actual = \ollily\Tools\Reflection\ChildClazzesHelper::getAllChildren($clazzName);
+    print_r($actual, false);
+----
+
+.Log output
+[source,text]
+----
+Array
+(
+    [0] => ErrorException
+    [1] => ClosedGeneratorException
+    [2] => JsonException
+    [3] => LogicException
+    [4] => BadFunctionCallException
+    [5] => BadMethodCallException
+    [6] => DomainException
+    [7] => InvalidArgumentException
+    [8] => LengthException
+    [9] => OutOfRangeException
+    [10] => RuntimeException
+    [11] => OutOfBoundsException
+    [12] => OverflowException
+    [13] => RangeException
+    [14] => UnderflowException
+    [15] => UnexpectedValueException
+    [16] => ReflectionException
+    [17] => DOMException
+    [18] => PDOException
+    [19] => IntlException
+    [20] => mysqli_sql_exception
+    [21] => PharException
+    [22] => SoapFault
+)
+----
+
+=== UnavailableFieldsTrait / UnavailableMethodsTrait
+
+.Extended class example
+[source,php]
+----
+<?php
+
+declare(strict_types=1);
+
+namespace foo;
+
+class FooClazz
+{
+    private $privateFoo = 'privateFooValue';
+
+    protected function protectedFoo(): string
+    {
+        return 'protectedFooMethod';
+    }
+}
+----
+
+.Related extended test class example
+[source,php]
+----
+<?php
+
+declare(strict_types=1);
+
+namespace foo;
+
+require_once __DIR__ . './bootstrap.php';
+
+use ollily\Tools\Reflection\UnavailableFieldsTrait;
+use ollily\Tools\Reflection\UnavailableMethodsTrait;
+use PHPUnit\Framework\EasyGoingTestCase;
+
+class FooClazzTest extends EasyGoingTestCase
+{
+    use UnavailableFieldsTrait;
+    use UnavailableMethodsTrait;
+
+    protected function prepareO2t(): FooClazz // cast to business class
+    {
+        return new FooClazz();
+    }
+
+    protected function getCasto2t(): FooClazz // cast to business class
+    {
+        return $this->o2t;
+    }
+
+    public function testPrivateField(): void
+    {
+        $result = $this->getFieldFromO2t('privateFoo');
+        // or
+        $result2 = $this->getFieldByReflection(FooClazz::class, 'privateFoo', $this->o2t);
+        $this->logger->info("privateFoo is '${result}' or '${result2}'");
+
+        static::assertEquals('privateFooValue', $result);
+        static::assertEquals($result, $result2);
+    }
+
+    public function testProtectedMethod(): void
+    {
+        $result = $this->callMethodOnO2t('protectedFoo');
+        // or
+        $result2 = $this->callMethodByReflection(FooClazz::class, 'protectedFoo', $this->o2t);
+        $this->logger->info("protectedFoo returns '${result}' or '${result2}'");
+
+        static::assertEquals('protectedFooMethod', $result);
+        static::assertEquals($result, $result2);
+    }
+}
+----
+
+.Log output
+[source,text]
+----
+20250821-162846.588 [INFO    ] PHPUnit\Framework\EasyGoingTestCase->testPrivateField() - privateFoo is 'privateFooValue' or 'privateFooValue'
+20250821-162846.608 [INFO    ] PHPUnit\Framework\EasyGoingTestCase->testProtectedMethod() - protectedFoo returns 'protectedFooMethod' or 'protectedFooMethod'
+..
+----
+
+== Tasklist
+
+.Tasklist / Taskitem
+[source,php]
+----
+<?php
+
+----
+
+.Log output
+[source,text]
+----
+
+----
+
+== Tools
+
+=== ImplodeTrait
+
+.implode/flatten
+[source,php]
+----
+<?php
+    use ollily\Tools\String\ImplodeTrait;
+
+    class Example {
+
+        use ImplodeTrait;
+
+        public function func_ir($array) {
+            print_r($array, false);
+            $actual = $this->implode_recursive(',', $array, true, true);
+            print_r($actual, false);
+        }
+
+        public function func_af($anyData) {
+            print_r($anyData, false);
+            $actual = $this->array_flatten($anyData, 0);
+            print_r($actual, false);
+        }
+    }
+
+    $instance = new Example();
+    $instance->func_ir([1, [2, ['a', 'b'], 3], 4]);
+    $instance->func_af([1, [2, ['a', 'b'], 3], 4]);
+----
+
+.Log output
+[source,text]
+----
+Array
+(
+    [0] => 1
+    [1] => Array
+        (
+            [0] => 2
+            [1] => Array
+                (
+                    [0] => a
+                    [1] => b
+                )
+
+            [2] => 3
+        )
+
+    [2] => 4
+)
+0=>"1",1=>[0=>"2",1=>[0=>"a",1=>"b"],2=>"3"],2=>"4"Array
+(
+    [0] => 1
+    [1] => Array
+        (
+            [0] => 2
+            [1] => Array
+                (
+                    [0] => a
+                    [1] => b
+                )
+
+            [2] => 3
+        )
+
+    [2] => 4
+)
+Array
+(
+    [0] => 1
+    [1] => 2
+    [2] => a
+    [3] => b
+    [4] => 3
+    [5] => 4
+)
+----
+
+=== ToStringTrait
+
+.__toString()
+[source,php]
+----
+<?php
+    use ollily\Tools\String\ToStringTrait;
+
+    class Example {
+
+        use ToStringTrait;
+
+        private $value1 = 1;
+        private $list = [];
+
+        protected function __toStringValues() {
+            return $this;
+        }
+    }
+
+    $instance = new Example();
+    print_r($instance, false);
+    print_r($instance->__toString(), false);
+----
+
+.Log output
+[source,text]
+----
+ollily\Example Object
+(
+    [value1:ollily\Example:private] => 1
+    [list:ollily\Example:private] => Array
+        (
+        )
+
+)
+{ollily\Example Object
+(
+    [value1:ollily\Example:private] => 1
+    [list:ollily\Example:private] => Array
+        (
+        )
+
+)
+}
+----
+
+=== EnvironmentVariableTrait
+
+.Environment variables
+[source,php]
+----
+<?php
+    use ollily\Tools\EnvironmentVariableTrait;
+
+    class Example {
+
+        use EnvironmentVariableTrait;
+
+        public function show(): void {
+            echo self::getHome() . "\n";
+            echo self::getProjectRoot() . "\n";
+        }
+    }
+
+    $instance = new Example();
+    $instance->show();
+
+----
+
+.Log output
+[source,text]
+----
+C:\Users\****
+C:\**\ezkoding
+----
+
+=== PhpVersionTrait
+
+.PHP version
+[source,php]
+----
+<?php
+    use ollily\Tools\PhpVersionTrait;
+
+    class Example {
+
+        use PhpVersionTrait;
+
+        public function isGreater(string $checkVersion): bool {
+            return $this->isPhpGreater($checkVersion);
+        }
+    }
+
+    $instance = new Example();
+    var_dump($instance->isGreater('1.0.0'));
+    var_dump($instance->isGreater('99.99.999'));
+----
+
+.Log output
+[source,text]
+----
+ezkoding\src\Example.php:19:
+bool(true)
+ezkoding\src\Example.php:20:
+bool(false)
+----
+
+=== StopNow
+
+.stop / stopException
+[source,php]
+----
+<?php
+    use ollily\Tools\StopNow;
+
+    class Example {
+
+        public function verify($result): void {
+            if ($result) {
+                echo 'Verification ok!';
+            } else {
+                StopNow::stop(100, 'Error Message');
+            }
+        }
+
+        public function emergencyStop(): void {
+            StopNow::stopException(new \RuntimeException());
+        }
+    }
+
+    $instance = new Example();
+    $instance->verify(true);
+    $instance->verify(false);
+    $instance->emergencyStop();
+----
+
+.Log output
+[source,text]
+----
+Verification ok!
+20260508-195933.740 [EMERGENCY] ollily\Tools\StopNow->stop() - Error Message [100]
+----
