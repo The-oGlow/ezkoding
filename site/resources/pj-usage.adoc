@@ -1,0 +1,29 @@
+There are several classes which can be used for your development.
+
+=== PHPUnit
+
+* link:src/PHPUnit/Framework/EasyGoingTestCase.php[EasyGoingTestCase] - All you need is already prepared, so concentrate on unit tests
+* link:src/PHPUnit/Framework/ConstantCheckTestCase.php[ConstantCheckTestCase] - Additionally there is a check, if all constants are correct defined
+
+=== Tasklist
+
+* link:src/Tools/Batch/BatchTaskHelper.php[BatchTaskHelper] - Utility class for working the tasklist
+* link:src/Tools/Batch/TaskItem.php[TaskItem] - A single task
+* link:src/Tools/Batch/TaskList.php[TaskList] - A complete tasklist (queue)
+
+=== Reflection
+
+* link:src/Tools/Reflection/ChildClazzesHelper.php[ChildClazzesHelper] - Utility clazz for working with children classes
+* link:src/Tools/Reflection/UnavailableFieldsTrait.php[UnavailableFieldsTrait] - Get value from unaccessable class fields (aka properties)
+* link:src/Tools/Reflection/UnavailableMethodsTrait.php[UnavailableMethodsTrait] - Call unaccessable class methods
+
+=== String
+
+* link:src/Tools/String/ImplodeTrait.php[ImplodeTrait] - Implode multidimensional arrays to a flat array or string
+* link:src/Tools/String/ToStringTrait.php[ToStringTrait] - Provides a standard implementation for function '__toString()'
+
+=== Tools
+
+* link:src/Tools/EnvironmentVariableTrait.php[EnvironmentVariableTrait] - Provides access to environment settings
+* link:src/Tools/PhpVersionTrait.php[PhpVersionTrait] - Handles the check for PHP versions
+* link:src/Tools/StopNow.php[StopNow] - As it says: stops a process immediatly

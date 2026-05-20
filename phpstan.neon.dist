@@ -1,0 +1,85 @@
+parameters:
+    level: 8
+
+    parallel:
+        jobSize: 10
+        maximumNumberOfProcesses: 32
+        minimumNumberOfJobsPerProcess: 4
+
+    paths:
+        - src/
+        - tests/
+
+    checkStrictPrintfPlaceholderTypes: false
+
+    strictRules:
+        # Too strict -> disabled
+        disallowedEmpty: false
+        disallowedLooseComparison: false
+
+    ignoreErrors:
+        # Too strict -> disabled
+        -
+            identifier: booleanAnd.alwaysFalse
+            paths:
+                - tests/*/*TestTrait.php
+        -
+            identifier: booleanAnd.alwaysTrue
+            paths:
+                - tests/*/*TestTrait.php
+        -
+            identifier: function.alreadyNarrowedType
+            paths:
+                - tests/*/*TestTrait.php
+        -
+            identifier: function.impossibleType
+            paths:
+                - tests/*/*TestTrait.php
+        -
+            identifier: instanceof.alwaysFalse
+            paths:
+                - tests/*/*TestTrait.php
+        -
+            identifier: instanceof.alwaysTrue
+            paths:
+                - tests/*/*TestTrait.php
+        -
+            identifier: isset.property
+            paths:
+                - tests/*/*TestTrait.php
+        -
+            identifier: method.dynamicName
+            paths:
+                - tests/*/*TestTrait.php
+                - tests/*/*Test.php
+        -
+            identifier: method.notFound
+            paths:
+                - tests/*/*TestTrait.php
+        -
+            identifier: method.unused
+            paths:
+                - tests/*/*DummyClazz.php
+        -
+            identifier: property.onlyWritten
+            paths:
+                - tests/*/*Clazz.php
+                - src/*/*Foo.php
+        -
+            identifier: staticMethod.alreadyNarrowedType
+            paths:
+                - tests/*/*Test.php
+        -
+            identifier: classConstant.unused
+            paths:
+                - tests/*/*DummyClazz.php
+
+        # Custom
+        -
+            identifier: constructor.unusedParameter
+            paths:
+                - src\Monolog\Formatter\EasyGoingFormatter.php
+                - src\Monolog\Formatter\PlainFormatter.php
+
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
