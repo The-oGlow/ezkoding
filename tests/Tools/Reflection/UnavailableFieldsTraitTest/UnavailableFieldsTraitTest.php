@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of ezlogging
+ * This file is part of ezkoding
  *
  * (c) 2025 Oliver Glowa, coding.glowa.com
  *

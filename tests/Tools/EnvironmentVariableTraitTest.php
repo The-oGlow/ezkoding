@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of ezlogging
+ * This file is part of ezkoding
  *
  * (c) 2025 Oliver Glowa, coding.glowa.com
  *
@@ -20,7 +20,7 @@ class EnvironmentVariableTraitTest extends TestCase
 {
     use EnvironmentVariableTrait;
 
-    private const         PROJECT_NAME  = 'ezlogging';
+    private const PROJECT_NAME = 'ezkoding';
 
     private const HOME_WIN = 'USERPROFILE';
 

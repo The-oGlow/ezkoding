@@ -20,43 +20,6 @@ parameters:
     ignoreErrors:
         # Too strict -> disabled
         -
-            identifier: booleanAnd.alwaysFalse
-            paths:
-                - tests/*/*TestTrait.php
-        -
-            identifier: booleanAnd.alwaysTrue
-            paths:
-                - tests/*/*TestTrait.php
-        -
-            identifier: function.alreadyNarrowedType
-            paths:
-                - tests/*/*TestTrait.php
-        -
-            identifier: function.impossibleType
-            paths:
-                - tests/*/*TestTrait.php
-        -
-            identifier: instanceof.alwaysFalse
-            paths:
-                - tests/*/*TestTrait.php
-        -
-            identifier: instanceof.alwaysTrue
-            paths:
-                - tests/*/*TestTrait.php
-        -
-            identifier: isset.property
-            paths:
-                - tests/*/*TestTrait.php
-        -
-            identifier: method.dynamicName
-            paths:
-                - tests/*/*TestTrait.php
-                - tests/*/*Test.php
-        -
-            identifier: method.notFound
-            paths:
-                - tests/*/*TestTrait.php
-        -
             identifier: method.unused
             paths:
                 - tests/*/*DummyClazz.php
@@ -75,11 +38,6 @@ parameters:
                 - tests/*/*DummyClazz.php
 
         # Custom
-        -
-            identifier: constructor.unusedParameter
-            paths:
-                - src\Monolog\Formatter\EasyGoingFormatter.php
-                - src\Monolog\Formatter\PlainFormatter.php
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon

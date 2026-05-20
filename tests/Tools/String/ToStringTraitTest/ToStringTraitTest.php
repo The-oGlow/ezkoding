@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of ezlogging
+ * This file is part of ezkoding
  *
  * (c) 2025 Oliver Glowa, coding.glowa.com
  *
@@ -15,6 +15,7 @@ namespace ollily\Tools\String\ToStringTraitTest;
 
 use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
+use ollily\Tools\String\ImplodeTrait;
 
 /**
  * This is the test clazz which will test the test clazz.
@@ -23,6 +24,8 @@ use ollily\Tools\Test\TestData;
  */
 class ToStringTraitTest extends TestCase
 {
+    use ImplodeTrait;
+
     public const FORMAT_ARRAY = '%s:[%s]';
 
     public const FORMAT_ITEMS = '%s:{%s}';
@@ -63,7 +66,9 @@ class ToStringTraitTest extends TestCase
     public function testToString($data, string $expected): void
     {
         $actualObj = new ToStringTraitTestDummyClazz($data);
+
         $actual = $actualObj->__toString();
+
         self::assertEquals($expected, $actual);
     }
 
@@ -93,15 +98,15 @@ class ToStringTraitTest extends TestCase
             ],
             'ArrayWithNumKey' => [
                 TestData::ARRAY_ALPHA3,
-                sprintf(self::FORMAT_ARRAY, ToStringTraitTestDummyClazz::class, implode(TestData::ARRAY_ITEM_SEP, TestData::ARRAY_ALPHA3)),
+                sprintf(self::FORMAT_ARRAY, ToStringTraitTestDummyClazz::class, $this->implode_recursive(TestData::ARRAY_ITEM_SEP, TestData::ARRAY_ALPHA3)),
             ],
             'ArrayWithAlphaKeys' => [
                 TestData::ARRAY_ALPHA_KEY2,
-                sprintf(self::FORMAT_ARRAY, ToStringTraitTestDummyClazz::class, implode(TestData::ARRAY_ITEM_SEP, TestData::ARRAY_ALPHA_KEY2)),
+                sprintf(self::FORMAT_ARRAY, ToStringTraitTestDummyClazz::class, $this->implode_recursive(TestData::ARRAY_ITEM_SEP, TestData::ARRAY_ALPHA_KEY2)),
             ],
             'ArrayWithObjectValues' => [
                 TestData::ARRAY_OBJECT2(),
-                sprintf(self::FORMAT_ARRAY, ToStringTraitTestDummyClazz::class, implode(TestData::ARRAY_ITEM_SEP, TestData::ARRAY_OBJECT2())),
+                sprintf(self::FORMAT_ARRAY, ToStringTraitTestDummyClazz::class, $this->implode_recursive(TestData::ARRAY_ITEM_SEP, TestData::ARRAY_OBJECT2())),
             ]
         ];
     }

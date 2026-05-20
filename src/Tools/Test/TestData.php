@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of ezlogging
+ * This file is part of ezkoding
  *
  * (c) 2025 Oliver Glowa, coding.glowa.com
  *
@@ -64,6 +64,8 @@ class TestData
     public const NOTEXIST_ID = 99999;
 
     public const NOTEXIST_ARRAY = [self::NOTEXIST_ID => self::NOTEXIST_NAME];
+
+    public const NOTEXIST_CLAZZ = 'ollily/NotExistClazz';
 
     // Array Data
 
@@ -156,21 +158,21 @@ class TestData
      *
      * @var array<mixed>
      */
-    private static $ARRAY_OBJECT1 = []; // NOSONAR: php:S100 
+    private static $ARRAY_OBJECT1 = []; // NOSONAR: php:S100
 
     /**
      * @see self::C_ARRAY_OBJECT2()
      *
      * @var array<mixed>
      */
-    private static $ARRAY_OBJECT2 = []; // NOSONAR: php:S100  
+    private static $ARRAY_OBJECT2 = []; // NOSONAR: php:S100
 
     /**
      * @see self::C_ARRAY_OBJECT3()
      *
      * @var array<mixed>
      */
-    private static $ARRAY_OBJECT3 = []; // NOSONAR: php:S100  
+    private static $ARRAY_OBJECT3 = []; // NOSONAR: php:S100
 
     // Filesystem Data
 
@@ -215,7 +217,7 @@ class TestData
 
     // Misc Data
 
-    public static function DATA_OBJECT1(): TestDataFoo // NOSONAR: php:S100 
+    public static function DATA_OBJECT1(): TestDataFoo // NOSONAR: php:S100
     {
         return TestDataFoo::init(TestData::DATA_NUM1);
     }
@@ -223,7 +225,7 @@ class TestData
     /**
      * @return array<mixed>
      */
-    public static function ARRAY_OBJECT1(): array // NOSONAR: php:S100  
+    public static function ARRAY_OBJECT1(): array // NOSONAR: php:S100
     {
         if (empty(self::$ARRAY_OBJECT1)) {
             self::$ARRAY_OBJECT1 = [self::KEY_ALPHA1 => TestDataFoo::init(self::DATA_NUM1)];
@@ -235,7 +237,7 @@ class TestData
     /**
      * @return array<mixed>
      */
-    public static function ARRAY_OBJECT2(): array // NOSONAR: php:S100  
+    public static function ARRAY_OBJECT2(): array // NOSONAR: php:S100
     {
         if (empty(self::$ARRAY_OBJECT2)) {
             self::$ARRAY_OBJECT2 = [
@@ -250,7 +252,7 @@ class TestData
     /**
      * @return array<mixed>
      */
-    public static function ARRAY_OBJECT3(): array // NOSONAR: php:S100   
+    public static function ARRAY_OBJECT3(): array // NOSONAR: php:S100
     {
         if (empty(self::$ARRAY_OBJECT3)) {
             self::$ARRAY_OBJECT3 = [

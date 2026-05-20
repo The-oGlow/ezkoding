@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of ezlogging
+ * This file is part of ezkoding
  *
  * (c) 2025 Oliver Glowa, coding.glowa.com
  *
@@ -48,9 +48,9 @@ class ChildClazzesHelperTest extends TestCase
     public function providerChildClazzes(): array
     {
         return [
-            'noChildren' => [0, ChildClazzesHelperTest::class,[]],
-            'clazzNotExists' => [0, TestData::NOTEXIST_NAME,[]],
-            'oneOrManyChildren' => [31, TestCase::class,[self::class], false],
+            'noChildren' => [0, ChildClazzesHelperTest::class, []],
+            'clazzNotExists' => [0, TestData::NOTEXIST_CLAZZ, []],
+            'oneOrManyChildren' => [17, TestCase::class, [self::class], false],
         ];
     }
 }
