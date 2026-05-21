@@ -26,4 +26,4 @@ There are several classes which can be used for your development.
 
 * link:src/Tools/EnvironmentVariableTrait.php[EnvironmentVariableTrait] - Provides access to environment settings
 * link:src/Tools/PhpVersionTrait.php[PhpVersionTrait] - Handles the check for PHP versions
-* link:src/Tools/StopNow.php[StopNow] - As it says: stops a process immediatly
+* link:src/Tools/Emergency.php[StopNow] - Stops a process immediatly, thx to  K.I.T.T.

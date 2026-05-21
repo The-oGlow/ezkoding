@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework\EasyGoingTestCaseTest;
 
-use Monolog\ConsoleLogger;
+use Monolog\EasyGoingLogger;
 use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Reflection\UnavailableMethodsTrait;
 use PHPUnit\Framework\TestCase;
@@ -58,7 +58,7 @@ class EasyGoingTestCaseTest extends TestCase
      */
     public function __construct($name = null, $data = [], $dataName = '')
     {
-        self::$logger = new ConsoleLogger(EasyGoingTestCaseTest::class);
+        self::$logger = EasyGoingLogger::init(EasyGoingTestCaseTest::class);
         self::$logger->debug('START');
         parent::__construct($name, $data, $dataName);
         self::$logger->debug('END');
@@ -136,11 +136,11 @@ class EasyGoingTestCaseTest extends TestCase
      */
     public function testGetConstValue(bool $expectedBool, string $constName, string $expected): void
     {
-        self::$logger->debug('parameters', [$expectedBool,$constName]);
+        self::$logger->debug('parameters', [$expectedBool, $constName]);
 
         $actual = $this->o2t::publicGetConstValue($this->o2t->publicGetCastO2t(), $constName);
 
-        self::$logger->info('Testcase comparing', [self::dataName(), $expected,$actual]);
+        self::$logger->info('Testcase comparing', [self::dataName(), $expected, $actual]);
 
         self::assertEquals($expected, $actual, sprintf("Not equals: '%s'='%s'", $expected, $actual));
     }
@@ -148,7 +148,7 @@ class EasyGoingTestCaseTest extends TestCase
     public function testIsPrimitive(): void
     {
         $expected = true;
-        $var = 100;
+        $var      = 100;
 
         $actual = $this->o2t::publicIsPrimitive($var);
 
@@ -158,7 +158,7 @@ class EasyGoingTestCaseTest extends TestCase
     public function testGetAllDefinedConsts(): void
     {
         $expectedSize = 3;
-        $clazz = get_class($this->o2t);
+        $clazz        = get_class($this->o2t);
 
         $actual = $this->o2t::publicGetAllDefinedConsts($clazz);
 
@@ -202,10 +202,10 @@ class EasyGoingTestCaseTest extends TestCase
     public function providerConstant()
     {
         return [
-            'public' => [ true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PUBLIC', 'public'],
-            'protected' => [ true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PROTECTED', 'protected'],
-            'private' => [ true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PRIVATE', 'private'],
-            'notexist' => [ false, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_NOTEXISTS', '']
+            'public'    => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PUBLIC', 'public'],
+            'protected' => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PROTECTED', 'protected'],
+            'private'   => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PRIVATE', 'private'],
+            'notexist'  => [false, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_NOTEXISTS', '']
         ];
     }
 }

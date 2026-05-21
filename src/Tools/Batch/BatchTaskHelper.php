@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use Ds\Map;
-use Monolog\ConsoleLogger;
+use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
 class BatchTaskHelper
@@ -40,7 +40,7 @@ class BatchTaskHelper
          * @phpstan-ignore function.impossibleType
          */
         if (is_null(self::$logger)) {
-            self::$logger = new ConsoleLogger(BatchTaskHelper::class);
+            self::$logger = EasyGoingLogger::init(BatchTaskHelper::class);
         }
         /**
          * @psalm-suppress DocblockTypeContradiction
@@ -82,7 +82,7 @@ class BatchTaskHelper
     {
         self::init();
 
-        self::$logger->debug('START - listKey,fileName', [$listKey,$fileName]);
+        self::$logger->debug('START - listKey,fileName', [$listKey, $fileName]);
 
         $listKey = $listKey ?? self::DEFAULT;
         if (file_exists($fileName)) {

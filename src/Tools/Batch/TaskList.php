@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use Ds\Queue;
-use Monolog\ConsoleLogger;
+use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
 class TaskList
@@ -30,9 +30,9 @@ class TaskList
 
     public function __construct(string $listKey)
     {
-        self::$logger = new ConsoleLogger(TaskList::class);
+        self::$logger  = EasyGoingLogger::init(TaskList::class);
         $this->listKey = $listKey;
-        $this->tasks = new Queue();
+        $this->tasks   = new Queue();
     }
 
     public function getListKey(): string
@@ -85,7 +85,7 @@ class TaskList
                 $idx = 0;
                 while ($line = fgets($fHandle, 1000)) {
                     $convertedLine = mb_convert_encoding($line, 'UTF-8');
-                    $itemKey = $this->listKey . $idx;
+                    $itemKey       = $this->listKey . $idx;
                     /** @var null|ITaskItem $newTask */
                     $newTask = $this->parseTaskData($itemKey, $convertedLine);
                     if (!is_null($newTask)) {

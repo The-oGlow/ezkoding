@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework;
 
-use Monolog\ConsoleLogger;
+use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
 abstract class EasyGoingTestCase extends TestCase
@@ -47,12 +47,12 @@ abstract class EasyGoingTestCase extends TestCase
      */
     public function __construct($name = null, $data = [], $dataName = '')
     {
-        self::$logger = new ConsoleLogger(EasyGoingTestCase::class);
+        self::$logger = EasyGoingLogger::init(EasyGoingTestCase::class);
         self::$logger->debug('START');
 
         parent::__construct($name, $data, $dataName);
 
-        $testInfo = [ $this->get_called_function(),self::get_called_clazz()];
+        $testInfo = [$this->get_called_function(), self::get_called_clazz()];
         self::$logger->debug('calledFunction,calledClazz', $testInfo);
 
         self::$logger->debug('END');
@@ -177,9 +177,9 @@ abstract class EasyGoingTestCase extends TestCase
             self::$logger->debug('Cannot get value by constant()', [$constantName]);
         }
         if (!isset($constantValue)) {
-            $reflectionClazz         = new \ReflectionClass($clazz);
-            $splitClazz    = explode(self::C_STATIC_SEP, $constantName);
-            $constantValue = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR php:S3011
+            $reflectionClazz = new \ReflectionClass($clazz);
+            $splitClazz      = explode(self::C_STATIC_SEP, $constantName);
+            $constantValue   = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR php:S3011
             self::$logger->debug('Recieved by reflection', [$constantName]);
         }
 
