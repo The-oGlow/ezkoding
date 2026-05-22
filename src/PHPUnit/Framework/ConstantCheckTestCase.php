@@ -13,16 +13,16 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework;
 
-use Monolog\ConsoleLogger;
+use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
 abstract class ConstantCheckTestCase extends EasyGoingTestCase
 {
-    public const DIFF_ZERO = 0;
+    public const DIFF_ZERO        = 0;
 
     public const INIT_CONST_COUNT = 0;
 
-    public const INIT_CROSSCHECK = false;
+    public const INIT_CROSSCHECK  = false;
 
     /**
      * @var bool TRUE=Execute a constants cross check (Default: FALSE)
@@ -57,12 +57,12 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      */
     public static function setUpBeforeClass(bool $withConstCrossCheck = self::INIT_CROSSCHECK, int $expectedConstsCount = self::INIT_CONST_COUNT): void
     {
-        self::$logger = new ConsoleLogger(ConstantCheckTestCase::class);
+        self::$logger = EasyGoingLogger::init(ConstantCheckTestCase::class);
         self::$logger->debug('START');
 
         parent::setUpBeforeClass();
-        $testInfo = [self::$withConstCrossCheck, self::$expectedConstsCount, self::get_called_clazz()];
-        self::$actualConsts = [];
+        $testInfo                  = [self::$withConstCrossCheck, self::$expectedConstsCount, self::get_called_clazz()];
+        self::$actualConsts        = [];
         self::$withConstCrossCheck = $withConstCrossCheck;
         self::$expectedConstsCount = $expectedConstsCount;
         self::$logger->notice('withConstCrossCheck,expectedConstCount,calledClazz', $testInfo);
@@ -79,7 +79,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
 
         parent::tearDownAfterClass();
         self::crossCheckConstants(get_class(static::prepareO2t()), self::$actualConsts);
-        self::$actualConsts = [];
+        self::$actualConsts        = [];
         self::$withConstCrossCheck = self::INIT_CROSSCHECK;
         self::$expectedConstsCount = self::INIT_CONST_COUNT;
 
@@ -119,21 +119,21 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
              *
              * @return string
              */
-            function ($value): string {
-                $res = '';
-                if (is_string($value) && str_contains($value, self::C_STATIC_SEP)) {
-                    try {
-                        $startPos = ((int) strpos($value, self::C_STATIC_SEP)) + strlen(self::C_STATIC_SEP);
-                        $res = substr($value, $startPos);
-                    } catch (\Throwable $exception) {
-                        self::$logger->error(sprintf("%s: '%s'", $exception->getMessage(), $value));
+                function ($value): string {
+                    $res = '';
+                    if (is_string($value) && str_contains($value, self::C_STATIC_SEP)) {
+                        try {
+                            $startPos = ((int)strpos($value, self::C_STATIC_SEP)) + strlen(self::C_STATIC_SEP);
+                            $res      = substr($value, $startPos);
+                        } catch (\Throwable $exception) {
+                            self::$logger->error(sprintf("%s: '%s'", $exception->getMessage(), $value));
+                        }
+                    } else {
+                        self::$logger->error(sprintf("Value has no '%s': '%s'", self::C_STATIC_SEP, $value));
                     }
-                } else {
-                    self::$logger->error(sprintf("Value has no '%s': '%s'", self::C_STATIC_SEP, $value));
-                }
 
-                return $res;
-            };
+                    return $res;
+                };
 
             self::$logger->info(' * Remove clazz prefix');
             /** @var string[] */

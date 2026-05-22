@@ -13,12 +13,6 @@ declare(strict_types=1);
 
 namespace ollily\Tools;
 
-use Monolog\Formatter\EasyGoingFormatter;
-use Monolog\Handler\ErrorLogHandler;
-use Monolog\Logger;
-use Monolog\Processor\PaddingProcessor;
-use Psr\Log\LoggerInterface;
-
 /**
  * Utility class to stop an application.
  */
@@ -33,38 +27,6 @@ class Emergency
     /** Maximum code which is allowed. */
     private const ERR_CODE_MAX = 254;
 
-    /** @var LoggerInterface */
-    private static $logger;
-
-    private function __construct()
-    {
-        self::init();
-    }
-
-    private static function init(): void
-    {
-        /**
-         * @psalm-suppress DocblockTypeContradiction
-         * @phpstan-ignore function.impossibleType
-         *  */
-        if (is_null(self::$logger)) {
-            $handler = new ErrorLogHandler();
-            $handler->setFormatter(new EasyGoingFormatter());
-            self::$logger = new Logger(Emergency::class, [$handler]);
-            self::$logger->pushProcessor(new PaddingProcessor());
-        }
-    }
-
-    /**
-     * @return LoggerInterface
-     */
-    private static function getLogger(): LoggerInterface
-    {
-        self::init();
-
-        return self::$logger;
-    }
-
     /**
      * Immediately stopping the application caused by an exception. As a hmomage to "Knight Rider".
      *
@@ -77,7 +39,7 @@ class Emergency
      */
     public static function exceptionStop(\Throwable $throwable, bool $unitTest = false): int
     {
-        $errMsg = sprintf('\%s %s', get_class($throwable), $throwable->getMessage());
+        $errMsg = sprintf('\%s - %s', get_class($throwable), $throwable->getMessage());
 
         /** @psalm-suppress PossiblyInvalidArgument */
         return static::breakSystem($throwable->getCode(), $errMsg, $unitTest);
@@ -102,7 +64,7 @@ class Emergency
         if (empty($errorMessage)) {
             $errorMessage = self::MSG_DEFAULT;
         }
-        self::getLogger()->emergency($errorMessage, [$errorCode]);
+        echo sprintf("\nEMERGENCY: %s [%s]\n", $errorMessage, $errorCode);
         if (!$unitTest) {
             die($errorCode); // NOSONAR:php:S1799
         } else {

@@ -52,7 +52,7 @@
 // Soonar projectid or -1
 :pj_snr_projid: {pj_gh_account}_{pj_gh_repo}
 // Codacy Token or -1
-:pj_cdcy_id: -1
+:pj_cdcy_id: c029d57bf66e4574b403c91604a08669
 // Coveralls projectid or -1
 :pj_cvrlls_id: {pj_gh_account}/{pj_gh_repo}
 // OpenSSF projectid or -1
@@ -427,7 +427,7 @@ There are several classes which can be used for your development.
 
 * link:src/Tools/EnvironmentVariableTrait.php[EnvironmentVariableTrait] - Provides access to environment settings
 * link:src/Tools/PhpVersionTrait.php[PhpVersionTrait] - Handles the check for PHP versions
-* link:src/Tools/StopNow.php[StopNow] - As it says: stops a process immediatly
+* link:src/Tools/Emergency.php[StopNow] - Stops a process immediatly, thx to  K.I.T.T.
 
 == Examples
 
@@ -446,7 +446,6 @@ Please read the link:analysis.adoc[project status].
 link:{pj_snr_dash_url}[image:{cm_snr_tool_sonarcloud_url}[title="Sonarcloud Logo"]]
 
 == Reference
-* link:https://seldaek.github.io/monolog[Monolog]
 * link:https://phpunit.de/[PHPUnit]
 * link:https://www.php.net/manual/en/book.reflection.php[Reflection with PHP]
 * link:https://getcomposer.org/[Composer]

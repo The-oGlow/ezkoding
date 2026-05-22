@@ -19,9 +19,33 @@ use Stringable;
 trait ImplodeTrait
 {
     /**
-     * Recursively implodes an array with optional key inclusion.
+     * @return string Default glue character
      *
-     * Example of $include_keys output: key, value, key, value, key, value
+     * @see ImplodeTrait::array_flatten()
+     * @see ImplodeTrait::implode_recursive()
+     *
+     * TODO: Make it a constant with PHP 8
+     */
+    final public function DEFAULT_GLUE(): string // NOSONAR: php:S100
+    {
+        return ',';
+    }
+
+    /**
+     * @return string Default separate character for csv
+     *
+     * @see ImplodeTrait::array_flatten()
+     * @see ImplodeTrait::implode_recursive()
+     *
+     * TODO: Make it a constant with PHP 8
+     */
+    final public function DEFAULT_ITEM_SEP(): string // NOSONAR: php:S100
+    {
+        return ';';
+    }
+
+    /**
+     * Recursively implodes an array with optional key inclusion.
      *
      * @param string $glue        value that glues elements together
      * @param mixed  $anyData     multi-dimensional array to recursively implode

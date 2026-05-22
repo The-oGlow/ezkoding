@@ -11,9 +11,8 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ollily\Tools\String\ImplodeTraitTest;
+namespace ollily\Tools\String;
 
-use ollily\Tools\String\ImplodeTrait;
 use ollily\Tools\Test\TestData;
 
 /**
