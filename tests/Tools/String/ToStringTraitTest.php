@@ -11,11 +11,10 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ollily\Tools\String\ToStringTraitTest;
+namespace ollily\Tools\String;
 
 use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
-use ollily\Tools\String\ImplodeTrait;
 
 /**
  * This is the test clazz which will test the test clazz.
@@ -39,7 +38,6 @@ class ToStringTraitTest extends TestCase
 
     protected function setUp(): void
     {
-        TestData::ARRAY_OBJECT1();
         parent::setUp();
         $this->o2t = new ToStringTraitTestDummyClazz();
     }

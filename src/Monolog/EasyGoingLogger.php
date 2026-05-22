@@ -49,7 +49,7 @@ class EasyGoingLogger
         array $processors = [],
         ?DateTimeZone $timezone = null
     ): LoggerInterface {
-        /** @var class-string<LoggerInterface> */
+        /** @psalm-var class-string<LoggerInterface> */
         $clazzName = self::LOGGER_NULL;
         if (class_exists(self::LOGGER_CONSOLE)) {
             $clazzName = self::LOGGER_CONSOLE;

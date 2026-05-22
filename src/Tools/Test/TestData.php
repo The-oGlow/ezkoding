@@ -67,6 +67,8 @@ class TestData
 
     public const NOTEXIST_CLAZZ = 'ollily/NotExistClazz';
 
+    public const NOTEXIST_FILE = DIRECTORY_SEPARATOR . 'NotExistFile';
+
     // Array Data
 
     public const ARRAY_ITEM_SEP = ',';

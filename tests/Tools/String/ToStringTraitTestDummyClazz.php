@@ -11,14 +11,13 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ollily\Tools\String\ToStringTraitTest;
+namespace ollily\Tools\String;
 
 /*
  * A simple clazz which will be used by the test clazz.
  *
  * @see ToStringTraitTest
  */
-use ollily\Tools\String\ToStringTrait;
 
 class ToStringTraitTestDummyClazz
 {

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-namespace ollily\Tools\String\ImplodeTraitTest;
+namespace ollily\Tools\String;
 
 use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
@@ -34,6 +34,24 @@ class ImplodeTraitTest extends TestCase
     {
         parent::setUp();
         $this->o2t = new ImplodeTraitTestDummyClazz();
+    }
+
+    public function testDEFAULT_GLUE(): void
+    {
+        $expected = ',';
+
+        $actual = $this->o2t->DEFAULT_GLUE();
+
+        self::assertEquals($expected, $actual);
+    }
+
+    public function testDEFAULT_ITEM_SEP(): void
+    {
+        $expected = ';';
+
+        $actual = $this->o2t->DEFAULT_ITEM_SEP();
+
+        self::assertEquals($expected, $actual);
     }
 
     public function testImplode_recursiveDefault(): void

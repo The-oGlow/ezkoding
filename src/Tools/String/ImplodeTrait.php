@@ -26,7 +26,7 @@ trait ImplodeTrait
      *
      * TODO: Make it a constant with PHP 8
      */
-    final public function DEFAULT_GLUE(): string
+    final public function DEFAULT_GLUE(): string // NOSONAR: php:S100
     {
         return ',';
     }
@@ -39,7 +39,7 @@ trait ImplodeTrait
      *
      * TODO: Make it a constant with PHP 8
      */
-    final public function DEFAULT_ITEM_SEP(): string
+    final public function DEFAULT_ITEM_SEP(): string // NOSONAR: php:S100
     {
         return ';';
     }
