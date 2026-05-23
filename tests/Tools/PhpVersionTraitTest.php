@@ -15,6 +15,7 @@ namespace ollily\Tools;
 
 use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class PhpVersionTraitTest extends TestCase
 {
@@ -29,9 +30,8 @@ class PhpVersionTraitTest extends TestCase
     /**
      * @param bool   $expected
      * @param string $checkVersion
-     *
-     * @dataProvider providerPhpVersion
      */
+    #[DataProvider('providerPhpVersion')]
     public function testIsPhpGreater(bool $expected, string $checkVersion): void
     {
         $actual = $this->isPhpGreater($checkVersion);
@@ -43,7 +43,7 @@ class PhpVersionTraitTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerPhpVersion(): array
+    public static function providerPhpVersion(): array
     {
         return [
             'equal' => [true, self::PHP_VERSION_CURR],

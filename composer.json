@@ -32,7 +32,7 @@
   "prefer-stable": true,
   "require": {
     "php": ">=8.4.1",
-    "php-ds/php-ds": "^2.0",
+    "php-ds/php-ds": "^1.0",
     "psr/log": "^1.0||^2.0||^3.0",
     "composer/composer": "^2.0"
   },

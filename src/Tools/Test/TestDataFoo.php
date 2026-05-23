@@ -19,15 +19,14 @@ class TestDataFoo
 {
     use ToStringTrait;
 
-    /** @var null|mixed */
-    private $fooValue;
+    private mixed $fooValue;
 
     /**
      * @param null|mixed $fooValue
      *
      * @return TestDataFoo
      */
-    public static function init($fooValue = null): TestDataFoo
+    public static function init(mixed $fooValue = null): TestDataFoo
     {
         return new TestDataFoo($fooValue);
     }
@@ -35,7 +34,7 @@ class TestDataFoo
     /**
      * @param null|mixed $fooValue
      */
-    public function __construct($fooValue = null)
+    public function __construct(mixed $fooValue = null)
     {
         $this->fooValue = $fooValue;
     }
@@ -43,8 +42,9 @@ class TestDataFoo
     /**
      * @return mixed
      */
-    protected function __toStringValues()
+    #[\Override]
+    protected function __toStringValues(): mixed
     {
-        return $this;
+        return $this->fooValue;
     }
 }

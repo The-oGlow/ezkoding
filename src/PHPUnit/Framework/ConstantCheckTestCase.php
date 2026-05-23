@@ -18,11 +18,11 @@ use Psr\Log\LoggerInterface;
 
 abstract class ConstantCheckTestCase extends EasyGoingTestCase
 {
-    public const DIFF_ZERO        = 0;
+    public const int DIFF_ZERO        = 0;
 
-    public const INIT_CONST_COUNT = 0;
+    public const int INIT_CONST_COUNT = 0;
 
-    public const INIT_CROSSCHECK  = false;
+    public const bool INIT_CROSSCHECK  = false;
 
     /**
      * @var bool TRUE=Execute a constants cross check (Default: FALSE)
@@ -38,13 +38,12 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      * @see ConstantCheckTestCase::$withConstCrossCheck
      * @see ConstantCheckTestCase::testAllConstants()
      */
-    private static $expectedConstsCount = self::INIT_CONST_COUNT;
+    private static int $expectedConstsCount = self::INIT_CONST_COUNT;
 
-    /** @var mixed[] Array of the names of all constants in the class. */
-    private static $actualConsts = [];
+    /** @var array Array of the names of all constants in the class. */
+    private static array $actualConsts = [];
 
-    /** @var LoggerInterface */
-    private static $logger;
+    private static LoggerInterface $logger;
 
     /**
      * Inits the constants crosscheck.
@@ -55,6 +54,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      * @see ConstantCheckTestCase::$withConstCrossCheck
      * @see ConstantCheckTestCase::$expectedConstsCount
      */
+    #[\Override]
     public static function setUpBeforeClass(bool $withConstCrossCheck = self::INIT_CROSSCHECK, int $expectedConstsCount = self::INIT_CONST_COUNT): void
     {
         self::$logger = EasyGoingLogger::init(ConstantCheckTestCase::class);
@@ -73,6 +73,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
     /**
      * Performs the constants crosscheck at the end.
      */
+    #[\Override]
     public static function tearDownAfterClass(): void
     {
         self::$logger->debug('START');
@@ -99,12 +100,12 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
     /**
      * Executes the constant crosscheck  and fails if a constant is not found or not expected to exist.
      *
-     * @param mixed   $clazz        the clazz having the constants to check
-     * @param mixed[] $actualConsts an array of the already found constants
+     * @param mixed $clazz        the clazz having the constants to check
+     * @param array $actualConsts an array of the already found constants
      *
      * @see ConstantCheckTestCase::$withConstCrossCheck
      */
-    protected static function crossCheckConstants($clazz, $actualConsts): void
+    protected static function crossCheckConstants(mixed $clazz, array $actualConsts): void
     {
         self::$logger->debug('START');
 
@@ -164,11 +165,11 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
     /**
      * Adds an array of constants which have been found.
      *
-     * @param null|mixed[] $checkedConsts array of found constants
+     * @param null|array $checkedConsts array of found constants
      *
      * @see ConstantCheckTestCase::$withConstCrossCheck
      */
-    protected static function updateActualConsts($checkedConsts): void
+    protected static function updateActualConsts(?array $checkedConsts): void
     {
         if (self::$withConstCrossCheck && !is_null($checkedConsts)) {
             self::$actualConsts = array_merge(self::$actualConsts, $checkedConsts);
@@ -178,14 +179,14 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
     /**
      * Checks, if {@link $allDefinedConsts) has the size of {@link $expectedCount}.
      *
-     * @param int     $expectedCount    count of constants which must exists
-     * @param mixed[] $allDefinedConsts an array with all defined constants
+     * @param int   $expectedCount    count of constants which must exists
+     * @param array $allDefinedConsts an array with all defined constants
      *
      * @return array<mixed> [true|false, count($allDefinedConsts)]
      *
      * @see ConstantCheckTestCase::$withConstCrossCheck
      */
-    protected static function checkConstantsCount(int $expectedCount, $allDefinedConsts)
+    protected static function checkConstantsCount(int $expectedCount, array $allDefinedConsts): array
     {
         self::$logger->debug('START');
 
@@ -230,7 +231,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      * Checks, if all constants exists.
      * <code>['CONST1','CONST2',...]</code>.
      *
-     * @param mixed[] $constants an array with constants to check
+     * @param array $constants an array with constants to check
      */
     protected function verifyConstAllExists(array $constants = []): void
     {
@@ -247,7 +248,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      * Checks, if all constants exists are arrays and have the expected size.
      * <code>['CONST1'=>3,'CONST2'=>10,...]</code>.
      *
-     * @param mixed[] $constants an array with constants and expected sizes to check
+     * @param array $constants an array with constants and expected sizes to check
      */
     protected function verifyConstArrayAllExists(array $constants = []): void
     {

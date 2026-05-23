@@ -18,16 +18,14 @@ trait ToStringTrait
     use ImplodeTrait;
 
     /**
-     * @return mixed
-     *
      * @SuppressWarnings("PHPMD.CamelCaseMethodName")
      */
-    abstract protected function __toStringValues();  // NOSONAR: php:S100
+    abstract protected function __toStringValues(): mixed;  // NOSONAR: php:S100
 
     /**
      * @inheritdoc
      */
-    public function __toString()
+    public function __toString(): string
     {
         $value = $this->__toStringValues();
         if (is_string($value)) {
@@ -57,7 +55,7 @@ trait ToStringTrait
     /**
      * @inheritdoc
      */
-    public function __wakeup()
+    public function __wakeup(): void
     {
         throw new \BadMethodCallException("Cannot unserialize singleton");
     }

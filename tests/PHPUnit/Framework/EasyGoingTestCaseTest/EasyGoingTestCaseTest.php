@@ -18,6 +18,7 @@ use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Reflection\UnavailableMethodsTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * This is the test clazz which will test the test clazz.
@@ -35,12 +36,23 @@ class EasyGoingTestCaseTest extends TestCase
     /** @var LoggerInterface */
     private static $logger;
 
+    #[\Override]
+    public static function setUpBeforeClass(): void
+    {
+        self::$logger = EasyGoingLogger::init(EasyGoingTestCaseTest::class);
+        self::$logger->debug('START');
+
+        parent::setUpBeforeClass();
+
+        self::$logger->debug('END');
+    }
+
     /**
      * @return EasyGoingTestCaseClazz
      */
     protected static function prepareO2t()
     {
-        return new EasyGoingTestCaseClazz();
+        return new EasyGoingTestCaseClazz(EasyGoingTestCaseClazz::class);
     }
 
     /**
@@ -51,25 +63,18 @@ class EasyGoingTestCaseTest extends TestCase
         return EasyGoingTestCaseClazz::prepareAllConsts();
     }
 
-    /**
-     * @param mixed              $name
-     * @param array<mixed,mixed> $data
-     * @param string             $dataName
-     */
-    public function __construct($name = null, $data = [], $dataName = '')
-    {
-        self::$logger = EasyGoingLogger::init(EasyGoingTestCaseTest::class);
-        self::$logger->debug('START');
-        parent::__construct($name, $data, $dataName);
-        self::$logger->debug('END');
-    }
-
+    #[\Override]
     public function setUp(): void
     {
         self::$logger->debug('START');
+
         parent::setUp();
+
         $this->o2t = self::prepareO2t();
+        // Must be called manually
+        $this->o2t::setUpBeforeClass();
         $this->o2t->setUp();
+
         self::$logger->debug('END');
     }
 
@@ -113,10 +118,10 @@ class EasyGoingTestCaseTest extends TestCase
     /**
      * @param bool   $expectedBool
      * @param string $constName
-     *
-     * @dataProvider providerConstant
+     * @param string $expected
      */
-    public function testIsConstExist(bool $expectedBool, string $constName): void
+    #[DataProvider('providerConstant')]
+    public function testIsConstExist(bool $expectedBool, string $constName, string $expected): void
     {
         self::$logger->debug('parameters', [$expectedBool, $constName]);
 
@@ -131,9 +136,8 @@ class EasyGoingTestCaseTest extends TestCase
      * @param bool   $expectedBool
      * @param string $constName
      * @param string $expected
-     *
-     * @dataProvider providerConstant
      */
+    #[DataProvider('providerConstant')]
     public function testGetConstValue(bool $expectedBool, string $constName, string $expected): void
     {
         self::$logger->debug('parameters', [$expectedBool, $constName]);
@@ -199,7 +203,7 @@ class EasyGoingTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerConstant()
+    public static function providerConstant()
     {
         return [
             'public'    => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PUBLIC', 'public'],

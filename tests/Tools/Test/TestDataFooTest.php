@@ -17,13 +17,13 @@ use PHPUnit\Framework\TestCase;
 
 class TestDataFooTest extends TestCase
 {
-    /** @var TestDataFoo */
-    private $o2t;
+    private TestDataFoo $o2t;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
-        $this->o2t = TestDataFoo::init();
+        $this->o2t = TestDataFoo::init(TestData::KEY_ALPHA1);
     }
 
     public function testInit(): void
@@ -33,8 +33,10 @@ class TestDataFooTest extends TestCase
 
     public function testToString(): void
     {
+        $expected = sprintf('%s:\'%s\'', get_class($this->o2t), TestData::KEY_ALPHA1);
+
         $actual = $this->o2t->__toString();
 
-        self::assertEmpty($actual);
+        self::assertEquals($expected, $actual);
     }
 }

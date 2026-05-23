@@ -23,15 +23,20 @@ use PHPUnit\Framework\ConstantCheckTestCase;
  */
 class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S3360
 {
+    #[\Override]
+    public static function setUpBeforeClass(bool $withConstCrossCheck = self::INIT_CROSSCHECK, int $expectedConstsCount = self::INIT_CONST_COUNT): void
+    {
+        parent::setUpBeforeClass($withConstCrossCheck, $expectedConstsCount);
+    }
+
+    #[\Override]
     public static function tearDownAfterClass(): void
     {
         // Deactivate the check, will be called manually in testcase
     }
 
-    /**
-     * @return ConstantCheckTestCaseDummyClazz
-     */
-    protected static function prepareO2t()
+    #[\Override]
+    protected static function prepareO2t(): ConstantCheckTestCaseDummyClazz
     {
         return new ConstantCheckTestCaseDummyClazz();
     }
@@ -39,6 +44,7 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
     /**
      * @return ConstantCheckTestCaseDummyClazz
      */
+    #[\Override]
     protected function getCasto2t()
     {
         return $this->o2t;
@@ -46,54 +52,31 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
 
     // Override the visibility for the test cases
 
-    /**
-     * @param mixed $clazz
-     * @param mixed $actualConstants
-     */
-    public static function publicCrossCheckConstants($clazz, $actualConstants): void
+    public static function publicCrossCheckConstants(mixed $clazz, array $actualConstants): void
     {
         parent::crossCheckConstants($clazz, $actualConstants);
     }
 
-    /**
-     * @param null|array<mixed,mixed> $checkedConsts
-     */
-    public static function publicUpdateActualConsts($checkedConsts): void
+    public static function publicUpdateActualConsts(?array $checkedConsts): void
     {
         parent::updateActualConsts($checkedConsts);
     }
 
-    /**
-     * @param int                $expectedCount
-     * @param array<mixed,mixed> $allDefinedConsts
-     *
-     * @return array<mixed>
-     */
-    public static function publicCheckConstantsCount(int $expectedCount, $allDefinedConsts)
+    public static function publicCheckConstantsCount(int $expectedCount, array $allDefinedConsts): array
     {
         return parent::checkConstantsCount($expectedCount, $allDefinedConsts);
     }
 
-    /**
-     * @param array<mixed,mixed> $constants
-     */
     public function publicVerifyConstAllExists(array $constants = []): void
     {
         parent::verifyConstAllExists($constants);
     }
 
-    /**
-     * @param array<mixed,mixed> $constants
-     */
     public function publicVerifyConstArrayAllExists(array $constants = []): void
     {
         parent::verifyConstArrayAllExists($constants);
     }
 
-    /**
-     * @param string $constantName
-     * @param int    $expectedSize
-     */
     public function publicVerifyConstArraySize(string $constantName, int $expectedSize): void
     {
         parent::verifyConstArraySize($constantName, $expectedSize);
@@ -114,9 +97,6 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
 
     // Misc functions
 
-    /**
-     * @return array<mixed,mixed>
-     */
     public static function prepareAllConsts(): array
     {
         return [

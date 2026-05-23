@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace ollily\Tools\Test;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @SuppressWarnings("PHPMD.UnusedFormalParameter")
@@ -26,10 +27,9 @@ class TestDataTest extends TestCase
     /**
      * @param int   $expectedCount
      * @param mixed $actual
-     *
-     * @dataProvider providerData()
      */
-    public function testData(int $expectedCount, $actual): void
+    #[DataProvider('providerData')]
+    public function testData(int $expectedCount, mixed $actual): void
     {
         if (is_array($actual)) {
             self::assertCount($expectedCount, $actual);
@@ -41,7 +41,7 @@ class TestDataTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerData(): array
+    public static function providerData(): array
     {
         return [
             'oneD' => [1, TestData::DATA_OBJECT1()],

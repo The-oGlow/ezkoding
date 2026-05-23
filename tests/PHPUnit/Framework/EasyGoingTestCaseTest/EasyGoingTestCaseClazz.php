@@ -26,6 +26,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
 {
     public const C_TEST = 1;
 
+    #[\Override]
     public static function tearDownAfterClass(): void
     {
         // Deactivate the check, will be called manually in testcase
@@ -34,6 +35,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
     /**
      * @return EasyGoingTestCaseDummyClazz
      */
+    #[\Override]
     protected static function prepareO2t()
     {
         return new EasyGoingTestCaseDummyClazz();
@@ -42,6 +44,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
     /**
      * @return EasyGoingTestCaseDummyClazz
      */
+    #[\Override]
     protected function getCasto2t()
     {
         return $this->o2t;

@@ -15,6 +15,7 @@ namespace ollily\Tools\Reflection;
 
 use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ChildClazzesHelperTest extends TestCase
 {
@@ -23,9 +24,8 @@ class ChildClazzesHelperTest extends TestCase
      * @param string             $clazzName
      * @param array<mixed,mixed> $childClazzes
      * @param bool               $isEqual
-     *
-     * @dataProvider providerChildClazzes
      */
+    #[DataProvider('providerChildClazzes')]
     public function testAllChildren(int $expected, string $clazzName, array $childClazzes, bool $isEqual = true): void
     {
         $actual = ChildClazzesHelper::getAllChildren($clazzName);
@@ -45,7 +45,7 @@ class ChildClazzesHelperTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerChildClazzes(): array
+    public static function providerChildClazzes(): array
     {
         return [
             'noChildren' => [0, ChildClazzesHelperTest::class, []],

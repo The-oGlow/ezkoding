@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace ollily\Tools;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class EmergencyTest extends TestCase
 {
@@ -37,9 +38,8 @@ class EmergencyTest extends TestCase
      * @param int    $errCode
      * @param string $errMessage
      * @param int    $expected
-     *
-     * @dataProvider providerBreakSystem
      */
+    #[DataProvider('providerBreakSystem')]
     public function testBreakSystem(int $errCode, string $errMessage, int $expected): void
     {
         $actual = Emergency::breakSystem($errCode, $errMessage, true);
@@ -50,9 +50,8 @@ class EmergencyTest extends TestCase
     /**
      * @param \Throwable $throwable
      * @param int        $expected
-     *
-     * @dataProvider providerExceptionStop
      */
+    #[DataProvider('providerExceptionStop')]
     public function testExceptionStop(\Throwable $throwable, int $expected): void
     {
         $actual = Emergency::exceptionStop($throwable, true);
@@ -65,7 +64,7 @@ class EmergencyTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerBreakSystem(): array
+    public static function providerBreakSystem(): array
     {
         return [
             'Default' => [self::CODE_0, self::MSG_EMPTY, Emergency::ERR_CODE_DEFAULT],
@@ -78,7 +77,7 @@ class EmergencyTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerExceptionStop(): array
+    public static function providerExceptionStop(): array
     {
         return [
             'Default' => [new \Exception(), Emergency::ERR_CODE_DEFAULT],

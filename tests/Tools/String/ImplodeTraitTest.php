@@ -15,6 +15,7 @@ namespace ollily\Tools\String;
 
 use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * This is the test clazz which will test the test clazz.
@@ -91,9 +92,8 @@ class ImplodeTraitTest extends TestCase
      * @param int                $expectedCount
      * @param array<mixed,mixed> $testData
      * @param int                $preserveKeys
-     *
-     * @dataProvider providerArrayFlatten
      */
+    #[DataProvider('providerArrayFlatten')]
     public function testArray_flatten(int $expectedCount, array $testData, int $preserveKeys): void
     {
         $actual = $this->o2t->array_flatten($testData, $preserveKeys);
@@ -133,7 +133,7 @@ class ImplodeTraitTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerArrayFlatten(): array
+    public static function providerArrayFlatten(): array
     {
         return [
             'emptyDefault' => [0, [], 0],

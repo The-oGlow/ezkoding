@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6782bd4890c67575243cec15f9f468a9",
+    "content-hash": "dbb4908e4edbe739a10c13ff05fafb14",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -777,36 +777,32 @@
         },
         {
             "name": "php-ds/php-ds",
-            "version": "v2.0.1",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-ds/polyfill.git",
-                "reference": "890702aa2b2e74b027a51800b3c1f58148124d14"
+                "reference": "2e1c133b99aaa1a5fa2318257a6e2501b9082b55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-ds/polyfill/zipball/890702aa2b2e74b027a51800b3c1f58148124d14",
-                "reference": "890702aa2b2e74b027a51800b3c1f58148124d14",
+                "url": "https://api.github.com/repos/php-ds/polyfill/zipball/2e1c133b99aaa1a5fa2318257a6e2501b9082b55",
+                "reference": "2e1c133b99aaa1a5fa2318257a6e2501b9082b55",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2"
             },
             "provide": {
-                "ext-ds": "2.0.0"
+                "ext-ds": "1.5.0"
             },
             "require-dev": {
-                "php-ds/tests": "@dev",
-                "phpunit/phpunit": "^11.0"
+                "php-ds/tests": "^1.8"
             },
             "suggest": {
                 "ext-ds": "to improve performance and reduce memory usage"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "src/functions.php"
-                ],
                 "psr-4": {
                     "Ds\\": "src"
                 }
@@ -830,9 +826,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-ds/polyfill/issues",
-                "source": "https://github.com/php-ds/polyfill/tree/v2.0.1"
+                "source": "https://github.com/php-ds/polyfill/tree/v1.8.0"
             },
-            "time": "2026-05-17T18:41:55+00:00"
+            "time": "2026-04-10T23:35:50+00:00"
         },
         {
             "name": "psr/container",

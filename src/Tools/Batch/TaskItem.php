@@ -23,18 +23,11 @@ class TaskItem implements ITaskItem
 {
     use ToStringTrait;
 
-    /**
-     * @var mixed
-     *
-     * @phpstan-var TaskKey */
-    private $key;
+    /** @phpstan-var TaskKey */
+    private mixed $key;
 
-    /**
-     * @var array
-     *
-     * @phpstan-var TaskData
-     */
-    private $data;
+    /** @phpstan-var TaskData */
+    private array $data;
 
     /**
      * @param mixed $key
@@ -43,7 +36,7 @@ class TaskItem implements ITaskItem
      * @phpstan-param TaskKey  $key
      * @phpstan-param TaskData $data
      */
-    public function __construct($key, array $data)
+    public function __construct(mixed $key, array $data)
     {
         $this->key  = $key;
         $this->data = $data;
@@ -52,6 +45,7 @@ class TaskItem implements ITaskItem
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getKey()
     {
         return $this->key;
@@ -60,15 +54,14 @@ class TaskItem implements ITaskItem
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getData(): array
     {
         return $this->data;
     }
 
-    /**
-     * @return mixed
-     */
-    protected function __toStringValues() // NOSONAR: php:S100
+    #[\Override]
+    protected function __toStringValues(): mixed // NOSONAR: php:S100
     {
         return $this->data;
     }

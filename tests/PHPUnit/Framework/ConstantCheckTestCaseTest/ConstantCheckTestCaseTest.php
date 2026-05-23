@@ -20,6 +20,7 @@ use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\ConstantCheckTestCase;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * This is the test clazz which will test the test clazz.
@@ -41,20 +42,24 @@ class ConstantCheckTestCaseTest extends TestCase
 
     private const WRONG_CONST_SIZE       = 1;
 
-    /** @var ConstantCheckTestCaseClazz */
-    protected $o2t;
+    protected ConstantCheckTestCaseClazz $o2t;
 
-    /** @var LoggerInterface */
-    private static $logger;
+    private static LoggerInterface $logger;
 
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
+        self::$logger = EasyGoingLogger::init(ConstantCheckTestCaseTest::class);
+        self::$logger->debug('START');
+
         parent::setUpBeforeClass();
         // function must be called manually
         $sO2t = self::prepareO2t();
-        $sO2t::setUpBeforeClass();
+
+        self::$logger->debug('END');
     }
 
+    #[\Override]
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
@@ -63,41 +68,28 @@ class ConstantCheckTestCaseTest extends TestCase
         $sO2t::tearDownAfterClass();
     }
 
-    /**
-     * @return ConstantCheckTestCaseClazz
-     */
-    protected static function prepareO2t()
+    protected static function prepareO2t(): ConstantCheckTestCaseClazz
     {
-        return new ConstantCheckTestCaseClazz();
+        return new ConstantCheckTestCaseClazz(ConstantCheckTestCaseClazz::class);
     }
 
-    /**
-     * @return array<mixed,mixed>
-     */
     protected static function prepareAllConsts(): array
     {
         return ConstantCheckTestCaseClazz::prepareAllConsts();
     }
 
-    /**
-     * @param mixed              $name
-     * @param array<mixed,mixed> $data
-     * @param string             $dataName
-     */
-    public function __construct($name = null, $data = [], $dataName = '')
-    {
-        self::$logger = EasyGoingLogger::init(ConstantCheckTestCaseTest::class);
-        self::$logger->debug('START');
-        parent::__construct($name, $data, $dataName);
-        self::$logger->debug('END');
-    }
-
+    #[\Override]
     public function setUp(): void
     {
         self::$logger->debug('START');
+
         parent::setUp();
+
         $this->o2t = self::prepareO2t();
+        // Must be called manually
+        $this->o2t->setUpBeforeClass();
         $this->o2t->setUp();
+
         self::$logger->debug('END');
     }
 
@@ -161,13 +153,12 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param bool                $success
-     * @param bool                $crossCheckActive
-     * @param string              $clazz
-     * @param array <mixed,mixed> $actualConstants
-     *
-     * @dataProvider providerCrossCheck
+     * @param bool               $success
+     * @param bool               $crossCheckActive
+     * @param string             $clazz
+     * @param array<mixed,mixed> $actualConstants
      */
+    #[DataProvider('providerCrossCheck')]
     public function testCrossCheckConstants(bool $success, bool $crossCheckActive, string $clazz, array $actualConstants): void
     {
         self::$logger->debug('parameters', [$success, $crossCheckActive, $clazz, $actualConstants]);
@@ -193,9 +184,12 @@ class ConstantCheckTestCaseTest extends TestCase
 
     public function testUpdateActualConsts(): void
     {
+        $this->o2t->setUpBeforeClass(true);
+
         $checkedConsts = TestData::ARRAY_ALPHA5;
         /** @var array<mixed> */
         $before   = $this->getFieldByReflection(ConstantCheckTestCase::class, 'actualConsts', $this->o2t);
+
         $expected = count($before) + count($checkedConsts);
 
         $this->o2t::publicUpdateActualConsts($checkedConsts);
@@ -221,11 +215,10 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param bool                $success
-     * @param array <mixed,mixed> $constants
-     *
-     * @dataProvider providerConstants
+     * @param bool               $success
+     * @param array<mixed,mixed> $constants
      */
+    #[DataProvider('providerConstants')]
     public function testVerifyConstAllExists(bool $success, array $constants): void
     {
         self::$logger->debug('parameters', [$success, $constants]);
@@ -244,11 +237,10 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param bool                $success
-     * @param array <mixed,mixed> $constants
-     *
-     * @dataProvider providerConstantsArray
+     * @param bool               $success
+     * @param array<mixed,mixed> $constants
      */
+    #[DataProvider('providerConstantsArray')]
     public function testVerifyConstArrayAllExists(bool $success, array $constants): void
     {
         self::$logger->debug('parameters', [$success, $constants]);
@@ -270,9 +262,8 @@ class ConstantCheckTestCaseTest extends TestCase
      * @param bool   $success
      * @param string $constantName
      * @param int    $expectedSize
-     *
-     * @dataProvider providerConstantName
      */
+    #[DataProvider('providerConstantName')]
     public function testVerifyConstArraySize(bool $success, string $constantName, int $expectedSize): void
     {
         self::$logger->debug('parameters', [$constantName, $expectedSize]);
@@ -295,7 +286,7 @@ class ConstantCheckTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerConstants()
+    public static function providerConstants()
     {
         return [
             'emptyList'     => [true, []],
@@ -308,7 +299,7 @@ class ConstantCheckTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerConstantsArray()
+    public static function providerConstantsArray()
     {
         return [
             'emptyList'  => [true, []],
@@ -321,7 +312,7 @@ class ConstantCheckTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerConstantName()
+    public static function providerConstantName()
     {
         return [
             'missingName' => [false, '', self::TEST_CONST_ARRAY_SIZE],
@@ -334,7 +325,7 @@ class ConstantCheckTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerCrossCheck()
+    public static function providerCrossCheck()
     {
         return [
             'emptyListDisabled'    => [true, false, ConstantCheckTestCaseDummyClazz::class, []],
@@ -358,9 +349,9 @@ class ConstantCheckTestCaseTest extends TestCase
     // Misc functions
 
     /**
-     * @param bool                $success
-     * @param null|\Exception     $exception
-     * @param array <mixed,mixed> $extraData
+     * @param bool               $success
+     * @param null|\Exception    $exception
+     * @param array<mixed,mixed> $extraData
      */
     protected function verifyConstantsTestResult(bool $success, ?\Exception $exception, array $extraData): void
     {
