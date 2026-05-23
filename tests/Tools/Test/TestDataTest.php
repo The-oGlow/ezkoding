@@ -15,6 +15,7 @@ namespace ollily\Tools\Test;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * @SuppressWarnings("PHPMD.UnusedFormalParameter")
@@ -103,6 +104,7 @@ class TestDataTest extends TestCase
         self::assertFileExists(self::$fileName);
     }
 
+    #[Depends('testPrepareTempFile')]
     public function testCleanupTempFile(): void
     {
         TestData::cleanupTempFile(self::$fileName);

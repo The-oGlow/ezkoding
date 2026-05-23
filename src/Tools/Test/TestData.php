@@ -287,9 +287,9 @@ class TestData
     }
 
     /**
-     * @param string $fileName Full filename for a temporary file
+     * @param string|null $fileName Full filename for a temporary file
      */
-    public static function cleanupTempFile(string $fileName): void
+    public static function cleanupTempFile(?string $fileName): void
     {
         try {
             if (!empty($fileName) && file_exists($fileName)) {

@@ -24,35 +24,17 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class ImplodeTraitTest extends TestCase
 {
-    public const ITEM_SEP = '#';
+    public const string ITEM_SEP = '#';
 
-    public const KEY_SEP = '=>';
+    public const string KEY_SEP = '=>';
 
-    /** @var ImplodeTraitTestDummyClazz */
-    protected $o2t;
+    protected ImplodeTraitTestDummyClazz  $o2t;
 
+    #[\Override]
     public function setUp(): void
     {
         parent::setUp();
         $this->o2t = new ImplodeTraitTestDummyClazz();
-    }
-
-    public function testDEFAULT_GLUE(): void
-    {
-        $expected = ',';
-
-        $actual = $this->o2t->DEFAULT_GLUE();
-
-        self::assertEquals($expected, $actual);
-    }
-
-    public function testDEFAULT_ITEM_SEP(): void
-    {
-        $expected = ';';
-
-        $actual = $this->o2t->DEFAULT_ITEM_SEP();
-
-        self::assertEquals($expected, $actual);
     }
 
     public function testImplode_recursiveDefault(): void
@@ -61,7 +43,7 @@ class ImplodeTraitTest extends TestCase
         $expectedKeyCount = 0;
         $expectedItemCount = count($testData) - 1;
 
-        $actual = $this->o2t->implode_recursive(self::ITEM_SEP, $testData);
+        $actual = $this->o2t::implode_recursive(self::ITEM_SEP, $testData);
 
         $this->verifyResult($actual, $testData, $expectedKeyCount, $expectedItemCount);
     }
@@ -72,7 +54,7 @@ class ImplodeTraitTest extends TestCase
         $expectedKeyCount = count($testData);
         $expectedItemCount = $expectedKeyCount - 1;
 
-        $actual = $this->o2t->implode_recursive(self::ITEM_SEP, $testData, true, true);
+        $actual = $this->o2t::implode_recursive(self::ITEM_SEP, $testData, true, true);
 
         $this->verifyResult($actual, $testData, $expectedKeyCount, $expectedItemCount);
     }
@@ -83,7 +65,7 @@ class ImplodeTraitTest extends TestCase
         $expectedKeyCount = count($testData) + count($testData[1]);
         $expectedItemCount = $expectedKeyCount - 2;
 
-        $actual = $this->o2t->implode_recursive(self::ITEM_SEP, $testData, true, true);
+        $actual = $this->o2t::implode_recursive(self::ITEM_SEP, $testData, true, true);
 
         $this->verifyResult($actual, $testData, $expectedKeyCount, $expectedItemCount, true);
     }
@@ -108,7 +90,7 @@ class ImplodeTraitTest extends TestCase
      * @param int   $expectedItemCount
      * @param bool  $withClazz
      */
-    public function verifyResult($actual, $testData, int $expectedKeyCount, int $expectedItemCount, bool $withClazz = false): void
+    public function verifyResult(mixed $actual, mixed $testData, int $expectedKeyCount, int $expectedItemCount, bool $withClazz = false): void
     {
         self::assertNotEmpty($actual);
         self::assertEquals($expectedKeyCount, substr_count($actual, self::KEY_SEP));

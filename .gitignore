@@ -181,6 +181,7 @@ vendor/
 target/
 wpcs/*
 nbproject/private/
+.phpunit.cache/
 
 ### Local config
 .php-cs-fixer.php

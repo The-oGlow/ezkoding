@@ -38,6 +38,6 @@ class ToStringTraitTestDummyClazz
     #[\Override]
     protected function __toStringValues(): mixed
     {
-        return $this->greeting;
+        return $this;
     }
 }

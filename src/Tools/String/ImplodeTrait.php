@@ -19,30 +19,20 @@ use Stringable;
 trait ImplodeTrait
 {
     /**
-     * @return string Default glue character
+     * Default glue character.
      *
      * @see ImplodeTrait::array_flatten()
      * @see ImplodeTrait::implode_recursive()
-     *
-     * TODO: Make it a constant with PHP 8
      */
-    final public function DEFAULT_GLUE(): string // NOSONAR: php:S100
-    {
-        return ',';
-    }
+    public const string DEFAULT_GLUE = ',';
 
     /**
-     * @return string Default separate character for csv
+     * Default separate character for csv.
      *
      * @see ImplodeTrait::array_flatten()
      * @see ImplodeTrait::implode_recursive()
-     *
-     * TODO: Make it a constant with PHP 8
      */
-    final public function DEFAULT_ITEM_SEP(): string // NOSONAR: php:S100
-    {
-        return ';';
-    }
+    public const string DEFAULT_ITEM_SEP = ';';
 
     /**
      * Recursively implodes an array with optional key inclusion.
@@ -59,7 +49,7 @@ trait ImplodeTrait
      * @SuppressWarnings("PHPMD.CamelCaseMethodName")
      */
     // @phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    final public function implode_recursive(string $glue, $anyData, bool $withTextSep = false, bool $withKeys = false): string // NOSONAR: php:S100
+    final public static function implode_recursive(string $glue, mixed $anyData, bool $withTextSep = false, bool $withKeys = false): string // NOSONAR: php:S100
     {
         $output   = '';
         $valueIdx = 0;
@@ -72,7 +62,7 @@ trait ImplodeTrait
                 $output .= ($valueIdx > 0 ? $glue : '') .  $currKey;
 
                 if (is_array($value)) {
-                    $arrOutput = $this->implode_recursive($glue, $value, $withTextSep, $withKeys);
+                    $arrOutput = self::implode_recursive($glue, $value, $withTextSep, $withKeys);
                     if (!empty($arrOutput)) {
                         $output .= '[' . $arrOutput . ']';
                     } else {
@@ -80,7 +70,7 @@ trait ImplodeTrait
                     }
                 } else {
                     if (is_object($value)) {
-                        $objOutput = $this->implode_recursive($glue, $value, $withTextSep, $withKeys);
+                        $objOutput = self::implode_recursive($glue, $value, $withTextSep, $withKeys);
                         if (!empty($objOutput)) {
                             $output .= '{' . $objOutput . '}';
                         } else {
