@@ -30,7 +30,6 @@
         <MixedAssignment errorLevel="info"/>
         <MixedArgumentTypeCoercion errorLevel="info"/>
         <MixedPropertyTypeCoercion errorLevel="info"/>
-        <MixedInferredReturnType errorLevel="info"/>
         <PropertyNotSetInConstructor errorLevel="info"/>
         <UndefinedConstant errorLevel="suppress"/>
     </issueHandlers>

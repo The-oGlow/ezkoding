@@ -172,16 +172,17 @@ vendor/
 .php-cs-fixer.cache
 
 ### PHPUnit template
-# Generated files
 .phpunit.result.cache
-.phpunit.cache
+.phpunit.cache/
+
+### PHP Mess Detector
+.phpmd.result-cache.php
 
 
 ### Custom
 target/
 wpcs/*
 nbproject/private/
-.phpunit.cache/
 
 ### Local config
 .php-cs-fixer.php

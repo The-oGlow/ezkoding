@@ -287,7 +287,7 @@ class TestData
     }
 
     /**
-     * @param string|null $fileName Full filename for a temporary file
+     * @param null|string $fileName Full filename for a temporary file
      */
     public static function cleanupTempFile(?string $fileName): void
     {
