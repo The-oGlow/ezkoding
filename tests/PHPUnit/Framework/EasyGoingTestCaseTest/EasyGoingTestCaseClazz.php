@@ -33,19 +33,19 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
     }
 
     /**
-     * @return EasyGoingTestCaseDummyClazz
+     * @inheritDoc
      */
     #[\Override]
-    protected static function prepareO2t()
+    protected static function prepareO2t(): EasyGoingTestCaseDummyClazz
     {
         return new EasyGoingTestCaseDummyClazz();
     }
 
     /**
-     * @return EasyGoingTestCaseDummyClazz
+     * @inheritDoc
      */
     #[\Override]
-    protected function getCasto2t()
+    protected function getCasto2t(): EasyGoingTestCaseDummyClazz
     {
         return $this->o2t;
     }

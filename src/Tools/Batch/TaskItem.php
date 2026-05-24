@@ -46,7 +46,7 @@ class TaskItem implements ITaskItem
      * @inheritDoc
      */
     #[\Override]
-    public function getKey()
+    public function getKey(): mixed
     {
         return $this->key;
     }

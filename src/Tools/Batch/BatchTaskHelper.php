@@ -23,10 +23,9 @@ class BatchTaskHelper
     public const DEFAULT = 'DEFAULT';
 
     /** @var \Ds\Map<mixed,TaskList> */
-    private static \Ds\Map $tasklists;
+    private static ?\Ds\Map $tasklists = null;
 
-    /** @var LoggerInterface */
-    private static LoggerInterface $logger;
+    private static ?LoggerInterface $logger = null;
 
     private function __construct()
     {

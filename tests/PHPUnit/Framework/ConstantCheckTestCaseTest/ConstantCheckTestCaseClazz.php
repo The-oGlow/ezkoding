@@ -35,6 +35,9 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
         // Deactivate the check, will be called manually in testcase
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     protected static function prepareO2t(): ConstantCheckTestCaseDummyClazz
     {
@@ -42,10 +45,10 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
     }
 
     /**
-     * @return ConstantCheckTestCaseDummyClazz
+     * @inheritDoc
      */
     #[\Override]
-    protected function getCasto2t()
+    protected function getCasto2t(): ConstantCheckTestCaseDummyClazz
     {
         return $this->o2t;
     }

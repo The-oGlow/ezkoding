@@ -24,21 +24,20 @@ abstract class EasyGoingTestCase extends TestCase
     /** @var string All primitive datatypes */
     protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float';
 
-    /** @var LoggerInterface */
     private static LoggerInterface $logger;
 
-    /** @var mixed The object which will be tested. */
+    /** @var The object which will be tested. */
     protected mixed $o2t;
 
     /**
-     * @return mixed
+     * @return object new created instance
      */
-    abstract protected static function prepareO2t(): mixed;
+    abstract protected static function prepareO2t(): object;
 
     /**
-     * @return mixed
+     * @return object current instance
      */
-    abstract protected function getCasto2t(): mixed;
+    abstract protected function getCasto2t(): object;
 
     #[\Override]
     public static function setUpBeforeClass(): void

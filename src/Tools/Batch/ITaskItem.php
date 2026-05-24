@@ -34,7 +34,7 @@ interface ITaskItem
     public function getData(): array;
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function __toString(): mixed;
+    public function __toString(): string;
 }
