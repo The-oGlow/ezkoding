@@ -123,14 +123,14 @@ class ImplodeTraitTest extends TestCase
             'oneLevelDefault' => [4, [
                     TestData::DATA_ALPHA1,
                     TestData::ARRAY_ALPHA2,
-                    TestData::DATA_BOOL_F
-                ], 0
+                    TestData::DATA_BOOL_F,
+                ], 0,
             ],
             'twoLevelDefault' => [8, [
                     TestData::ARRAY_ALPHA2,
                     [TestData::ARRAY_ALPHA2, TestData::ARRAY_ALPHA2],
-                    TestData::ARRAY_ALPHA2
-                ], 0
+                    TestData::ARRAY_ALPHA2,
+                ], 0,
             ],
         ];
     }

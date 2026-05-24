@@ -27,7 +27,6 @@ parameters:
             identifier: property.onlyWritten
             paths:
                 - tests/*/*Clazz.php
-                - src/*/*Foo.php
         -
             identifier: staticMethod.alreadyNarrowedType
             paths:

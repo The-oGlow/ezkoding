@@ -35,7 +35,7 @@ class ImplodeTraitTestDummyClazz
         $this->traitObject[] = new ImplodeTraitTestFooClazz();
         $this->traitObject[] = [
             TestData::KEY_NUM1 => new ImplodeTraitTestFooClazz(),
-            TestData::KEY_NUM2 => new ImplodeTraitTestFooClazz()
+            TestData::KEY_NUM2 => new ImplodeTraitTestFooClazz(),
         ];
     }
 }

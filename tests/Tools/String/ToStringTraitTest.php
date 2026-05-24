@@ -91,7 +91,7 @@ class ToStringTraitTest extends TestCase
         return [
             'StringAsValue' => [
                 TestData::DATA_ALPHA1,
-                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TestData::DATA_ALPHA1)
+                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TestData::DATA_ALPHA1),
             ],
             'IntegerAsValue' => [
                 TestData::DATA_NUM1,
@@ -145,7 +145,7 @@ class ToStringTraitTest extends TestCase
                     TestDataFoo::class,
                     TestData::DATA_NUM1
                 ),
-            ]
+            ],
         ];
     }
 }

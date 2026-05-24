@@ -127,7 +127,7 @@
       "composer c-test",
       "@php -d xdebug.mode=off -Dproject.settings=sonar-project.properties vendor/bin/sonar-scanner"
     ],
-    "c-test": "@php -d xdebug.mode=coverage vendor/bin/phpunit"
+    "c-test": "@php -d xdebug.mode=coverage vendor/bin/phpunit -c phpunit.xml.cov"
   },
   "scripts-descriptions": {
     "c-all": "CUSTOM: Run composer with c-check, c-test, c-format",

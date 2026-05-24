@@ -62,7 +62,7 @@ class BatchTaskHelper
 
         self::$logger->debug('START - listKey', [$listKey]);
 
-        $listKey = $listKey ?? self::DEFAULT;
+        $listKey ??= self::DEFAULT;
         if (!self::$tasklists->hasKey($listKey)) {
             self::$tasklists->put($listKey, new TaskList($listKey));
         }
@@ -84,7 +84,7 @@ class BatchTaskHelper
 
         self::$logger->debug('START - listKey,fileName', [$listKey, $fileName]);
 
-        $listKey = $listKey ?? self::DEFAULT;
+        $listKey ??= self::DEFAULT;
         if (file_exists($fileName)) {
             $taskList = self::getTaskList($listKey);
             $taskList->readFile($fileName);

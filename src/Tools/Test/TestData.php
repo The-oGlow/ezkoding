@@ -129,13 +129,13 @@ class TestData
 
     public const ARRAY_ALPHA_KEY2 = [
         self::KEY_ALPHA1 => self::DATA_ALPHA1,
-        self::KEY_ALPHA2 => self::DATA_ALPHA2
+        self::KEY_ALPHA2 => self::DATA_ALPHA2,
     ];
 
     public const ARRAY_ALPHA_KEY3 = [
         self::KEY_ALPHA1 => self::DATA_ALPHA1,
         self::KEY_ALPHA2 => self::DATA_ALPHA2,
-        self::KEY_ALPHA3 => self::DATA_ALPHA3
+        self::KEY_ALPHA3 => self::DATA_ALPHA3,
     ];
 
     // Arrays with exlicit numeric key
@@ -144,13 +144,13 @@ class TestData
 
     public const ARRAY_NUM_KEY2 = [
         self::KEY_NUM1 => self::DATA_NUM1,
-        self::KEY_NUM2 => self::DATA_NUM2
+        self::KEY_NUM2 => self::DATA_NUM2,
     ];
 
     public const ARRAY_NUM_KEY3 = [
         self::KEY_NUM1 => self::DATA_NUM1,
         self::KEY_NUM2 => self::DATA_NUM2,
-        self::KEY_NUM3 => self::DATA_NUM3
+        self::KEY_NUM3 => self::DATA_NUM3,
     ];
 
     // Arrays with object data

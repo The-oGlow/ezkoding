@@ -155,7 +155,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
             self::assertCount(
                 self::DIFF_ZERO,
                 $difference,
-                'You have forgotten to check: ' . print_r(array_diff($expected, $actual), true)
+                'You have forgotten to check: ' . var_export(array_diff($expected, $actual), true)
             );
         }
 

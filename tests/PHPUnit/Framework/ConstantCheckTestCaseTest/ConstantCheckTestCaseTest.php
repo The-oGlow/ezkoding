@@ -334,13 +334,13 @@ class ConstantCheckTestCaseTest extends TestCase
                 false,
                 true,
                 ConstantCheckTestCaseDummyClazz::class,
-                array_merge(self::prepareAllConsts(), [ConstantCheckTestCaseDummyClazz::TEST_CLAZZ . self::WRONG_CONST])
+                array_merge(self::prepareAllConsts(), [ConstantCheckTestCaseDummyClazz::TEST_CLAZZ . self::WRONG_CONST]),
             ],
             'existConstOneEnabled' => [
                 false,
                 true,
                 ConstantCheckTestCaseDummyClazz::class,
-                [ConstantCheckTestCaseDummyClazz::TEST_CLAZZ . self::TEST_CONST_PREFIX_NAME]
+                [ConstantCheckTestCaseDummyClazz::TEST_CLAZZ . self::TEST_CONST_PREFIX_NAME],
             ],
             'existConstAllEnabled' => [true, true, ConstantCheckTestCaseDummyClazz::class, self::prepareAllConsts()],
         ];
