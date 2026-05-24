@@ -24,10 +24,10 @@ use PHPUnit\Framework\TestCase;
 class UnavailableMethodsTraitTest extends TestCase
 {
     /** @var UnavailableMethodsTraitTestO2tClazz */
-    protected $o2t;
+    protected UnavailableMethodsTraitTestO2tClazz $o2t;
 
     /** @var string[] */
-    private $methodNames = ['publicFunc', 'protectedFunc', 'privateFunc'];
+    private array $methodNames = ['publicFunc', 'protectedFunc', 'privateFunc'];
 
     public function setUp(): void
     {

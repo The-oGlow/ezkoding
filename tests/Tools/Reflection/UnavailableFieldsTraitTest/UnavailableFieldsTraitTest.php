@@ -24,10 +24,10 @@ use PHPUnit\Framework\TestCase;
 class UnavailableFieldsTraitTest extends TestCase
 {
     /** @var UnavailableFieldsTraitTestO2tClazz */
-    protected $o2t;
+    protected UnavailableFieldsTraitTestO2tClazz $o2t;
 
     /** @var string[] */
-    private $fieldNames = ['publicField', 'protectedField', 'privateField'];
+    private array $fieldNames = ['publicField', 'protectedField', 'privateField'];
 
     public function setUp(): void
     {

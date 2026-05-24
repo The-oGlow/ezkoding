@@ -17,10 +17,10 @@ use Monolog\EasyGoingLogger;
 use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Reflection\UnavailableMethodsTrait;
 use ollily\Tools\Test\TestData;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\ConstantCheckTestCase;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * This is the test clazz which will test the test clazz.
@@ -286,7 +286,7 @@ class ConstantCheckTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public static function providerConstants()
+    public static function providerConstants(): array
     {
         return [
             'emptyList'     => [true, []],
@@ -299,7 +299,7 @@ class ConstantCheckTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public static function providerConstantsArray()
+    public static function providerConstantsArray(): array
     {
         return [
             'emptyList'  => [true, []],
@@ -312,7 +312,7 @@ class ConstantCheckTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public static function providerConstantName()
+    public static function providerConstantName(): array
     {
         return [
             'missingName' => [false, '', self::TEST_CONST_ARRAY_SIZE],
@@ -325,7 +325,7 @@ class ConstantCheckTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public static function providerCrossCheck()
+    public static function providerCrossCheck(): array
     {
         return [
             'emptyListDisabled'    => [true, false, ConstantCheckTestCaseDummyClazz::class, []],

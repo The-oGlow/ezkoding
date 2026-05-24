@@ -20,13 +20,13 @@ use Psr\Log\LoggerInterface;
 class TaskList
 {
     /** @var LoggerInterface */
-    private static $logger;
+    private static LoggerInterface $logger;
 
     /** @var string */
-    private $listKey;
+    private string $listKey;
 
     /** @var Queue<ITaskItem> */
-    private $tasks;
+    private Queue $tasks;
 
     public function __construct(string $listKey)
     {
@@ -108,7 +108,7 @@ class TaskList
      *
      * @return null|ITaskItem
      */
-    protected function parseTaskData($itemKey, $convertedLine): ?ITaskItem
+    protected function parseTaskData(mixed $itemKey, mixed $convertedLine): ?ITaskItem
     {
         self::$logger->debug('START - itemKey', [$itemKey]);
 

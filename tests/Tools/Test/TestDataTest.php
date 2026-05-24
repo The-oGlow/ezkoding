@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Test;
 
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @SuppressWarnings("PHPMD.UnusedFormalParameter")
@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\Depends;
 class TestDataTest extends TestCase
 {
     /** @var string */
-    private static $fileName;
+    private static string $fileName;
 
     /**
      * @param int   $expectedCount
@@ -84,7 +84,7 @@ class TestDataTest extends TestCase
          * @psalm-param mixed $value
          * @psalm-param mixed $key
          */
-        function ($value, $key) use ($pivot): bool {
+        function (mixed $value, mixed $key) use ($pivot): bool {
             if (is_array($key)) {
                 return false;
             } else {

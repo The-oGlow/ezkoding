@@ -26,7 +26,7 @@ class UnavailableMethodsTraitTestO2tClazz
     use UnavailableMethodsTrait;
 
     /** @var mixed */
-    protected $o2t;
+    protected mixed $o2t;
 
     public function __construct()
     {
@@ -38,7 +38,7 @@ class UnavailableMethodsTraitTestO2tClazz
      *
      * @return null|mixed
      */
-    public function publicCallMethodOnO2t(string $methodName)
+    public function publicCallMethodOnO2t(string $methodName): mixed
     {
         return $this->callMethodOnO2t($methodName);
     }
@@ -48,7 +48,7 @@ class UnavailableMethodsTraitTestO2tClazz
      *
      * @return null|mixed
      */
-    public function publicCallMethodByReflection(string $methodName)
+    public function publicCallMethodByReflection(string $methodName): mixed
     {
         return $this->callMethodByReflection(UnavailableMethodsTraitDummyClazz::class, $methodName, $this->o2t);
     }

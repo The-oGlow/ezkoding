@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace ollily\Tools\String;
 
-use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 /**
  * This is the test clazz which will test the test clazz.
@@ -99,10 +99,10 @@ class ImplodeTraitTest extends TestCase
             if ($withClazz) {
                 if (is_array($expected)) {
                     foreach ($expected as $innerExpected) {
-                        self::assertStringContainsString('' . get_class($innerExpected), $actual);
+                        self::assertStringContainsString('' . $innerExpected::class, $actual);
                     }
                 } else {
-                    self::assertStringContainsString('' . get_class($expected), $actual);
+                    self::assertStringContainsString('' . $expected::class, $actual);
                 }
             } else {
                 self::assertStringContainsString($expected, $actual);

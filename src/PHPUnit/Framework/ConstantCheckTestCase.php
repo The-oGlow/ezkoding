@@ -30,7 +30,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      * @see ConstantCheckTestCase::expectedConstsCount
      * @see ConstantCheckTestCase::CHECK_INIT
      */
-    private static $withConstCrossCheck = self::INIT_CROSSCHECK;
+    private static bool $withConstCrossCheck = self::INIT_CROSSCHECK;
 
     /**
      * @var int Set the expected and correct count of constants in child classes. Only used if {@link ConstantCheckTestCase::$withConstCrossCheck}=true.
@@ -120,7 +120,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
              *
              * @return string
              */
-                function ($value): string {
+                function (mixed $value): string {
                     $res = '';
                     if (is_string($value) && str_contains($value, self::C_STATIC_SEP)) {
                         try {

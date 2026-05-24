@@ -24,11 +24,11 @@ namespace ollily\Tools\Reflection\UnavailableFieldsTraitTest;
 class UnavailableFieldsTraitDummyClazz
 {
     /** @var string */
-    public $publicField = 'publicFieldValue';
+    public string $publicField = 'publicFieldValue';
 
     /** @var string */
-    protected $protectedField = 'protectedFieldValue';
+    protected string $protectedField = 'protectedFieldValue';
 
     /** @var string */
-    private $privateField = 'privateFieldValue';
+    private string $privateField = 'privateFieldValue';
 }

@@ -24,7 +24,7 @@ trait UnavailableFieldsTrait
      *
      * @return null|mixed
      */
-    protected function getFieldByReflection($clazzName, string $fieldName, $instance)
+    protected function getFieldByReflection(mixed $clazzName, string $fieldName, mixed $instance): mixed
     {
         $result = null;
         if (!empty($clazzName)) {
@@ -43,7 +43,7 @@ trait UnavailableFieldsTrait
      * @param mixed      $instance
      * @param null|mixed $newValue
      */
-    protected function setFieldByReflection($clazzName, string $fieldName, $instance, $newValue): void
+    protected function setFieldByReflection(mixed $clazzName, string $fieldName, mixed $instance, mixed $newValue): void
     {
         if (!empty($clazzName)) {
             $refObject = new ReflectionProperty($clazzName, $fieldName);
@@ -58,7 +58,7 @@ trait UnavailableFieldsTrait
      *
      * @return null|mixed
      */
-    protected function getFieldFromO2t(string $fieldName)
+    protected function getFieldFromO2t(string $fieldName): mixed
     {
         $result = null;
 

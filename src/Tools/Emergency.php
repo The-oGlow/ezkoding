@@ -39,7 +39,7 @@ class Emergency
      */
     public static function exceptionStop(\Throwable $throwable, bool $unitTest = false): int
     {
-        $errMsg = sprintf('\%s - %s', get_class($throwable), $throwable->getMessage());
+        $errMsg = sprintf('\%s - %s', $throwable::class, $throwable->getMessage());
 
         /** @psalm-suppress PossiblyInvalidArgument */
         return static::breakSystem($throwable->getCode(), $errMsg, $unitTest);

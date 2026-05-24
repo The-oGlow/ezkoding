@@ -44,7 +44,7 @@ class EasyGoingLogger
      */
     public static function init(
         string $name,
-        $level = LogLevel::INFO,
+        string $level = LogLevel::INFO,
         array $handlers = [],
         array $processors = [],
         ?DateTimeZone $timezone = null

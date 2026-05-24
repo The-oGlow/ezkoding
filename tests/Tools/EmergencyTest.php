@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools;
 
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class EmergencyTest extends TestCase
 {

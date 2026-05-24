@@ -58,7 +58,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
      *
      * @return bool
      */
-    public static function publicIsConstExist($clazz, string $constantName): bool
+    public static function publicIsConstExist(mixed $clazz, string $constantName): bool
     {
         return parent::isConstExist($clazz, $constantName);
     }
@@ -69,7 +69,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
      *
      * @return mixed
      */
-    public static function publicGetConstValue($clazz, string $constantName)
+    public static function publicGetConstValue(mixed $clazz, string $constantName): mixed
     {
         return parent::getConstValue($clazz, $constantName);
     }
@@ -79,7 +79,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
      *
      * @return bool
      */
-    public static function publicIsPrimitive($var): bool
+    public static function publicIsPrimitive(mixed $var): bool
     {
         return parent::isPrimitive($var);
     }
@@ -121,7 +121,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
     /**
      * @return EasyGoingTestCaseDummyClazz
      */
-    public function publicGetCastO2t()
+    public function publicGetCastO2t(): EasyGoingTestCaseDummyClazz
     {
         return $this->getCasto2t();
     }

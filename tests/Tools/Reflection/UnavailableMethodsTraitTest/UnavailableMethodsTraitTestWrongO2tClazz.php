@@ -30,7 +30,7 @@ class UnavailableMethodsTraitTestWrongO2tClazz
      *
      * @SuppressWarnings("PHPMD.UnusedPrivateField")
      */
-    private $wrongO2t;
+    private mixed $wrongO2t;
 
     public function __construct()
     {
@@ -42,7 +42,7 @@ class UnavailableMethodsTraitTestWrongO2tClazz
      *
      * @return null|mixed
      */
-    public function publicCallMethodOnO2t(string $methodName)
+    public function publicCallMethodOnO2t(string $methodName): mixed
     {
         return $this->callMethodOnO2t($methodName);
     }

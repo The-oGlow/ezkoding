@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class BatchTaskHelperTest extends TestCase
 {

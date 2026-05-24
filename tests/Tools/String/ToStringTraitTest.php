@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace ollily\Tools\String;
 
-use PHPUnit\Framework\TestCase;
 use ollily\Tools\Test\TestData;
 use ollily\Tools\Test\TestDataFoo;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 /**
  * This is the test clazz which will test the test clazz.

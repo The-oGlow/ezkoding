@@ -33,12 +33,12 @@ abstract class EasyGoingTestCase extends TestCase
     /**
      * @return mixed
      */
-    abstract protected static function prepareO2t();
+    abstract protected static function prepareO2t(): mixed;
 
     /**
      * @return mixed
      */
-    abstract protected function getCasto2t();
+    abstract protected function getCasto2t(): mixed;
 
     #[\Override]
     public static function setUpBeforeClass(): void

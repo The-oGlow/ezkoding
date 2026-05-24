@@ -16,9 +16,9 @@ namespace PHPUnit\Framework\EasyGoingTestCaseTest;
 use Monolog\EasyGoingLogger;
 use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Reflection\UnavailableMethodsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * This is the test clazz which will test the test clazz.
@@ -31,10 +31,10 @@ class EasyGoingTestCaseTest extends TestCase
     use UnavailableFieldsTrait;
 
     /** @var EasyGoingTestCaseClazz */
-    protected $o2t;
+    protected EasyGoingTestCaseClazz $o2t;
 
     /** @var LoggerInterface */
-    private static $logger;
+    private static LoggerInterface $logger;
 
     #[\Override]
     public static function setUpBeforeClass(): void
@@ -50,7 +50,7 @@ class EasyGoingTestCaseTest extends TestCase
     /**
      * @return EasyGoingTestCaseClazz
      */
-    protected static function prepareO2t()
+    protected static function prepareO2t(): EasyGoingTestCaseClazz
     {
         return new EasyGoingTestCaseClazz(EasyGoingTestCaseClazz::class);
     }
@@ -203,7 +203,7 @@ class EasyGoingTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public static function providerConstant()
+    public static function providerConstant(): array
     {
         return [
             'public'    => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PUBLIC', 'public'],

@@ -160,21 +160,21 @@ class TestData
      *
      * @var array<mixed>
      */
-    private static $ARRAY_OBJECT1 = []; // NOSONAR: php:S100
+    private static array $ARRAY_OBJECT1 = []; // NOSONAR: php:S100
 
     /**
      * @see self::C_ARRAY_OBJECT2()
      *
      * @var array<mixed>
      */
-    private static $ARRAY_OBJECT2 = []; // NOSONAR: php:S100
+    private static array $ARRAY_OBJECT2 = []; // NOSONAR: php:S100
 
     /**
      * @see self::C_ARRAY_OBJECT3()
      *
      * @var array<mixed>
      */
-    private static $ARRAY_OBJECT3 = []; // NOSONAR: php:S100
+    private static array $ARRAY_OBJECT3 = []; // NOSONAR: php:S100
 
     // Filesystem Data
 

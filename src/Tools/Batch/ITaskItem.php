@@ -24,7 +24,7 @@ interface ITaskItem
      *
      * @phpstan-return TaskKey
      */
-    public function getKey();
+    public function getKey(): mixed;
 
     /**
      * @return array
@@ -36,5 +36,5 @@ interface ITaskItem
     /**
      * @return mixed
      */
-    public function __toString();
+    public function __toString(): mixed;
 }

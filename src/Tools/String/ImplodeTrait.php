@@ -87,7 +87,7 @@ trait ImplodeTrait
                 if ($anyData instanceof Stringable) {
                     $output = $anyData->__toString();
                 } else {
-                    $output = get_class($anyData);
+                    $output = $anyData::class;
                 }
             } else {
                 $output = $anyData;

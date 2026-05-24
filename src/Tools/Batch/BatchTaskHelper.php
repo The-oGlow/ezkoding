@@ -23,10 +23,10 @@ class BatchTaskHelper
     public const DEFAULT = 'DEFAULT';
 
     /** @var \Ds\Map<mixed,TaskList> */
-    private static $tasklists;
+    private static \Ds\Map $tasklists;
 
     /** @var LoggerInterface */
-    private static $logger;
+    private static LoggerInterface $logger;
 
     private function __construct()
     {
@@ -78,7 +78,7 @@ class BatchTaskHelper
      *
      * @return TaskList
      */
-    public static function readTaskList(string $fileName, ?string $listKey)
+    public static function readTaskList(string $fileName, ?string $listKey): TaskList
     {
         self::init();
 

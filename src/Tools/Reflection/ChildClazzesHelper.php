@@ -27,7 +27,7 @@ final class ChildClazzesHelper
      *
      * @return string[]
      */
-    public static function getAllChildren($clazzName): array
+    public static function getAllChildren(mixed $clazzName): array
     {
         $children = [];
         foreach (get_declared_classes() as $currentClazz) {

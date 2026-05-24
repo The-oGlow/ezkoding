@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use PHPUnit\Framework\EasyGoingTestCase;
 use ollily\Tools\Test\TestData;
+use PHPUnit\Framework\EasyGoingTestCase;
 
 class TaskItemTest extends EasyGoingTestCase
 {
@@ -25,7 +25,7 @@ class TaskItemTest extends EasyGoingTestCase
     /**
      * @return ITaskItem
      */
-    protected static function prepareO2t()
+    protected static function prepareO2t(): ITaskItem
     {
         return new TaskItem(self::KEY, self::DATA);
     }
@@ -33,7 +33,7 @@ class TaskItemTest extends EasyGoingTestCase
     /**
      * @return ITaskItem
      */
-    protected function getCasto2t()
+    protected function getCasto2t(): ITaskItem
     {
         return $this->o2t;
     }

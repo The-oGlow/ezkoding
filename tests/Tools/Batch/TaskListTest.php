@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\EasyGoingTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\EasyGoingTestCase;
 
 class TaskListTest extends EasyGoingTestCase
 {
@@ -26,7 +26,7 @@ class TaskListTest extends EasyGoingTestCase
     public const DATA = TestData::DATA_ALPHA1;
 
     /** @var string */
-    private $writeTaskListFile = '';
+    private string $writeTaskListFile = '';
 
     protected function tearDown(): void
     {
@@ -46,7 +46,7 @@ class TaskListTest extends EasyGoingTestCase
     /**
      * @return TaskList
      */
-    protected static function prepareO2t()
+    protected static function prepareO2t(): TaskList
     {
         return new TaskList(self::KEY);
     }
@@ -54,7 +54,7 @@ class TaskListTest extends EasyGoingTestCase
     /**
      * @return TaskList
      */
-    protected function getCasto2t()
+    protected function getCasto2t(): TaskList
     {
         return $this->o2t;
     }
@@ -168,7 +168,7 @@ class TaskListTest extends EasyGoingTestCase
      *
      * @return array<ITaskItem>
      */
-    protected function prepareTaskItem($taskListKey, int $count): array
+    protected function prepareTaskItem(mixed $taskListKey, int $count): array
     {
         $items = [];
 

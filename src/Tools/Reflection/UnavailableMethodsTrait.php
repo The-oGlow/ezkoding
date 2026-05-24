@@ -26,7 +26,7 @@ trait UnavailableMethodsTrait
      *
      * @return null|mixed
      */
-    protected function callMethodByReflection($clazzName, string $methodName, $instance)
+    protected function callMethodByReflection(mixed $clazzName, string $methodName, mixed $instance): mixed
     {
         $result = null;
         if (!empty($clazzName)) {
@@ -46,7 +46,7 @@ trait UnavailableMethodsTrait
      *
      * @return null|mixed
      */
-    protected function callMethodOnO2t(string $methodName)
+    protected function callMethodOnO2t(string $methodName): mixed
     {
         $result = null;
 
