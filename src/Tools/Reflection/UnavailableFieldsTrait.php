@@ -17,13 +17,6 @@ use ReflectionProperty;
 
 trait UnavailableFieldsTrait
 {
-    /**
-     * @param mixed  $clazzName
-     * @param string $fieldName
-     * @param mixed  $instance
-     *
-     * @return null|mixed
-     */
     protected function getFieldByReflection(mixed $clazzName, string $fieldName, mixed $instance): mixed
     {
         $result = null;
@@ -37,12 +30,6 @@ trait UnavailableFieldsTrait
         return $result;
     }
 
-    /**
-     * @param mixed      $clazzName
-     * @param string     $fieldName
-     * @param mixed      $instance
-     * @param null|mixed $newValue
-     */
     protected function setFieldByReflection(mixed $clazzName, string $fieldName, mixed $instance, mixed $newValue): void
     {
         if (!empty($clazzName)) {
@@ -53,17 +40,12 @@ trait UnavailableFieldsTrait
         }
     }
 
-    /**
-     * @param string $fieldName
-     *
-     * @return null|mixed
-     */
     protected function getFieldFromO2t(string $fieldName): mixed
     {
         $result = null;
 
         /**
-         * @psalm-suppress RedundantPropertyInitializationCheck
+         * @psalm-suppress RedundantPropertyInitializationCheck,UndefinedThisPropertyFetch
          * @phpstan-ignore isset.property,property.notFound
          */
         if (isset($this->o2t)) {

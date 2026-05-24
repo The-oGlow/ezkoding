@@ -30,8 +30,8 @@ class TaskItem implements ITaskItem
     private array $data;
 
     /**
-     * @param mixed $key
-     * @param array $data
+     * @param mixed              $key
+     * @param array<mixed,mixed> $data
      *
      * @phpstan-param TaskKey  $key
      * @phpstan-param TaskData $data
@@ -42,18 +42,12 @@ class TaskItem implements ITaskItem
         $this->data = $data;
     }
 
-    /**
-     * @inheritDoc
-     */
     #[\Override]
     public function getKey(): mixed
     {
         return $this->key;
     }
 
-    /**
-     * @inheritDoc
-     */
     #[\Override]
     public function getData(): array
     {

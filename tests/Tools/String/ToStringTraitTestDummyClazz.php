@@ -18,7 +18,6 @@ namespace ollily\Tools\String;
  *
  * @see ToStringTraitTest
  */
-
 class ToStringTraitTestDummyClazz
 {
     use ToStringTrait;

@@ -22,13 +22,8 @@ use PHPUnit\Framework\TestCase;
  */
 class TestDataTest extends TestCase
 {
-    /** @var string */
     private static string $fileName;
 
-    /**
-     * @param int   $expectedCount
-     * @param mixed $actual
-     */
     #[DataProvider('providerData')]
     public function testData(int $expectedCount, mixed $actual): void
     {
@@ -54,7 +49,7 @@ class TestDataTest extends TestCase
 
     public function testConstantsKey(): void
     {
-        $expectedCount = 14;
+        $expectedCount = 16;
 
         $this->verifyResult($expectedCount, 'key');
     }

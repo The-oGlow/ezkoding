@@ -25,23 +25,14 @@ class UnavailableMethodsTraitTestWrongO2tClazz
 {
     use UnavailableMethodsTrait;
 
-    /**
-     * @var mixed
-     *
-     * @SuppressWarnings("PHPMD.UnusedPrivateField")
-     */
-    private mixed $wrongO2t;
+    /** @SuppressWarnings("PHPMD.UnusedPrivateField") */
+    private UnavailableMethodsTraitDummyClazz $wrongO2t;
 
     public function __construct()
     {
         $this->wrongO2t = new UnavailableMethodsTraitDummyClazz();
     }
 
-    /**
-     * @param string $methodName
-     *
-     * @return null|mixed
-     */
     public function publicCallMethodOnO2t(string $methodName): mixed
     {
         return $this->callMethodOnO2t($methodName);

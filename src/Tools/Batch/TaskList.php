@@ -19,10 +19,8 @@ use Psr\Log\LoggerInterface;
 
 class TaskList
 {
-    /** @var LoggerInterface */
     private static LoggerInterface $logger;
 
-    /** @var string */
     private string $listKey;
 
     /** @var Queue<ITaskItem> */
@@ -45,9 +43,6 @@ class TaskList
         $this->tasks->push($task);
     }
 
-    /**
-     * @return null|ITaskItem
-     */
     public function nextTask(): ?ITaskItem
     {
         $task = null;
@@ -68,11 +63,6 @@ class TaskList
         return $this->tasks->isEmpty();
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return bool
-     */
     public function readFile(string $fileName): bool
     {
         self::$logger->debug('START - fileName', [$fileName]);
@@ -86,7 +76,6 @@ class TaskList
                 while ($line = fgets($fHandle, 1000)) {
                     $convertedLine = mb_convert_encoding($line, 'UTF-8');
                     $itemKey       = $this->listKey . $idx;
-                    /** @var null|ITaskItem $newTask */
                     $newTask = $this->parseTaskData($itemKey, $convertedLine);
                     if (!is_null($newTask)) {
                         $this->addTask($newTask);
@@ -102,17 +91,10 @@ class TaskList
         return $fileRead;
     }
 
-    /**
-     * @param mixed $itemKey
-     * @param mixed $convertedLine
-     *
-     * @return null|ITaskItem
-     */
     protected function parseTaskData(mixed $itemKey, mixed $convertedLine): ?ITaskItem
     {
         self::$logger->debug('START - itemKey', [$itemKey]);
 
-        /** @var null|ITaskItem $newTask */
         $newTask = null;
         if (is_string($convertedLine)) {
             $newLine = preg_filter("/(\r|\n|\r\n)/", '', $convertedLine);
@@ -128,11 +110,6 @@ class TaskList
         return $newTask;
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return bool
-     */
     public function storeFile(string $fileName): bool
     {
         self::$logger->debug('START - fileName', [$fileName]);
@@ -147,8 +124,12 @@ class TaskList
                     if ($line instanceof ITaskItem) {
                         $line = $line->__toString();
                     }
-                    $convertedLine = mb_convert_encoding($line, 'UTF-8') . "\n";
-                    fwrite($fHandle, $convertedLine);
+                    $convertedLine = mb_convert_encoding($line, 'UTF-8');
+                    /** @phpstan-ignore notIdentical.alwaysTrue */
+                    if ($convertedLine !== false) {
+                        $convertedLine .= "\n";
+                        fwrite($fHandle, $convertedLine);
+                    }
                 }
                 fclose($fHandle);
                 $fileStored = true;

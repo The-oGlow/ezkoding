@@ -25,29 +25,18 @@ class UnavailableMethodsTraitTestO2tClazz
 {
     use UnavailableMethodsTrait;
 
-    /** @var mixed */
-    protected mixed $o2t;
+    protected UnavailableMethodsTraitDummyClazz $o2t;
 
     public function __construct()
     {
         $this->o2t = new UnavailableMethodsTraitDummyClazz();
     }
 
-    /**
-     * @param string $methodName
-     *
-     * @return null|mixed
-     */
     public function publicCallMethodOnO2t(string $methodName): mixed
     {
         return $this->callMethodOnO2t($methodName);
     }
 
-    /**
-     * @param string $methodName
-     *
-     * @return null|mixed
-     */
     public function publicCallMethodByReflection(string $methodName): mixed
     {
         return $this->callMethodByReflection(UnavailableMethodsTraitDummyClazz::class, $methodName, $this->o2t);

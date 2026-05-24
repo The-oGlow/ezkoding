@@ -18,27 +18,22 @@ use PHPUnit\Framework\TestCase;
 
 class EmergencyTest extends TestCase
 {
-    public const CODE_NEG1     = -1;
+    public const int CODE_NEG1     = -1;
 
-    public const CODE_0        = 0;
+    public const int CODE_0        = 0;
 
-    public const CODE_89       = 89;
+    public const int CODE_89       = 89;
 
-    public const CODE_123      = 123;
+    public const int CODE_123      = 123;
 
-    public const CODE_255      = 255;
+    public const int CODE_255      = 255;
 
-    public const MSG_EMPTY = '';
+    public const string MSG_EMPTY = '';
 
-    public const MSG_01    = 'ERR-MSG';
+    public const string MSG_01    = 'ERR-MSG';
 
-    public const MSG_02    = 'There is something worried';
+    public const string MSG_02    = 'There is something worried';
 
-    /**
-     * @param int    $errCode
-     * @param string $errMessage
-     * @param int    $expected
-     */
     #[DataProvider('providerBreakSystem')]
     public function testBreakSystem(int $errCode, string $errMessage, int $expected): void
     {
@@ -47,10 +42,6 @@ class EmergencyTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    /**
-     * @param \Throwable $throwable
-     * @param int        $expected
-     */
     #[DataProvider('providerExceptionStop')]
     public function testExceptionStop(\Throwable $throwable, int $expected): void
     {

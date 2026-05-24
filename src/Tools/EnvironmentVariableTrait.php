@@ -20,11 +20,6 @@ use Composer\Factory;
  */
 trait EnvironmentVariableTrait
 {
-    /**
-     * @param string $homeVariable
-     *
-     * @return string
-     */
     final public static function getHome(string $homeVariable = 'HOME'): string
     {
         $home = getenv($homeVariable);
@@ -40,9 +35,6 @@ trait EnvironmentVariableTrait
         return $home;
     }
 
-    /**
-     * @return string
-     */
     final public static function getProjectRoot(): string
     {
         $projectRoot = self::getComposerFilePath();
@@ -53,9 +45,6 @@ trait EnvironmentVariableTrait
         return (string)realpath($projectRoot);
     }
 
-    /**
-     * @return string
-     */
     private static function getComposerFilePath(): string
     {
         $composerFile = Factory::getComposerFile();
@@ -67,11 +56,6 @@ trait EnvironmentVariableTrait
         return $composerPath;
     }
 
-    /**
-     * @param int $folderOffset
-     *
-     * @return string
-     */
     private static function getProjectRootFallback(int $folderOffset = 2): string
     {
         $rootClazz = new \ReflectionClass(EnvironmentVariableTrait::class);

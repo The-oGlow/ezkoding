@@ -21,16 +21,12 @@ class PhpVersionTraitTest extends TestCase
 {
     use PhpVersionTrait;
 
-    public const PHP_VERSION_MIN = '0.0.1';
+    public const string PHP_VERSION_MIN = '0.0.1';
 
-    public const PHP_VERSION_CURR = PHP_VERSION;
+    public const string PHP_VERSION_CURR = PHP_VERSION;
 
-    public const PHP_VERSION_MAX = '99.99.999';
+    public const string PHP_VERSION_MAX = '99.99.999';
 
-    /**
-     * @param bool   $expected
-     * @param string $checkVersion
-     */
     #[DataProvider('providerPhpVersion')]
     public function testIsPhpGreater(bool $expected, string $checkVersion): void
     {

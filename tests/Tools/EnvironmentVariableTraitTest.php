@@ -20,19 +20,19 @@ class EnvironmentVariableTraitTest extends TestCase
 {
     use EnvironmentVariableTrait;
 
-    private const PROJECT_NAME = 'ezkoding';
+    private const string PROJECT_NAME = 'ezkoding';
 
-    private const HOME_WIN = 'USERPROFILE';
+    private const string HOME_WIN = 'USERPROFILE';
 
-    private const HOME_LINUX = 'HOME';
+    private const string HOME_LINUX = 'HOME';
 
-    private const HOME_NOTEXIST = 'NOTEXISTS';
+    private const string HOME_NOTEXIST = 'NOTEXISTS';
 
     public function testHomeDefault(): void
     {
         $actual = self::getHome();
 
-        $this->validateActualContains($actual, DIRECTORY_SEPARATOR);
+        $this->validateActualContains(DIRECTORY_SEPARATOR, $actual);
     }
 
     public function testHomeUserProfileDirect(): void
@@ -42,7 +42,7 @@ class EnvironmentVariableTraitTest extends TestCase
             $actual = self::getHome(self::HOME_LINUX);
         }
 
-        $this->validateActualContains($actual, DIRECTORY_SEPARATOR);
+        $this->validateActualContains(DIRECTORY_SEPARATOR, $actual);
     }
 
     public function testHomeUserProfileIndirect(): void
@@ -56,30 +56,34 @@ class EnvironmentVariableTraitTest extends TestCase
     {
         $actual = self::getProjectRoot();
 
-        $this->validateActualEnds($actual, self::PROJECT_NAME);
+        $this->validateActualEnds(self::PROJECT_NAME, $actual);
     }
 
     public function testGetComposerFilePath(): void
     {
         $actual = self::getComposerFilePath();
 
-        $this->validateActualEnds($actual, self::PROJECT_NAME);
+        $this->validateActualEnds(self::PROJECT_NAME, $actual);
     }
 
     public function testGetProjectRootFallback(): void
     {
         $actual = self::getProjectRootFallback();
 
-        $this->validateActualEnds($actual, self::PROJECT_NAME);
+        $this->validateActualEnds(self::PROJECT_NAME, $actual);
     }
 
-    private function validateActualContains(string $actual, string $expected): void
+    private function validateActualContains(string $expected, string $actual): void
     {
         self::assertNotEmpty($actual);
         self::assertStringContainsString($expected, $actual);
     }
 
-    private function validateActualEnds(string $actual, string $expected): void
+    /**
+     * @param non-empty-string $expected
+     * @param string           $actual
+     */
+    private function validateActualEnds(string $expected, string $actual): void
     {
         self::assertNotEmpty($actual);
         self::assertStringEndsWith($expected, $actual);

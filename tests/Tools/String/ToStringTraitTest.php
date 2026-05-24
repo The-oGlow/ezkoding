@@ -27,30 +27,30 @@ class ToStringTraitTest extends TestCase
 {
     use ImplodeTrait;
 
-    public const FORMAT_OBJECT = '{%s Object( [greeting] => %s)}';
+    public const string FORMAT_OBJECT = '{%s Object( [greeting] => %s)}';
 
-    public const FORMAT_OBJECT_IN_OBJECT = '{%s Object( [greeting] => %s Object ( [fooValue:%s:private] => %s ))}';
+    public const string FORMAT_OBJECT_IN_OBJECT = '{%s Object( [greeting] => %s Object ( [fooValue:%s:private] => %s ))}';
 
-    public const FORMAT_ARRAY_IN_OBJECT = '{%s Object( [greeting] => Array ( %s ))}';
+    public const string FORMAT_ARRAY_IN_OBJECT = '{%s Object( [greeting] => Array ( %s ))}';
 
-    public const FORMAT_ARRAY_IN_OBJECT_2 = '{%s Object( [greeting] => Array ( [%s] => %s Object ( [fooValue:%s:private] => %s ) ))}';
+    public const string FORMAT_ARRAY_IN_OBJECT_2 = '{%s Object( [greeting] => Array ( [%s] => %s Object ( [fooValue:%s:private] => %s ) ))}';
 
-    public const FORMAT_ARRAY_KEY_NUM_SEARCH = '/(\w*)=>/';
+    public const string FORMAT_ARRAY_KEY_NUM_SEARCH = '/(\w*)=>/';
 
-    public const FORMAT_ARRAY_KEY_ALPHA_SEARCH = "/'([\w\W]+?)'=>/";
+    public const string FORMAT_ARRAY_KEY_ALPHA_SEARCH = "/'([\w\W]+?)'=>/";
 
-    public const FORMAT_ARRAY_ELEM_REPLACE =  '[$1] => ';
+    public const string FORMAT_ARRAY_ELEM_REPLACE =  '[$1] => ';
 
-    public const FORMAT_ARRAY_SPACE_SEP = ' ';
+    public const string FORMAT_ARRAY_SPACE_SEP = ' ';
 
-    public const ILLEGAL_CHARS = [" \n", "\n ", "\n", "  "];
+    /** @var array<string> */
+    public const array ILLEGAL_CHARS = [" \n", "\n ", "\n", "  "];
 
     protected ToStringTraitTestDummyClazz $o2t;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->markTestIncomplete('FIXME: Ignore 4 a moment');
         parent::setUp();
         $this->o2t = new ToStringTraitTestDummyClazz();
     }
@@ -68,10 +68,6 @@ class ToStringTraitTest extends TestCase
         $this->o2t->__wakeup();
     }
 
-    /**
-     * @param mixed  $data
-     * @param string $expected
-     */
     #[DataProvider('provideDataToString')]
     public function testToString(mixed $data, string $expected): void
     {

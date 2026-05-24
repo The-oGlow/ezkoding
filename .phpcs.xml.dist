@@ -76,11 +76,6 @@
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.FirstParamSpacing" />
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.OneParamPerLine" />
     <rule ref="Squiz.PHP.CommentedOutCode" />
-    <rule ref="Squiz.PHP.DiscouragedFunctions">
-        <properties>
-            <property name="error" value="true" />
-        </properties>
-    </rule>
 
     <!-- Internal -->
     <!--

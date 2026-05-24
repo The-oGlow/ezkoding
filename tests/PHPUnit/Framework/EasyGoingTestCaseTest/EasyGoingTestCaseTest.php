@@ -30,10 +30,8 @@ class EasyGoingTestCaseTest extends TestCase
     use UnavailableMethodsTrait;
     use UnavailableFieldsTrait;
 
-    /** @var EasyGoingTestCaseClazz */
     protected EasyGoingTestCaseClazz $o2t;
 
-    /** @var LoggerInterface */
     private static LoggerInterface $logger;
 
     #[\Override]
@@ -47,9 +45,6 @@ class EasyGoingTestCaseTest extends TestCase
         self::$logger->debug('END');
     }
 
-    /**
-     * @return EasyGoingTestCaseClazz
-     */
     protected static function prepareO2t(): EasyGoingTestCaseClazz
     {
         return new EasyGoingTestCaseClazz(EasyGoingTestCaseClazz::class);
@@ -115,15 +110,10 @@ class EasyGoingTestCaseTest extends TestCase
         }
     }
 
-    /**
-     * @param bool   $expectedBool
-     * @param string $constName
-     * @param string $expected
-     */
     #[DataProvider('providerConstant')]
     public function testIsConstExist(bool $expectedBool, string $constName, string $expected): void
     {
-        self::$logger->debug('parameters', [$expectedBool, $constName]);
+        self::$logger->debug('parameters', [$expectedBool, $constName, $expected]);
 
         $actual = $this->o2t::publicIsConstExist($this->o2t->publicGetCastO2t(), $constName);
 
@@ -132,15 +122,10 @@ class EasyGoingTestCaseTest extends TestCase
         self::assertEquals($expectedBool, $actual, sprintf("Not equals: '%s'='%s'", "$expectedBool", "$actual"));
     }
 
-    /**
-     * @param bool   $expectedBool
-     * @param string $constName
-     * @param string $expected
-     */
     #[DataProvider('providerConstant')]
     public function testGetConstValue(bool $expectedBool, string $constName, string $expected): void
     {
-        self::$logger->debug('parameters', [$expectedBool, $constName]);
+        self::$logger->debug('parameters', [$expectedBool, $constName, $expected]);
 
         $actual = $this->o2t::publicGetConstValue($this->o2t->publicGetCastO2t(), $constName);
 

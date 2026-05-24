@@ -32,15 +32,15 @@ class ConstantCheckTestCaseTest extends TestCase
     use UnavailableMethodsTrait;
     use UnavailableFieldsTrait;
 
-    private const TEST_CONST_PREFIX_NAME = 'TEST_CONST_PREFIX';
+    private const string TEST_CONST_PREFIX_NAME = 'TEST_CONST_PREFIX';
 
-    private const TEST_CONST_ARRAY_NAME  = 'TEST_CONST_ARRAY';
+    private const string TEST_CONST_ARRAY_NAME  = 'TEST_CONST_ARRAY';
 
-    private const TEST_CONST_ARRAY_SIZE  = 2;
+    private const int TEST_CONST_ARRAY_SIZE  = 2;
 
-    private const WRONG_CONST            = 'WRONG_CONST';
+    private const string WRONG_CONST            = 'WRONG_CONST';
 
-    private const WRONG_CONST_SIZE       = 1;
+    private const int WRONG_CONST_SIZE       = 1;
 
     protected ConstantCheckTestCaseClazz $o2t;
 
@@ -53,8 +53,6 @@ class ConstantCheckTestCaseTest extends TestCase
         self::$logger->debug('START');
 
         parent::setUpBeforeClass();
-        // function must be called manually
-        $sO2t = self::prepareO2t();
 
         self::$logger->debug('END');
     }
@@ -73,6 +71,9 @@ class ConstantCheckTestCaseTest extends TestCase
         return new ConstantCheckTestCaseClazz(ConstantCheckTestCaseClazz::class);
     }
 
+    /**
+     * @return array<mixed, mixed>
+     */
     protected static function prepareAllConsts(): array
     {
         return ConstantCheckTestCaseClazz::prepareAllConsts();
@@ -87,7 +88,7 @@ class ConstantCheckTestCaseTest extends TestCase
 
         $this->o2t = self::prepareO2t();
         // Must be called manually
-        $this->o2t->setUpBeforeClass();
+        $this->o2t::setUpBeforeClass();
         $this->o2t->setUp();
 
         self::$logger->debug('END');
@@ -153,9 +154,6 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param bool               $success
-     * @param bool               $crossCheckActive
-     * @param string             $clazz
      * @param array<mixed,mixed> $actualConstants
      */
     #[DataProvider('providerCrossCheck')]
@@ -184,17 +182,15 @@ class ConstantCheckTestCaseTest extends TestCase
 
     public function testUpdateActualConsts(): void
     {
-        $this->o2t->setUpBeforeClass(true);
+        $this->o2t::setUpBeforeClass(true);
 
         $checkedConsts = TestData::ARRAY_ALPHA5;
-        /** @var array<mixed> */
         $before   = $this->getFieldByReflection(ConstantCheckTestCase::class, 'actualConsts', $this->o2t);
 
         $expected = count($before) + count($checkedConsts);
 
         $this->o2t::publicUpdateActualConsts($checkedConsts);
 
-        /** @var array<mixed> */
         $actual = $this->getFieldByReflection(ConstantCheckTestCase::class, 'actualConsts', $this->o2t);
 
         self::assertCount($expected, $actual);
@@ -215,7 +211,6 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param bool               $success
      * @param array<mixed,mixed> $constants
      */
     #[DataProvider('providerConstants')]
@@ -237,7 +232,6 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param bool               $success
      * @param array<mixed,mixed> $constants
      */
     #[DataProvider('providerConstantsArray')]
@@ -258,11 +252,6 @@ class ConstantCheckTestCaseTest extends TestCase
         $this->verifyConstantsTestResult($success, $exception, [$success, $constants]);
     }
 
-    /**
-     * @param bool   $success
-     * @param string $constantName
-     * @param int    $expectedSize
-     */
     #[DataProvider('providerConstantName')]
     public function testVerifyConstArraySize(bool $success, string $constantName, int $expectedSize): void
     {
@@ -350,7 +339,7 @@ class ConstantCheckTestCaseTest extends TestCase
 
     /**
      * @param bool               $success
-     * @param null|\Exception    $exception
+     * @param ?\Exception        $exception
      * @param array<mixed,mixed> $extraData
      */
     protected function verifyConstantsTestResult(bool $success, ?\Exception $exception, array $extraData): void

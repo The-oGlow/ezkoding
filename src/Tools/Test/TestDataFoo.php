@@ -15,33 +15,25 @@ namespace ollily\Tools\Test;
 
 use ollily\Tools\String\ToStringTrait;
 
+/**
+ * A simple object usable as test object.
+ */
 class TestDataFoo
 {
     use ToStringTrait;
 
     private mixed $fooValue;
 
-    /**
-     * @param null|mixed $fooValue
-     *
-     * @return TestDataFoo
-     */
     public static function init(mixed $fooValue = null): TestDataFoo
     {
         return new TestDataFoo($fooValue);
     }
 
-    /**
-     * @param null|mixed $fooValue
-     */
     public function __construct(mixed $fooValue = null)
     {
         $this->fooValue = $fooValue;
     }
 
-    /**
-     * @return mixed
-     */
     #[\Override]
     protected function __toStringValues(): mixed
     {

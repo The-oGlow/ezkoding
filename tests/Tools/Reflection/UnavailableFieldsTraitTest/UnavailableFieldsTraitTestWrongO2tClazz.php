@@ -25,19 +25,13 @@ class UnavailableFieldsTraitTestWrongO2tClazz
 {
     use UnavailableFieldsTrait;
 
-    /** @var mixed */
-    private mixed $wrongO2t;
+    private UnavailableFieldsTraitDummyClazz $wrongO2t;
 
     public function __construct()
     {
         $this->wrongO2t = new UnavailableFieldsTraitDummyClazz();
     }
 
-    /**
-     * @param string $fieldName
-     *
-     * @return null|mixed
-     */
     public function publicGetFieldFromO2t(string $fieldName): mixed
     {
         return $this->getFieldFromO2t($fieldName);

@@ -20,21 +20,14 @@ namespace ollily\Tools\Batch;
 interface ITaskItem
 {
     /**
-     * @return mixed
-     *
      * @phpstan-return TaskKey
      */
     public function getKey(): mixed;
 
     /**
-     * @return array
-     *
      * @phpstan-return TaskData
      */
     public function getData(): array;
 
-    /**
-     * @return string
-     */
     public function __toString(): string;
 }

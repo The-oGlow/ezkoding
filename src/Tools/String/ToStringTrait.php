@@ -22,9 +22,6 @@ trait ToStringTrait
      */
     abstract protected function __toStringValues(): mixed;  // NOSONAR: php:S100
 
-    /**
-     * @inheritdoc
-     */
     public function __toString(): string
     {
         $value = $this->__toStringValues();
@@ -41,9 +38,9 @@ trait ToStringTrait
             $toString = sprintf('%s:[%s]', get_class($this), self::implode_recursive(',', $value));
         } elseif (is_object($value)) {
             if ($this == $value) {
-                $toString = sprintf('{%s}', var_export($value, true));
+                $toString = sprintf('{%s}', print_r($value, true));
             } else {
-                $toString = sprintf('%s:{%s}', get_class($this), var_export($value, true));
+                $toString = sprintf('%s:{%s}', get_class($this), print_r($value, true));
             }
         } else {
             $toString = sprintf('%s', get_class($this));
@@ -52,9 +49,6 @@ trait ToStringTrait
         return $toString;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function __wakeup(): void
     {
         throw new \BadMethodCallException("Cannot unserialize singleton");

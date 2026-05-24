@@ -24,7 +24,7 @@ use PHPUnit\Framework\EasyGoingTestCaseTest;
  */
 class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
 {
-    public const C_TEST = 1;
+    public const int C_TEST = 1;
 
     #[\Override]
     public static function tearDownAfterClass(): void
@@ -32,18 +32,12 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
         // Deactivate the check, will be called manually in testcase
     }
 
-    /**
-     * @inheritDoc
-     */
     #[\Override]
     protected static function prepareO2t(): EasyGoingTestCaseDummyClazz
     {
         return new EasyGoingTestCaseDummyClazz();
     }
 
-    /**
-     * @inheritDoc
-     */
     #[\Override]
     protected function getCasto2t(): EasyGoingTestCaseDummyClazz
     {
@@ -52,41 +46,21 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
 
     // Override the visibility for the test cases
 
-    /**
-     * @param mixed  $clazz
-     * @param string $constantName
-     *
-     * @return bool
-     */
     public static function publicIsConstExist(mixed $clazz, string $constantName): bool
     {
         return parent::isConstExist($clazz, $constantName);
     }
 
-    /**
-     * @param mixed  $clazz
-     * @param string $constantName
-     *
-     * @return mixed
-     */
     public static function publicGetConstValue(mixed $clazz, string $constantName): mixed
     {
         return parent::getConstValue($clazz, $constantName);
     }
 
-    /**
-     * @param mixed $var
-     *
-     * @return bool
-     */
     public static function publicIsPrimitive(mixed $var): bool
     {
         return parent::isPrimitive($var);
     }
 
-    /**
-     * @return string
-     */
     public static function publicGet_called_clazz(): string
     {
         return parent::get_called_clazz();
@@ -102,25 +76,16 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
         return parent::getAllDefinedConsts($clazz);
     }
 
-    /**
-     * @param string $constantName
-     */
     public function publicVerifyConstExists(string $constantName): void
     {
         parent::verifyConstExists($constantName);
     }
 
-    /**
-     * @return string
-     */
     public function publicGet_called_function(): string
     {
         return parent::get_called_function();
     }
 
-    /**
-     * @return EasyGoingTestCaseDummyClazz
-     */
     public function publicGetCastO2t(): EasyGoingTestCaseDummyClazz
     {
         return $this->getCasto2t();

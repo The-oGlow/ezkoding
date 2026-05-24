@@ -89,6 +89,10 @@ class TestData
 
     public const string KEY_ALPHA3 = 'KEY-ALPHA3';
 
+    public const ?object KEY_NULL = null;
+
+    public const string KEY_EMPTY = '';
+
     // Arrays complete
 
     public const array ARRAY_EMPTY = [];
@@ -156,21 +160,21 @@ class TestData
     /**
      * @see self::C_ARRAY_OBJECT1()
      *
-     * @var array<mixed>
+     * @var array<mixed, mixed>
      */
     private static array $ARRAY_OBJECT1 = []; // NOSONAR: php:S100
 
     /**
      * @see self::C_ARRAY_OBJECT2()
      *
-     * @var array<mixed>
+     * @var array<mixed, mixed>
      */
     private static array $ARRAY_OBJECT2 = []; // NOSONAR: php:S100
 
     /**
      * @see self::C_ARRAY_OBJECT3()
      *
-     * @var array<mixed>
+     * @var array<mixed, mixed>
      */
     private static array $ARRAY_OBJECT3 = []; // NOSONAR: php:S100
 
@@ -220,7 +224,7 @@ class TestData
     }
 
     /**
-     * @return array<mixed>
+     * @return array<mixed, mixed>
      */
     public static function ARRAY_OBJECT1(): array // NOSONAR: php:S100
     {
@@ -232,7 +236,7 @@ class TestData
     }
 
     /**
-     * @return array<mixed>
+     * @return array<mixed, mixed>
      */
     public static function ARRAY_OBJECT2(): array // NOSONAR: php:S100
     {
@@ -247,7 +251,7 @@ class TestData
     }
 
     /**
-     * @return array<mixed>
+     * @return array<mixed, mixed>
      */
     public static function ARRAY_OBJECT3(): array // NOSONAR: php:S100
     {
@@ -278,7 +282,12 @@ class TestData
      */
     public static function prepareTempFile(string $prefix = self::FILE_FILENAME_PREFIX): string
     {
-        return tempnam(sys_get_temp_dir(), $prefix);
+        $tmpFile = tempnam(sys_get_temp_dir(), $prefix);
+        if ($tmpFile == false) {
+            $tmpFile = '';
+        }
+
+        return $tmpFile;
     }
 
     /**
@@ -287,7 +296,7 @@ class TestData
     public static function cleanupTempFile(?string $fileName): void
     {
         try {
-            if (!empty($fileName) && file_exists($fileName)) {
+            if (!is_null($fileName) && !empty($fileName) && file_exists($fileName)) {
                 unlink($fileName);
             }
         } catch (\Throwable $ex) {

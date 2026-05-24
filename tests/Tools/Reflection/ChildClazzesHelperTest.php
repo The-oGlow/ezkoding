@@ -20,10 +20,7 @@ use PHPUnit\Framework\TestCase;
 class ChildClazzesHelperTest extends TestCase
 {
     /**
-     * @param int                $expected
-     * @param string             $clazzName
      * @param array<mixed,mixed> $childClazzes
-     * @param bool               $isEqual
      */
     #[DataProvider('providerChildClazzes')]
     public function testAllChildren(int $expected, string $clazzName, array $childClazzes, bool $isEqual = true): void

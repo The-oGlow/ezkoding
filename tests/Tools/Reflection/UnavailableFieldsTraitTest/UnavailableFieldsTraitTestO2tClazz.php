@@ -25,38 +25,23 @@ class UnavailableFieldsTraitTestO2tClazz
 {
     use UnavailableFieldsTrait;
 
-    /** @var mixed */
-    protected mixed $o2t;
+    protected UnavailableFieldsTraitDummyClazz $o2t;
 
     public function __construct()
     {
         $this->o2t = new UnavailableFieldsTraitDummyClazz();
     }
 
-    /**
-     * @param string $fieldName
-     *
-     * @return null|mixed
-     */
     public function publicGetFieldFromO2t(string $fieldName): mixed
     {
         return $this->getFieldFromO2t($fieldName);
     }
 
-    /**
-     * @param string $fieldName
-     *
-     * @return null|mixed
-     */
     public function publicGetFieldByReflection(string $fieldName): mixed
     {
         return $this->getFieldByReflection(UnavailableFieldsTraitDummyClazz::class, $fieldName, $this->o2t);
     }
 
-    /**
-     * @param string     $fieldName
-     * @param null|mixed $newValue
-     */
     public function publicSetFieldByReflection(string $fieldName, mixed $newValue): void
     {
         $this->setFieldByReflection(UnavailableFieldsTraitDummyClazz::class, $fieldName, $this->o2t, $newValue);

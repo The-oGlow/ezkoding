@@ -19,13 +19,13 @@ namespace ollily\Tools;
 class Emergency
 {
     /** Default message */
-    public const  MSG_DEFAULT = 'Undefined reason to stop now!';
+    public const string  MSG_DEFAULT = 'Undefined reason to stop now!';
 
     /** Default code */
-    public const  ERR_CODE_DEFAULT = 1;
+    public const int  ERR_CODE_DEFAULT = 1;
 
     /** Maximum code which is allowed. */
-    private const ERR_CODE_MAX = 254;
+    private const int ERR_CODE_MAX = 254;
 
     /**
      * Immediately stopping the application caused by an exception. As a hmomage to "Knight Rider".

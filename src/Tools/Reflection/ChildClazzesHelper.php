@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-final class ChildClazzesHelper
+class ChildClazzesHelper
 {
     private function __construct()
     {

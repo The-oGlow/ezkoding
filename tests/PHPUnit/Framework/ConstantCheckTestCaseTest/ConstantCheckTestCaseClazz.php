@@ -35,18 +35,12 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
         // Deactivate the check, will be called manually in testcase
     }
 
-    /**
-     * @inheritDoc
-     */
     #[\Override]
     protected static function prepareO2t(): ConstantCheckTestCaseDummyClazz
     {
         return new ConstantCheckTestCaseDummyClazz();
     }
 
-    /**
-     * @inheritDoc
-     */
     #[\Override]
     protected function getCasto2t(): ConstantCheckTestCaseDummyClazz
     {
@@ -55,26 +49,45 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
 
     // Override the visibility for the test cases
 
+    /**
+     * @param mixed              $clazz
+     * @param array<mixed,mixed> $actualConstants
+     */
     public static function publicCrossCheckConstants(mixed $clazz, array $actualConstants): void
     {
         parent::crossCheckConstants($clazz, $actualConstants);
     }
 
+    /**
+     * @param null|array<mixed,mixed> $checkedConsts
+     */
     public static function publicUpdateActualConsts(?array $checkedConsts): void
     {
         parent::updateActualConsts($checkedConsts);
     }
 
+    /**
+     * @param int                $expectedCount
+     * @param array<mixed,mixed> $allDefinedConsts
+     *
+     * @return array<mixed,mixed>
+     */
     public static function publicCheckConstantsCount(int $expectedCount, array $allDefinedConsts): array
     {
         return parent::checkConstantsCount($expectedCount, $allDefinedConsts);
     }
 
+    /**
+     * @param array<mixed,mixed> $constants
+     */
     public function publicVerifyConstAllExists(array $constants = []): void
     {
         parent::verifyConstAllExists($constants);
     }
 
+    /**
+     * @param array<mixed,mixed> $constants
+     */
     public function publicVerifyConstArrayAllExists(array $constants = []): void
     {
         parent::verifyConstArrayAllExists($constants);
@@ -100,6 +113,9 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
 
     // Misc functions
 
+    /**
+     * @return array<mixed,mixed>
+     */
     public static function prepareAllConsts(): array
     {
         return [

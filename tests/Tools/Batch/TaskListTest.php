@@ -19,41 +19,43 @@ use PHPUnit\Framework\EasyGoingTestCase;
 
 class TaskListTest extends EasyGoingTestCase
 {
-    /** @var string */
-    public const KEY = TestData::KEY_ALPHA1;
+    public const string KEY = TestData::KEY_ALPHA1;
 
-    /** @var string */
-    public const DATA = TestData::DATA_ALPHA1;
+    public const string DATA = TestData::DATA_ALPHA1;
 
-    /** @var string */
     private string $writeTaskListFile = '';
 
+    #[\Override]
     protected function tearDown(): void
     {
         TestData::cleanupTempFile($this->writeTaskListFile);
     }
 
+    /**
+     * @return array<mixed,mixed>
+     */
     public static function prepareFiles(): array
     {
         $reflector = new \ReflectionClass(self::class);
-        $path = '' . realpath('' . $reflector->getFileName());
-        $emptyFile = str_replace(TestData::FILE_EXT_PHP, 'Empty' . TestData::FILE_EXT_CSV, $path);
-        $existingFile = str_replace(TestData::FILE_EXT_PHP, TestData::FILE_EXT_CSV, $path);
+        $path = realpath('' . $reflector->getFileName());
+        if ($path !== false) {
+            $emptyFile = str_replace(TestData::FILE_EXT_PHP, 'Empty' . TestData::FILE_EXT_CSV, $path);
+            $existingFile = str_replace(TestData::FILE_EXT_PHP, TestData::FILE_EXT_CSV, $path);
+        } else {
+            $emptyFile = '';
+            $existingFile = '';
+        }
 
         return [TestData::FILE_FILENAME_EMPTY,$emptyFile, $existingFile];
     }
 
-    /**
-     * @return TaskList
-     */
+    #[\Override]
     protected static function prepareO2t(): TaskList
     {
         return new TaskList(self::KEY);
     }
 
-    /**
-     * @return TaskList
-     */
+    #[\Override]
     protected function getCasto2t(): TaskList
     {
         return $this->o2t;
@@ -116,12 +118,8 @@ class TaskListTest extends EasyGoingTestCase
         self::assertNull($item);
     }
 
-    /**
-     * @param bool   $expected
-     * @param string $fileName
-     */
     #[DataProvider('providerTaskListFile')]
-    public function testReadFileFile(bool $expected, int $expectedCount, ?string $fileName): void
+    public function testReadFileFile(bool $expected, int $expectedCount, string $fileName): void
     {
         $this->o2t = new TaskList(self::class);
         $actual = $this->getCasto2t()->readFile($fileName);

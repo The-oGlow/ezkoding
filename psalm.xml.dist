@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <psalm
-        errorLevel="1"
+        errorLevel="2"
         resolveFromConfigFile="true"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
@@ -22,8 +22,9 @@
     <issueHandlers>
         <UnusedPsalmSuppress errorLevel="error"/>
         <!-- too strict -->
+        <ClassMustBeFinal errorLevel="info"/>
         <InternalMethod errorLevel="info"/>
-        <LessSpecificImplementedReturnType errorLevel="suppress"/>
+        <LessSpecificImplementedReturnType errorLevel="info"/>
         <MixedArgument errorLevel="info"/>
         <MixedReturnStatement errorLevel="info"/>
         <MixedArrayAccess errorLevel="info"/>
@@ -31,7 +32,7 @@
         <MixedArgumentTypeCoercion errorLevel="info"/>
         <MixedPropertyTypeCoercion errorLevel="info"/>
         <PropertyNotSetInConstructor errorLevel="info"/>
-        <UndefinedConstant errorLevel="suppress"/>
+        <UndefinedConstant errorLevel="info"/>
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>

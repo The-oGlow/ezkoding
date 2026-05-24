@@ -26,18 +26,18 @@ abstract class EasyGoingTestCase extends TestCase
 
     private static LoggerInterface $logger;
 
-    /** @var The object which will be tested. */
+    /** @var mixed The object which will be tested. */
     protected mixed $o2t;
 
     /**
-     * @return object new created instance
+     * @return mixed new created instance
      */
-    abstract protected static function prepareO2t(): object;
+    abstract protected static function prepareO2t(): mixed;
 
     /**
-     * @return object current instance
+     * @return mixed current instance
      */
-    abstract protected function getCasto2t(): object;
+    abstract protected function getCasto2t(): mixed;
 
     #[\Override]
     public static function setUpBeforeClass(): void
@@ -84,11 +84,6 @@ abstract class EasyGoingTestCase extends TestCase
         return $calledClazz;
     }
 
-    /**
-     * @param mixed $var
-     *
-     * @return bool
-     */
     protected static function isPrimitive(mixed $var): bool
     {
         $primitive = false;
@@ -101,23 +96,17 @@ abstract class EasyGoingTestCase extends TestCase
     }
 
     /**
-     * @param mixed $clazz
+     * @param mixed $clazzName
      *
-     * @return mixed[]
+     * @return array<mixed,mixed>
      */
-    protected static function getAllDefinedConsts(mixed $clazz): array
+    protected static function getAllDefinedConsts(mixed $clazzName): array
     {
-        $clazz = new \ReflectionClass($clazz);
+        $instance = new \ReflectionClass($clazzName);
 
-        return $clazz->getConstants(); // NOSONAR php:S3011
+        return $instance->getConstants(); // NOSONAR php:S3011
     }
 
-    /**
-     * @param mixed  $clazz
-     * @param string $constantName
-     *
-     * @return bool
-     */
     protected static function isConstExist(mixed $clazz, string $constantName): bool
     {
         self::$logger->debug('START');
@@ -156,12 +145,6 @@ abstract class EasyGoingTestCase extends TestCase
 
     // Misc functions
 
-    /**
-     * @param mixed  $clazz
-     * @param string $constantName
-     *
-     * @return mixed
-     */
     protected static function getConstValue(mixed $clazz, string $constantName): mixed
     {
         self::$logger->debug('START');
@@ -184,11 +167,6 @@ abstract class EasyGoingTestCase extends TestCase
         return $constantValue;
     }
 
-    /**
-     * @param string $constantName
-     *
-     * @SuppressWarnings("PHPMD.ElseExpression")
-     */
     protected function verifyConstExists(string $constantName): void
     {
         self::$logger->debug('START');
