@@ -13,33 +13,28 @@ declare(strict_types=1);
 
 namespace ollily\Tools;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class EmergencyTest extends TestCase
 {
-    public const CODE_NEG1     = -1;
+    public const int CODE_NEG1     = -1;
 
-    public const CODE_0        = 0;
+    public const int CODE_0        = 0;
 
-    public const CODE_89       = 89;
+    public const int CODE_89       = 89;
 
-    public const CODE_123      = 123;
+    public const int CODE_123      = 123;
 
-    public const CODE_255      = 255;
+    public const int CODE_255      = 255;
 
-    public const MSG_EMPTY = '';
+    public const string MSG_EMPTY = '';
 
-    public const MSG_01    = 'ERR-MSG';
+    public const string MSG_01    = 'ERR-MSG';
 
-    public const MSG_02    = 'There is something worried';
+    public const string MSG_02    = 'There is something worried';
 
-    /**
-     * @param int    $errCode
-     * @param string $errMessage
-     * @param int    $expected
-     *
-     * @dataProvider providerBreakSystem
-     */
+    #[DataProvider('providerBreakSystem')]
     public function testBreakSystem(int $errCode, string $errMessage, int $expected): void
     {
         $actual = Emergency::breakSystem($errCode, $errMessage, true);
@@ -47,12 +42,7 @@ class EmergencyTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    /**
-     * @param \Throwable $throwable
-     * @param int        $expected
-     *
-     * @dataProvider providerExceptionStop
-     */
+    #[DataProvider('providerExceptionStop')]
     public function testExceptionStop(\Throwable $throwable, int $expected): void
     {
         $actual = Emergency::exceptionStop($throwable, true);
@@ -65,7 +55,7 @@ class EmergencyTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerBreakSystem(): array
+    public static function providerBreakSystem(): array
     {
         return [
             'Default' => [self::CODE_0, self::MSG_EMPTY, Emergency::ERR_CODE_DEFAULT],
@@ -78,7 +68,7 @@ class EmergencyTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerExceptionStop(): array
+    public static function providerExceptionStop(): array
     {
         return [
             'Default' => [new \Exception(), Emergency::ERR_CODE_DEFAULT],

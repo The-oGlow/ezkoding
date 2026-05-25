@@ -25,17 +25,17 @@ class ImplodeTraitTestDummyClazz
     use ImplodeTrait;
 
     /** @var array<mixed,mixed> */
-    public $traitData = TestData::ARRAY_ALPHA2;
+    public array $traitData = TestData::ARRAY_ALPHA2;
 
     /** @var array<mixed,mixed> */
-    public $traitObject = TestData::ARRAY_EMPTY;
+    public array $traitObject = TestData::ARRAY_EMPTY;
 
     public function __construct()
     {
         $this->traitObject[] = new ImplodeTraitTestFooClazz();
         $this->traitObject[] = [
             TestData::KEY_NUM1 => new ImplodeTraitTestFooClazz(),
-            TestData::KEY_NUM2 => new ImplodeTraitTestFooClazz()
+            TestData::KEY_NUM2 => new ImplodeTraitTestFooClazz(),
         ];
     }
 }

@@ -23,8 +23,8 @@ use ollily\Tools\Test\TestData;
 class ImplodeTraitTestFooClazz
 {
     /** @var array<mixed,mixed> */
-    public $dummyData =  TestData::ARRAY_NUM_KEY2;
+    public array $dummyData =  TestData::ARRAY_NUM_KEY2;
 
     /** @var array<mixed,mixed> */
-    public $dummyEmpty = TestData::ARRAY_EMPTY;
+    public array $dummyEmpty = TestData::ARRAY_EMPTY;
 }

@@ -23,12 +23,12 @@ use PHPUnit\Framework\TestCase;
  */
 class UnavailableFieldsTraitTest extends TestCase
 {
-    /** @var UnavailableFieldsTraitTestO2tClazz */
-    protected $o2t;
+    protected UnavailableFieldsTraitTestO2tClazz $o2t;
 
-    /** @var string[] */
-    private $fieldNames = ['publicField', 'protectedField', 'privateField'];
+    /** @var array<string> */
+    private array $fieldNames = ['publicField', 'protectedField', 'privateField'];
 
+    #[\Override]
     public function setUp(): void
     {
         parent::setUp();
@@ -62,7 +62,6 @@ class UnavailableFieldsTraitTest extends TestCase
 
     public function testGetFieldFromO2tReturnNull(): void
     {
-        /** @var UnavailableFieldsTraitTestWrongO2tClazz $o2tb */
         $o2tb = new UnavailableFieldsTraitTestWrongO2tClazz();
         foreach ($this->fieldNames as $fieldName) {
             self::assertNull($o2tb->publicGetFieldFromO2t($fieldName));

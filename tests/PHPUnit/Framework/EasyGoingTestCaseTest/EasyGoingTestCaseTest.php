@@ -16,6 +16,7 @@ namespace PHPUnit\Framework\EasyGoingTestCaseTest;
 use Monolog\EasyGoingLogger;
 use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Reflection\UnavailableMethodsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -29,18 +30,24 @@ class EasyGoingTestCaseTest extends TestCase
     use UnavailableMethodsTrait;
     use UnavailableFieldsTrait;
 
-    /** @var EasyGoingTestCaseClazz */
-    protected $o2t;
+    protected EasyGoingTestCaseClazz $o2t;
 
-    /** @var LoggerInterface */
-    private static $logger;
+    private static LoggerInterface $logger;
 
-    /**
-     * @return EasyGoingTestCaseClazz
-     */
-    protected static function prepareO2t()
+    #[\Override]
+    public static function setUpBeforeClass(): void
     {
-        return new EasyGoingTestCaseClazz();
+        self::$logger = EasyGoingLogger::init(EasyGoingTestCaseTest::class);
+        self::$logger->debug('START');
+
+        parent::setUpBeforeClass();
+
+        self::$logger->debug('END');
+    }
+
+    protected static function prepareO2t(): EasyGoingTestCaseClazz
+    {
+        return new EasyGoingTestCaseClazz(EasyGoingTestCaseClazz::class);
     }
 
     /**
@@ -51,25 +58,18 @@ class EasyGoingTestCaseTest extends TestCase
         return EasyGoingTestCaseClazz::prepareAllConsts();
     }
 
-    /**
-     * @param mixed              $name
-     * @param array<mixed,mixed> $data
-     * @param string             $dataName
-     */
-    public function __construct($name = null, $data = [], $dataName = '')
-    {
-        self::$logger = EasyGoingLogger::init(EasyGoingTestCaseTest::class);
-        self::$logger->debug('START');
-        parent::__construct($name, $data, $dataName);
-        self::$logger->debug('END');
-    }
-
+    #[\Override]
     public function setUp(): void
     {
         self::$logger->debug('START');
+
         parent::setUp();
+
         $this->o2t = self::prepareO2t();
+        // Must be called manually
+        $this->o2t::setUpBeforeClass();
         $this->o2t->setUp();
+
         self::$logger->debug('END');
     }
 
@@ -110,15 +110,10 @@ class EasyGoingTestCaseTest extends TestCase
         }
     }
 
-    /**
-     * @param bool   $expectedBool
-     * @param string $constName
-     *
-     * @dataProvider providerConstant
-     */
-    public function testIsConstExist(bool $expectedBool, string $constName): void
+    #[DataProvider('providerConstant')]
+    public function testIsConstExist(bool $expectedBool, string $constName, string $expected): void
     {
-        self::$logger->debug('parameters', [$expectedBool, $constName]);
+        self::$logger->debug('parameters', [$expectedBool, $constName, $expected]);
 
         $actual = $this->o2t::publicIsConstExist($this->o2t->publicGetCastO2t(), $constName);
 
@@ -127,16 +122,10 @@ class EasyGoingTestCaseTest extends TestCase
         self::assertEquals($expectedBool, $actual, sprintf("Not equals: '%s'='%s'", "$expectedBool", "$actual"));
     }
 
-    /**
-     * @param bool   $expectedBool
-     * @param string $constName
-     * @param string $expected
-     *
-     * @dataProvider providerConstant
-     */
+    #[DataProvider('providerConstant')]
     public function testGetConstValue(bool $expectedBool, string $constName, string $expected): void
     {
-        self::$logger->debug('parameters', [$expectedBool, $constName]);
+        self::$logger->debug('parameters', [$expectedBool, $constName, $expected]);
 
         $actual = $this->o2t::publicGetConstValue($this->o2t->publicGetCastO2t(), $constName);
 
@@ -199,13 +188,13 @@ class EasyGoingTestCaseTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerConstant()
+    public static function providerConstant(): array
     {
         return [
             'public'    => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PUBLIC', 'public'],
             'protected' => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PROTECTED', 'protected'],
             'private'   => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PRIVATE', 'private'],
-            'notexist'  => [false, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_NOTEXISTS', '']
+            'notexist'  => [false, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_NOTEXISTS', ''],
         ];
     }
 }

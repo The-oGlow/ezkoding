@@ -24,133 +24,135 @@ class TestData
     // Unspecific test data
 
     // Single data
-    public const DATA_NUM1 = 11;
+    public const int DATA_NUM1 = 11;
 
-    public const DATA_NUM2 = 22;
+    public const int DATA_NUM2 = 22;
 
-    public const DATA_NUM3 = 33;
+    public const int DATA_NUM3 = 33;
 
-    public const DATA_NUM4 = 44;
+    public const int DATA_NUM4 = 44;
 
-    public const DATA_NUM5 = 55;
+    public const int DATA_NUM5 = 55;
 
-    public const DATA_ALPHA1 = 'DATA-ALPHA11';
+    public const string DATA_ALPHA1 = 'DATA-ALPHA11';
 
-    public const DATA_ALPHA2 = 'DATA-ALPHA22';
+    public const string DATA_ALPHA2 = 'DATA-ALPHA22';
 
-    public const DATA_ALPHA3 = 'DATA-ALPHA33';
+    public const string DATA_ALPHA3 = 'DATA-ALPHA33';
 
-    public const DATA_ALPHA4 = 'DATA-ALPHA44';
+    public const string DATA_ALPHA4 = 'DATA-ALPHA44';
 
-    public const DATA_ALPHA5 = 'DATA-ALPHA55';
+    public const string DATA_ALPHA5 = 'DATA-ALPHA55';
 
-    public const DATA_BOOL_T = true;
+    public const bool DATA_BOOL_T = true;
 
-    public const DATA_BOOL_F = false;
+    public const bool DATA_BOOL_F = false;
 
-    /** @var null|string */
-    public const DATA_NULL = null;
+    public const ?object DATA_NULL = null;
 
-    public const DATA_EMPTY = '';
+    public const string DATA_EMPTY = '';
 
-    public const DATA_INVALID = 'INVALID';
+    public const string DATA_INVALID = 'INVALID';
 
-    public const DATA_NOTEXIST = 'NOT-EXIST';
+    public const string DATA_NOTEXIST = 'NOT-EXIST';
 
     // Misc Data
 
-    public const NOTEXIST_NAME = 'XXXName';
+    public const string NOTEXIST_NAME = 'XXXName';
 
-    public const NOTEXIST_ID = 99999;
+    public const int NOTEXIST_ID = 99999;
 
-    public const NOTEXIST_ARRAY = [self::NOTEXIST_ID => self::NOTEXIST_NAME];
+    public const array NOTEXIST_ARRAY = [self::NOTEXIST_ID => self::NOTEXIST_NAME];
 
-    public const NOTEXIST_CLAZZ = 'ollily/NotExistClazz';
+    public const string NOTEXIST_CLAZZ = 'ollily/NotExistClazz';
 
-    public const NOTEXIST_FILE = DIRECTORY_SEPARATOR . 'NotExistFile';
+    public const string NOTEXIST_FILE = DIRECTORY_SEPARATOR . 'NotExistFile';
 
     // Array Data
 
-    public const ARRAY_ITEM_SEP = ',';
+    public const string ARRAY_ITEM_SEP = ',';
 
     // Array keys
-    public const KEY_NUM1 = 1;
+    public const int KEY_NUM1 = 1;
 
-    public const KEY_NUM2 = 2;
+    public const int KEY_NUM2 = 2;
 
-    public const KEY_NUM3 = 3;
+    public const int KEY_NUM3 = 3;
 
-    public const KEY_NUM4 = 4;
+    public const int KEY_NUM4 = 4;
 
-    public const KEY_NUM5 = 5;
+    public const int KEY_NUM5 = 5;
 
-    public const KEY_ALPHA1 = 'KEY-ALPHA1';
+    public const string KEY_ALPHA1 = 'KEY-ALPHA1';
 
-    public const KEY_ALPHA2 = 'KEY-ALPHA2';
+    public const string KEY_ALPHA2 = 'KEY-ALPHA2';
 
-    public const KEY_ALPHA3 = 'KEY-ALPHA3';
+    public const string KEY_ALPHA3 = 'KEY-ALPHA3';
+
+    public const ?object KEY_NULL = null;
+
+    public const string KEY_EMPTY = '';
 
     // Arrays complete
 
-    public const ARRAY_EMPTY = [];
+    public const array ARRAY_EMPTY = [];
 
-    /** @var null|array<mixed,mixed> */
-    public const ARRAY_NULL = null;
+    public const ?array ARRAY_NULL = null;
 
     // Arrays with alphanumeric data
 
-    public const ARRAY_ALPHA1 = [self::DATA_ALPHA1];
+    public const array ARRAY_ALPHA1 = [self::DATA_ALPHA1];
 
-    public const ARRAY_ALPHA2 = [self::DATA_ALPHA1, self::DATA_ALPHA2];
+    public const array ARRAY_ALPHA2 = [self::DATA_ALPHA1, self::DATA_ALPHA2];
 
-    public const ARRAY_ALPHA3 = [self::DATA_ALPHA1, self::DATA_ALPHA2, self::DATA_ALPHA3];
+    public const array ARRAY_ALPHA3 = [self::DATA_ALPHA1, self::DATA_ALPHA2, self::DATA_ALPHA3];
 
-    public const ARRAY_ALPHA4 = [self::DATA_ALPHA1, self::DATA_ALPHA2, self::DATA_ALPHA3, self::DATA_ALPHA4];
+    public const array ARRAY_ALPHA4 = [self::DATA_ALPHA1, self::DATA_ALPHA2, self::DATA_ALPHA3, self::DATA_ALPHA4];
 
-    public const ARRAY_ALPHA5 = [self::DATA_ALPHA1, self::DATA_ALPHA2, self::DATA_ALPHA3, self::DATA_ALPHA4, self::DATA_ALPHA5];
+    public const array ARRAY_ALPHA5 = [self::DATA_ALPHA1, self::DATA_ALPHA2, self::DATA_ALPHA3, self::DATA_ALPHA4, self::DATA_ALPHA5];
 
     // Arrays with numeric data
 
-    public const ARRAY_NUM1 = [self::DATA_NUM1];
+    public const array ARRAY_NUM1 = [self::DATA_NUM1];
 
-    public const ARRAY_NUM2 = [self::DATA_NUM1, self::DATA_NUM2];
+    public const array ARRAY_NUM2 = [self::DATA_NUM1, self::DATA_NUM2];
 
-    public const ARRAY_NUM3 = [self::DATA_NUM1, self::DATA_NUM2, self::DATA_NUM3];
+    public const array ARRAY_NUM3 = [self::DATA_NUM1, self::DATA_NUM2, self::DATA_NUM3];
 
     // Arrays with bool data
 
-    public const ARRAY_BOOL1 = [self::DATA_BOOL_T];
+    public const array ARRAY_BOOL1 = [self::DATA_BOOL_T];
 
-    public const ARRAY_BOOL2 = [self::DATA_BOOL_T, self::DATA_BOOL_F];
+    public const array ARRAY_BOOL2 = [self::DATA_BOOL_T, self::DATA_BOOL_F];
 
     // Arrays with alphanumeric key
 
-    public const ARRAY_ALPHA_KEY1 = [self::KEY_ALPHA1 => self::DATA_ALPHA1];
+    public const array ARRAY_ALPHA_KEY1 = [self::KEY_ALPHA1 => self::DATA_ALPHA1];
 
-    public const ARRAY_ALPHA_KEY2 = [
-        self::KEY_ALPHA1 => self::DATA_ALPHA1,
-        self::KEY_ALPHA2 => self::DATA_ALPHA2
-    ];
-
-    public const ARRAY_ALPHA_KEY3 = [
+    public const array ARRAY_ALPHA_KEY2 = [
         self::KEY_ALPHA1 => self::DATA_ALPHA1,
         self::KEY_ALPHA2 => self::DATA_ALPHA2,
-        self::KEY_ALPHA3 => self::DATA_ALPHA3
+    ];
+
+    public const array ARRAY_ALPHA_KEY3 = [
+        self::KEY_ALPHA1 => self::DATA_ALPHA1,
+        self::KEY_ALPHA2 => self::DATA_ALPHA2,
+        self::KEY_ALPHA3 => self::DATA_ALPHA3,
     ];
 
     // Arrays with exlicit numeric key
 
-    public const ARRAY_NUM_KEY1 = [self::KEY_NUM1 => self::DATA_NUM1];
+    public const array ARRAY_NUM_KEY1 = [self::KEY_NUM1 => self::DATA_NUM1];
 
-    public const ARRAY_NUM_KEY2 = [
-        self::KEY_NUM1 => self::DATA_NUM1,
-        self::KEY_NUM2 => self::DATA_NUM2
-    ];
-
-    public const ARRAY_NUM_KEY3 = [
+    public const array ARRAY_NUM_KEY2 = [
         self::KEY_NUM1 => self::DATA_NUM1,
         self::KEY_NUM2 => self::DATA_NUM2,
-        self::KEY_NUM3 => self::DATA_NUM3
+    ];
+
+    public const array ARRAY_NUM_KEY3 = [
+        self::KEY_NUM1 => self::DATA_NUM1,
+        self::KEY_NUM2 => self::DATA_NUM2,
+        self::KEY_NUM3 => self::DATA_NUM3,
     ];
 
     // Arrays with object data
@@ -158,62 +160,59 @@ class TestData
     /**
      * @see self::C_ARRAY_OBJECT1()
      *
-     * @var array<mixed>
+     * @var array<mixed, mixed>
      */
-    private static $ARRAY_OBJECT1 = []; // NOSONAR: php:S100
+    private static array $ARRAY_OBJECT1 = []; // NOSONAR: php:S100
 
     /**
      * @see self::C_ARRAY_OBJECT2()
      *
-     * @var array<mixed>
+     * @var array<mixed, mixed>
      */
-    private static $ARRAY_OBJECT2 = []; // NOSONAR: php:S100
+    private static array $ARRAY_OBJECT2 = []; // NOSONAR: php:S100
 
     /**
      * @see self::C_ARRAY_OBJECT3()
      *
-     * @var array<mixed>
+     * @var array<mixed, mixed>
      */
-    private static $ARRAY_OBJECT3 = []; // NOSONAR: php:S100
+    private static array $ARRAY_OBJECT3 = []; // NOSONAR: php:S100
 
     // Filesystem Data
 
     // Foldernames
 
-    /** @var null|string */
-    public const FILE_FOLDERNAME_NULL = null;
+    public const ?object FILE_FOLDERNAME_NULL = null;
 
-    public const FILE_FOLDERNAME_EMPTY = '';
+    public const string FILE_FOLDERNAME_EMPTY = '';
 
-    public const FILE_FOLDERNAME = 'FOLDER-EXIST';
+    public const string FILE_FOLDERNAME = 'FOLDER-EXIST';
 
     // Filenames
 
-    /** @var null|string */
-    public const FILE_FILENAME_NULL = null;
+    public const ?object FILE_FILENAME_NULL = null;
 
-    public const FILE_FILENAME_EMPTY = '';
+    public const string FILE_FILENAME_EMPTY = '';
 
-    public const FILE_FILENAME = 'FILE-EXIST';
+    public const string FILE_FILENAME = 'FILE-EXIST';
 
-    public const FILE_FILENAME_PREFIX = 'teda-';
+    public const string FILE_FILENAME_PREFIX = 'teda-';
 
     // File Extensions
 
-    /** @var null|string */
-    public const FILE_EXT_NULL = null;
+    public const ?object FILE_EXT_NULL = null;
 
-    public const FILE_EXT_EMPTY = '';
+    public const string FILE_EXT_EMPTY = '';
 
-    public const FILE_EXT_NAME = 'EXT-EXIST';
+    public const string FILE_EXT_NAME = 'EXT-EXIST';
 
-    public const FILE_EXT_PHP = '.php';
+    public const string FILE_EXT_PHP = '.php';
 
-    public const FILE_EXT_TXT = '.txt';
+    public const string FILE_EXT_TXT = '.txt';
 
-    public const FILE_EXT_JSON = '.json';
+    public const string FILE_EXT_JSON = '.json';
 
-    public const FILE_EXT_CSV = '.csv';
+    public const string FILE_EXT_CSV = '.csv';
 
     // Static functions
 
@@ -225,7 +224,7 @@ class TestData
     }
 
     /**
-     * @return array<mixed>
+     * @return array<mixed, mixed>
      */
     public static function ARRAY_OBJECT1(): array // NOSONAR: php:S100
     {
@@ -237,7 +236,7 @@ class TestData
     }
 
     /**
-     * @return array<mixed>
+     * @return array<mixed, mixed>
      */
     public static function ARRAY_OBJECT2(): array // NOSONAR: php:S100
     {
@@ -252,7 +251,7 @@ class TestData
     }
 
     /**
-     * @return array<mixed>
+     * @return array<mixed, mixed>
      */
     public static function ARRAY_OBJECT3(): array // NOSONAR: php:S100
     {
@@ -283,16 +282,21 @@ class TestData
      */
     public static function prepareTempFile(string $prefix = self::FILE_FILENAME_PREFIX): string
     {
-        return tempnam(sys_get_temp_dir(), $prefix);
+        $tmpFile = tempnam(sys_get_temp_dir(), $prefix);
+        if ($tmpFile == false) {
+            $tmpFile = '';
+        }
+
+        return $tmpFile;
     }
 
     /**
-     * @param string $fileName Full filename for a temporary file
+     * @param null|string $fileName Full filename for a temporary file
      */
-    public static function cleanupTempFile(string $fileName): void
+    public static function cleanupTempFile(?string $fileName): void
     {
         try {
-            if (!empty($fileName) && file_exists($fileName)) {
+            if (!is_null($fileName) && !empty($fileName) && file_exists($fileName)) {
                 unlink($fileName);
             }
         } catch (\Throwable $ex) {

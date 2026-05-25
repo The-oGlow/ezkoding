@@ -20,13 +20,12 @@ use Psr\Log\LoggerInterface;
 class BatchTaskHelper
 {
     /** Default key for a tasklist. */
-    public const DEFAULT = 'DEFAULT';
+    public const string DEFAULT = 'DEFAULT';
 
-    /** @var \Ds\Map<mixed,TaskList> */
-    private static $tasklists;
+    /** @var Map<mixed,TaskList> */
+    private static ?Map $tasklists = null;
 
-    /** @var LoggerInterface */
-    private static $logger;
+    private static ?LoggerInterface $logger = null;
 
     private function __construct()
     {
@@ -35,65 +34,72 @@ class BatchTaskHelper
 
     public static function init(): void
     {
-        /**
-         * @psalm-suppress DocblockTypeContradiction
-         * @phpstan-ignore function.impossibleType
-         */
         if (is_null(self::$logger)) {
             self::$logger = EasyGoingLogger::init(BatchTaskHelper::class);
         }
-        /**
-         * @psalm-suppress DocblockTypeContradiction
-         * @phpstan-ignore function.impossibleType
-         */
         if (is_null(self::$tasklists)) {
             self::$tasklists = new Map();
         }
     }
 
     /**
-     * @param null|string $listKey
+     * @return LoggerInterface
      *
-     * @return TaskList
+     * @psalm-suppress InvalidNullableReturnType
      */
-    public static function getTaskList(?string $listKey): TaskList
+    private static function logger(): LoggerInterface
     {
-        self::init();
-
-        self::$logger->debug('START - listKey', [$listKey]);
-
-        $listKey = $listKey ?? self::DEFAULT;
-        if (!self::$tasklists->hasKey($listKey)) {
-            self::$tasklists->put($listKey, new TaskList($listKey));
-        }
-
-        self::$logger->debug('END');
-
-        return self::$tasklists->get($listKey);
+        /**
+         * @psalm-suppress NullableReturnStatement
+         * @phpstan-ignore return.type
+         */
+        return self::$logger;
     }
 
     /**
-     * @param string      $fileName
-     * @param null|string $listKey
+     * @return Map<mixed,TaskList>
      *
-     * @return TaskList
+     * @psalm-suppress InvalidNullableReturnType
      */
-    public static function readTaskList(string $fileName, ?string $listKey)
+    private static function taskLists(): Map
+    {
+        /**
+         * @psalm-suppress NullableReturnStatement
+         * @phpstan-ignore return.type
+         */
+        return self::$tasklists;
+    }
+
+    public static function getTaskList(string $listKey = self::DEFAULT): TaskList
     {
         self::init();
+        self::logger()->debug('START - listKey', [$listKey]);
 
-        self::$logger->debug('START - listKey,fileName', [$listKey, $fileName]);
+        $listKey = empty($listKey) ? self::DEFAULT : $listKey;
+        if (!self::taskLists()->hasKey($listKey)) {
+            self::taskLists()->put($listKey, new TaskList($listKey));
+        }
 
-        $listKey = $listKey ?? self::DEFAULT;
+        self::logger()->debug('END');
+
+        return self::taskLists()->get($listKey);
+    }
+
+    public static function readTaskList(string $fileName, string $listKey = self::DEFAULT): TaskList
+    {
+        self::init();
+        self::logger()->debug('START - listKey,fileName', [$listKey, $fileName]);
+
+        $listKey = empty($listKey) ? self::DEFAULT : $listKey;
         if (file_exists($fileName)) {
             $taskList = self::getTaskList($listKey);
             $taskList->readFile($fileName);
         } else {
-            self::$logger->warning('File does not exists!', [$fileName]);
+            self::logger()->warning('File does not exists!', [$fileName]);
             $taskList = self::getTaskList($listKey);
         }
 
-        self::$logger->debug('END');
+        self::logger()->debug('END');
 
         return $taskList;
     }

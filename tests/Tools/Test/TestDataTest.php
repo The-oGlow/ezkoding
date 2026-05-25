@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Test;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,16 +22,10 @@ use PHPUnit\Framework\TestCase;
  */
 class TestDataTest extends TestCase
 {
-    /** @var string */
-    private static $fileName;
+    private static string $fileName;
 
-    /**
-     * @param int   $expectedCount
-     * @param mixed $actual
-     *
-     * @dataProvider providerData()
-     */
-    public function testData(int $expectedCount, $actual): void
+    #[DataProvider('providerData')]
+    public function testData(int $expectedCount, mixed $actual): void
     {
         if (is_array($actual)) {
             self::assertCount($expectedCount, $actual);
@@ -41,7 +37,7 @@ class TestDataTest extends TestCase
     /**
      * @return array<mixed,mixed>
      */
-    public function providerData(): array
+    public static function providerData(): array
     {
         return [
             'oneD' => [1, TestData::DATA_OBJECT1()],
@@ -53,7 +49,7 @@ class TestDataTest extends TestCase
 
     public function testConstantsKey(): void
     {
-        $expectedCount = 14;
+        $expectedCount = 16;
 
         $this->verifyResult($expectedCount, 'key');
     }
@@ -83,7 +79,7 @@ class TestDataTest extends TestCase
          * @psalm-param mixed $value
          * @psalm-param mixed $key
          */
-        function ($value, $key) use ($pivot): bool {
+        function (mixed $value, mixed $key) use ($pivot): bool {
             if (is_array($key)) {
                 return false;
             } else {
@@ -103,6 +99,7 @@ class TestDataTest extends TestCase
         self::assertFileExists(self::$fileName);
     }
 
+    #[Depends('testPrepareTempFile')]
     public function testCleanupTempFile(): void
     {
         TestData::cleanupTempFile(self::$fileName);

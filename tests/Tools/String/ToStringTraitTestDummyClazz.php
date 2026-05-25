@@ -18,18 +18,13 @@ namespace ollily\Tools\String;
  *
  * @see ToStringTraitTest
  */
-
 class ToStringTraitTestDummyClazz
 {
     use ToStringTrait;
 
-    /** @var mixed */
-    public $greeting = 'hello';
+    public mixed $greeting = 'hello';
 
-    /**
-     * @param mixed $greeting
-     */
-    public function __construct($greeting = null)
+    public function __construct(mixed $greeting = null)
     {
         if (!is_null($greeting)) {
             $this->greeting = $greeting;
@@ -37,12 +32,11 @@ class ToStringTraitTestDummyClazz
     }
 
     /**
-     * @return mixed
-     *
      * @SuppressWarnings("PHPMD.CamelCaseMethodName")
      */
-    protected function __toStringValues()
+    #[\Override]
+    protected function __toStringValues(): mixed
     {
-        return $this->greeting;
+        return $this;
     }
 }

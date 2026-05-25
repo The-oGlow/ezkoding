@@ -19,48 +19,44 @@ use Psr\Log\LoggerInterface;
 abstract class EasyGoingTestCase extends TestCase
 {
     /** var string Separator for static access */
-    public const    C_STATIC_SEP = '::';
+    public const string    C_STATIC_SEP = '::';
 
     /** @var string All primitive datatypes */
-    protected const C_PRIMITIVES = 'int|integer|bool|boolean|float';
+    protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float';
 
-    /** @var LoggerInterface */
-    private static $logger;
+    private static LoggerInterface $logger;
 
     /** @var mixed The object which will be tested. */
-    protected $o2t;
+    protected mixed $o2t;
 
     /**
-     * @return mixed
+     * @return mixed new created instance
      */
-    abstract protected static function prepareO2t();
+    abstract protected static function prepareO2t(): mixed;
 
     /**
-     * @return mixed
+     * @return mixed current instance
      */
-    abstract protected function getCasto2t();
+    abstract protected function getCasto2t(): mixed;
 
-    /**
-     * @param mixed   $name
-     * @param mixed[] $data
-     * @param string  $dataName
-     */
-    public function __construct($name = null, $data = [], $dataName = '')
+    #[\Override]
+    public static function setUpBeforeClass(): void
     {
         self::$logger = EasyGoingLogger::init(EasyGoingTestCase::class);
         self::$logger->debug('START');
 
-        parent::__construct($name, $data, $dataName);
-
-        $testInfo = [$this->get_called_function(), self::get_called_clazz()];
-        self::$logger->debug('calledFunction,calledClazz', $testInfo);
+        parent::setUpBeforeClass();
 
         self::$logger->debug('END');
     }
 
+    #[\Override]
     public function setUp(): void
     {
         self::$logger->debug('START');
+
+        $testInfo = [$this->get_called_function(), self::get_called_clazz()];
+        self::$logger->debug('calledFunction,calledClazz', $testInfo);
 
         parent::setUp();
         $this->o2t = static::prepareO2t();
@@ -88,12 +84,7 @@ abstract class EasyGoingTestCase extends TestCase
         return $calledClazz;
     }
 
-    /**
-     * @param mixed $var
-     *
-     * @return bool
-     */
-    protected static function isPrimitive($var): bool
+    protected static function isPrimitive(mixed $var): bool
     {
         $primitive = false;
 
@@ -105,24 +96,18 @@ abstract class EasyGoingTestCase extends TestCase
     }
 
     /**
-     * @param mixed $clazz
+     * @param mixed $clazzName
      *
-     * @return mixed[]
+     * @return array<mixed,mixed>
      */
-    protected static function getAllDefinedConsts($clazz): array
+    protected static function getAllDefinedConsts(mixed $clazzName): array
     {
-        $clazz = new \ReflectionClass($clazz);
+        $instance = new \ReflectionClass($clazzName);
 
-        return $clazz->getConstants(); // NOSONAR php:S3011
+        return $instance->getConstants(); // NOSONAR php:S3011
     }
 
-    /**
-     * @param mixed  $clazz
-     * @param string $constantName
-     *
-     * @return bool
-     */
-    protected static function isConstExist($clazz, string $constantName): bool
+    protected static function isConstExist(mixed $clazz, string $constantName): bool
     {
         self::$logger->debug('START');
 
@@ -160,13 +145,7 @@ abstract class EasyGoingTestCase extends TestCase
 
     // Misc functions
 
-    /**
-     * @param mixed  $clazz
-     * @param string $constantName
-     *
-     * @return mixed
-     */
-    protected static function getConstValue($clazz, string $constantName)
+    protected static function getConstValue(mixed $clazz, string $constantName): mixed
     {
         self::$logger->debug('START');
 
@@ -188,11 +167,6 @@ abstract class EasyGoingTestCase extends TestCase
         return $constantValue;
     }
 
-    /**
-     * @param string $constantName
-     *
-     * @SuppressWarnings("PHPMD.ElseExpression")
-     */
     protected function verifyConstExists(string $constantName): void
     {
         self::$logger->debug('START');

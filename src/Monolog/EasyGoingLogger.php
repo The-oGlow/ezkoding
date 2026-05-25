@@ -20,11 +20,11 @@ use Psr\Log\LogLevel;
 
 class EasyGoingLogger
 {
-    private const LOGGER_DEFAULT = 'Monolog\Logger';
+    private const string LOGGER_DEFAULT = 'Monolog\Logger';
 
-    private const LOGGER_CONSOLE = 'Monolog\ConsoleLogger';
+    private const string LOGGER_CONSOLE = 'Monolog\ConsoleLogger';
 
-    private const LOGGER_NULL    = 'Psr\Log\NullLogger';
+    private const string LOGGER_NULL    = 'Psr\Log\NullLogger';
 
     private function __construct()
     {
@@ -32,19 +32,17 @@ class EasyGoingLogger
     }
 
     /**
-     * @param string              $name
-     * @param string              $level
-     * @param array <mixed,mixed> $handlers
-     * @param array <mixed,mixed> $processors
-     * @param null|DateTimeZone   $timezone
-     *
-     * @return LoggerInterface
+     * @param string             $name
+     * @param string             $level
+     * @param array<mixed,mixed> $handlers
+     * @param array<mixed,mixed> $processors
+     * @param ?DateTimeZone      $timezone
      *
      * @psalm-suppress InvalidNullableReturnType
      */
     public static function init(
         string $name,
-        $level = LogLevel::INFO,
+        string $level = LogLevel::INFO,
         array $handlers = [],
         array $processors = [],
         ?DateTimeZone $timezone = null

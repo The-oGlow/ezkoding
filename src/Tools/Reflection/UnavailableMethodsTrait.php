@@ -23,10 +23,8 @@ trait UnavailableMethodsTrait
      * @param mixed  $clazzName
      * @param string $methodName
      * @param mixed  $instance
-     *
-     * @return null|mixed
      */
-    protected function callMethodByReflection($clazzName, string $methodName, $instance)
+    protected function callMethodByReflection(mixed $clazzName, string $methodName, mixed $instance): mixed
     {
         $result = null;
         if (!empty($clazzName)) {
@@ -43,15 +41,13 @@ trait UnavailableMethodsTrait
      * Calls a hidden method on an object which shall be tested (o2t).
      *
      * @param string $methodName
-     *
-     * @return null|mixed
      */
-    protected function callMethodOnO2t(string $methodName)
+    protected function callMethodOnO2t(string $methodName): mixed
     {
         $result = null;
 
         /**
-         * @psalm-suppress RedundantPropertyInitializationCheck
+         * @psalm-suppress RedundantPropertyInitializationCheck,UndefinedThisPropertyFetch
          * @phpstan-ignore isset.property,property.notFound
          */
         if (isset($this->o2t)) {

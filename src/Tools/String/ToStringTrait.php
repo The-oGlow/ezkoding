@@ -18,16 +18,11 @@ trait ToStringTrait
     use ImplodeTrait;
 
     /**
-     * @return mixed
-     *
      * @SuppressWarnings("PHPMD.CamelCaseMethodName")
      */
-    abstract protected function __toStringValues();  // NOSONAR: php:S100
+    abstract protected function __toStringValues(): mixed;  // NOSONAR: php:S100
 
-    /**
-     * @inheritdoc
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $value = $this->__toStringValues();
         if (is_string($value)) {
@@ -40,7 +35,7 @@ trait ToStringTrait
                     $value[$arrayKey] = get_class($value[$arrayKey]);
                 }
             }
-            $toString = sprintf('%s:[%s]', get_class($this), $this->implode_recursive(',', $value));
+            $toString = sprintf('%s:[%s]', get_class($this), self::implode_recursive(',', $value));
         } elseif (is_object($value)) {
             if ($this == $value) {
                 $toString = sprintf('{%s}', print_r($value, true));
@@ -54,10 +49,7 @@ trait ToStringTrait
         return $toString;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function __wakeup()
+    public function __wakeup(): void
     {
         throw new \BadMethodCallException("Cannot unserialize singleton");
     }

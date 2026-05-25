@@ -23,12 +23,12 @@ use PHPUnit\Framework\TestCase;
  */
 class UnavailableMethodsTraitTest extends TestCase
 {
-    /** @var UnavailableMethodsTraitTestO2tClazz */
-    protected $o2t;
+    protected UnavailableMethodsTraitTestO2tClazz $o2t;
 
-    /** @var string[] */
-    private $methodNames = ['publicFunc', 'protectedFunc', 'privateFunc'];
+    /** @var array<string> */
+    private array $methodNames = ['publicFunc', 'protectedFunc', 'privateFunc'];
 
+    #[\Override]
     public function setUp(): void
     {
         parent::setUp();
@@ -51,7 +51,6 @@ class UnavailableMethodsTraitTest extends TestCase
 
     public function testCallMethodOnO2tReturnNull(): void
     {
-        /** @var UnavailableMethodsTraitTestWrongO2tClazz $o2tb */
         $o2tb = new UnavailableMethodsTraitTestWrongO2tClazz();
         foreach ($this->methodNames as $methodName) {
             self::assertNull($o2tb->publicCallMethodOnO2t($methodName));

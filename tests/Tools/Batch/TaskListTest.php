@@ -14,59 +14,49 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use ollily\Tools\Test\TestData;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\EasyGoingTestCase;
 
 class TaskListTest extends EasyGoingTestCase
 {
-    /** @var string */
-    public const KEY = TestData::KEY_ALPHA1;
+    public const string KEY = TestData::KEY_ALPHA1;
 
-    /** @var string */
-    public const DATA = TestData::DATA_ALPHA1;
+    public const string DATA = TestData::DATA_ALPHA1;
 
-    /** @var string */
-    protected static $emptyFileName = TestData::FILE_FILENAME_EMPTY;
+    private string $writeTaskListFile = '';
 
-    /** @var string */
-    protected static $existingFile;
-
-    /** @var string */
-    protected static $emptyFile;
-
-    /** @var string */
-    private $writeTaskListFile = '';
-
+    #[\Override]
     protected function tearDown(): void
     {
         TestData::cleanupTempFile($this->writeTaskListFile);
     }
 
     /**
-     * @param mixed              $name
-     * @param array<mixed,mixed> $data
-     * @param string             $dataName
+     * @return array<mixed,mixed>
      */
-    public function __construct($name = null, $data = [], $dataName = '')
+    public static function prepareFiles(): array
     {
-        parent::__construct($name, $data, $dataName);
         $reflector = new \ReflectionClass(self::class);
-        $path = '' . realpath('' . $reflector->getFileName());
-        self::$existingFile = str_replace(TestData::FILE_EXT_PHP, TestData::FILE_EXT_CSV, $path);
-        self::$emptyFile = str_replace(TestData::FILE_EXT_PHP, 'Empty' . TestData::FILE_EXT_CSV, $path);
+        $path = realpath('' . $reflector->getFileName());
+        if ($path !== false) {
+            $emptyFile = str_replace(TestData::FILE_EXT_PHP, 'Empty' . TestData::FILE_EXT_CSV, $path);
+            $existingFile = str_replace(TestData::FILE_EXT_PHP, TestData::FILE_EXT_CSV, $path);
+        } else {
+            $emptyFile = '';
+            $existingFile = '';
+        }
+
+        return [TestData::FILE_FILENAME_EMPTY,$emptyFile, $existingFile];
     }
 
-    /**
-     * @return TaskList
-     */
-    protected static function prepareO2t()
+    #[\Override]
+    protected static function prepareO2t(): TaskList
     {
         return new TaskList(self::KEY);
     }
 
-    /**
-     * @return TaskList
-     */
-    protected function getCasto2t()
+    #[\Override]
+    protected function getCasto2t(): TaskList
     {
         return $this->o2t;
     }
@@ -128,12 +118,7 @@ class TaskListTest extends EasyGoingTestCase
         self::assertNull($item);
     }
 
-    /**
-     * @param bool   $expected
-     * @param string $fileName
-     *
-     * @dataProvider providerTaskListFile
-     */
+    #[DataProvider('providerTaskListFile')]
     public function testReadFileFile(bool $expected, int $expectedCount, string $fileName): void
     {
         $this->o2t = new TaskList(self::class);
@@ -164,12 +149,12 @@ class TaskListTest extends EasyGoingTestCase
     /**
      * @return array<string,mixed>
      */
-    public function providerTaskListFile(): array
+    public static function providerTaskListFile(): array
     {
         return [
-            'emptyFileName' => [false, 0,self::$emptyFileName],
-            'emptyFile' => [true, 0,self::$emptyFile],
-            'existingFile' => [true, 3, self::$existingFile],
+            'emptyFileName' => [false, 0, self::prepareFiles()[0]],
+            'emptyFile' => [true, 0, self::prepareFiles()[1]],
+            'existingFile' => [true, 3, self::prepareFiles()[2]],
         ];
     }
 
@@ -181,7 +166,7 @@ class TaskListTest extends EasyGoingTestCase
      *
      * @return array<ITaskItem>
      */
-    protected function prepareTaskItem($taskListKey, int $count): array
+    protected function prepareTaskItem(mixed $taskListKey, int $count): array
     {
         $items = [];
 

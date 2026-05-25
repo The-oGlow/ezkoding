@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-final class ChildClazzesHelper
+class ChildClazzesHelper
 {
     private function __construct()
     {
@@ -27,7 +27,7 @@ final class ChildClazzesHelper
      *
      * @return string[]
      */
-    public static function getAllChildren($clazzName): array
+    public static function getAllChildren(mixed $clazzName): array
     {
         $children = [];
         foreach (get_declared_classes() as $currentClazz) {
