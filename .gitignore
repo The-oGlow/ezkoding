@@ -178,6 +178,8 @@ vendor/
 ### PHP Mess Detector
 .phpmd.result-cache.php
 
+### PHP Documentor
+.phpdoc/
 
 ### Custom
 target/

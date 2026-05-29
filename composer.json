@@ -37,11 +37,10 @@
     "composer/composer": "^2.0"
   },
   "provide": {
-    "psr/log-implementation": "^1.0||^2.0||^3.0"
+    "psr/log-implementation": "^1.0||^2.0||^3.0",
+    "monolog/monolog": "^2.10"
   },
   "suggest": {
-    "bamarni/composer-bin-plugin": "Having compatible versions",
-    "hrodic/php-integration-testing": "Integration Testing with PHPUnit"
   },
   "require-dev": {
     "phpunit/phpunit": "^13.1",
@@ -62,8 +61,7 @@
     "sort-packages": true,
     "allow-plugins": {
       "phpstan/extension-installer": true,
-      "php-http/discovery": true,
-      "bamarni/composer-bin-plugin": true
+      "php-http/discovery": true
     }
   },
   "autoload": {
