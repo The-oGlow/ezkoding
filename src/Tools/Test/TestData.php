@@ -283,7 +283,7 @@ class TestData
     public static function prepareTempFile(string $prefix = self::FILE_FILENAME_PREFIX): string
     {
         $tmpFile = tempnam(sys_get_temp_dir(), $prefix);
-        if ($tmpFile == false) {
+        if ($tmpFile === false) {
             $tmpFile = '';
         }
 

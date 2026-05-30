@@ -34,8 +34,11 @@ class TestDataFoo
         $this->fooValue = $fooValue;
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.CamelCaseMethodName")
+     */
     #[\Override]
-    protected function __toStringValues(): mixed
+    protected function __toStringValues(): mixed // NOSONAR: php:S100
     {
         return $this->fooValue;
     }

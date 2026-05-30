@@ -32,4 +32,4 @@
         <junit outputFile="target/analysis/phpunit/junit.xml"/>
     </logging>
 
-    </phpunit>
+</phpunit>

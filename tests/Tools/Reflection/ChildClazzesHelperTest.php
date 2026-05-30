@@ -32,7 +32,7 @@ class ChildClazzesHelperTest extends TestCase
             self::assertThat(count($actual), self::greaterThanOrEqual($expected));
         }
         self::assertNotContains($clazzName, $actual);
-        if (count($childClazzes) > 0) {
+        if (!empty($childClazzes)) {
             foreach ($childClazzes as $childClazz) {
                 self::assertContains($childClazz, $actual);
             }

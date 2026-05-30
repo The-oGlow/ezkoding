@@ -80,14 +80,15 @@ class TestDataTest extends TestCase
          * @psalm-param mixed $key
          */
         function (mixed $value, mixed $key) use ($pivot): bool {
-            if (is_array($key)) {
-                return false;
-            } else {
-                return str_contains(strtolower($key), $pivot);
+            $result = false;
+            if (!is_array($key)) {
+                $result = str_contains(strtolower($key), $pivot);
             }
+
+            return $result;
         };
 
-        $actual = array_filter($refClazz->getConstants(), $callback, 1);
+        $actual = array_filter($refClazz->getConstants(), $callback, 1);  // NOSONAR: php:S3011
 
         self::assertCount($expectedCount, $actual);
     }

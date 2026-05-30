@@ -38,7 +38,7 @@ class TaskItem implements ITaskItem
      */
     public function __construct(mixed $key, array $data)
     {
-        $this->key  = $key;
+        $this->key = $key;
         $this->data = $data;
     }
 
@@ -54,6 +54,9 @@ class TaskItem implements ITaskItem
         return $this->data;
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.CamelCaseMethodName")
+     */
     #[\Override]
     protected function __toStringValues(): mixed // NOSONAR: php:S100
     {

@@ -79,17 +79,7 @@ class TaskListTest extends EasyGoingTestCase
         self::assertEquals($expected, $actual);
     }
 
-    public function testAddTask(): void
-    {
-        $expected = $this->randomItems();
-
-        foreach ($this->prepareTaskItem($this->getCasto2t()->getListKey(), $expected) as $taskItem) {
-            $this->getCasto2t()->addTask($taskItem);
-        }
-        self::assertEquals($expected, $this->getCasto2t()->count());
-    }
-
-    public function testCount(): void
+    public function testAddTaskAndCount(): void
     {
         $expected = $this->randomItems();
 
