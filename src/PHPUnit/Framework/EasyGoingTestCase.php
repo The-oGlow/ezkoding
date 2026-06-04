@@ -18,15 +18,15 @@ use Psr\Log\LoggerInterface;
 
 abstract class EasyGoingTestCase extends TestCase
 {
-    /** var string Separator for static access */
+    /** Separator for static access */
     public const string    C_STATIC_SEP = '::';
 
-    /** @var string All primitive datatypes */
+    /** All primitive datatypes */
     protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float';
 
     private static LoggerInterface $logger;
 
-    /** @var mixed The object which will be tested. */
+    /** The object which will be tested. */
     protected mixed $o2t;
 
     /**
