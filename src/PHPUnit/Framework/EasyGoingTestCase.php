@@ -104,7 +104,7 @@ abstract class EasyGoingTestCase extends TestCase
     {
         $instance = new \ReflectionClass($clazzName);
 
-        return $instance->getConstants(); // NOSONAR php:S3011
+        return $instance->getConstants(); // NOSONAR: php:S3011
     }
 
     protected static function isConstExist(mixed $clazz, string $constantName): bool
@@ -158,7 +158,7 @@ abstract class EasyGoingTestCase extends TestCase
         if (!isset($constantValue)) {
             $reflectionClazz = new \ReflectionClass($clazz);
             $splitClazz      = explode(self::C_STATIC_SEP, $constantName);
-            $constantValue   = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR php:S3011
+            $constantValue   = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR: php:S3011
             self::$logger->debug('Recieved by reflection', [$constantName]);
         }
 

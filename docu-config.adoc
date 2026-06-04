@@ -363,91 +363,74 @@ endif::[]
 
 :source-highlighter: highlight.js
 
-= {pj_gh_repo}
-:toc: preamble
+= {pj_gh_repo} - Configuration
+:toc:
 :toclevels: 2
 
-{pj_ps_license_img}
-{pj_ps_release_img}
-{pj_ps_langtop_img}
-{pj_ps_langcount_img}
-{pj_ps_issues_img}
+== Requirements
 
-{cm_shlds_tool_phpunit_img}
-{cm_shlds_tool_sonarcloud_img}
-{cm_shlds_tool_cdcy_img}
-{cm_shlds_tool_cvrlls_img}
-
-image:{cm_shlds_tool_phpcsfixer_url}[title="PHP CS Fixer Ruleset"]
-image:{cm_shlds_tool_phpstan_url}[title="PHPStan Level"]
-image:{cm_shlds_tool_psalm_url}[title="Psalm Level"]
-image:{cm_shlds_tool_phpcs_url}[title="PHP CodeSniffer Ruleset""]
-image:{cm_shlds_tool_phpmd_url}[title="PHP Mess Detector Ruleset"]
-
-== Description
-
-Simplify the usage of
-
-* Logging with Monolog
-* Testing with PHPUnit
-* Reflection with PHP
-* Developer shortkeys for composer
+* link:https://www.php.net[PHP]
+* link:https://getcomposer.org/[Composer]
+* Commandline / Shell (opt.)
+** Linux / Unix Shell or
+** Windows Shell
 
 == Configuration
 
-Please read the link:docu-config.adoc[configuration].
+=== Unix / Linux
 
-== Usage
+There is nothing to configure. You can use this library ootb.
 
-There are several classes which can be used for your development.
+=== Windows
 
-=== PHPUnit
+There is nothing to configure. You can use this library ootb.
 
-* link:src/PHPUnit/Framework/EasyGoingTestCase.php[EasyGoingTestCase] - All you need is already prepared, so concentrate on unit tests
-* link:src/PHPUnit/Framework/ConstantCheckTestCase.php[ConstantCheckTestCase] - Additionally there is a check, if all constants are correct defined
+== Development
 
-=== Tasklist
+Some infos, in case you want to fork and extend this library,
 
-* link:src/Tools/Batch/BatchTaskHelper.php[BatchTaskHelper] - Utility class for working the tasklist
-* link:src/Tools/Batch/TaskItem.php[TaskItem] - A single task
-* link:src/Tools/Batch/TaskList.php[TaskList] - A complete tasklist (queue)
+=== Build & Test
 
-=== Reflection
+Start the whole build (run composer with c-fix, c-phpstan, c-psalm, c-test)
 
-* link:src/Tools/Reflection/ChildClazzesHelper.php[ChildClazzesHelper] - Utility clazz for working with children classes
-* link:src/Tools/Reflection/UnavailableFieldsTrait.php[UnavailableFieldsTrait] - Get value from unaccessable class fields (aka properties)
-* link:src/Tools/Reflection/UnavailableMethodsTrait.php[UnavailableMethodsTrait] - Call unaccessable class methods
+    composer c-all
 
-=== String
+=== UNIT Tests
 
-* link:src/Tools/String/ImplodeTrait.php[ImplodeTrait] - Implode multidimensional arrays to a flat array or string
-* link:src/Tools/String/ToStringTrait.php[ToStringTrait] - Provides a standard implementation for function '__toString()'
+Starting the unit tests with PHPUnit
 
-=== Tools
+    composer c-test
 
-* link:src/Tools/EnvironmentVariableTrait.php[EnvironmentVariableTrait] - Provides access to environment settings
-* link:src/Tools/PhpVersionTrait.php[PhpVersionTrait] - Handles the check for PHP versions
-* link:src/Tools/Emergency.php[StopNow] - Stops a process immediatly, thx to  K.I.T.T.
+or
 
-== Examples
+    composer c-test tests/Monolog/ConsoleLoggerTest.php
 
-Please read some link:docu-examples.adoc[examples].
+=== Structure
 
-== Project Status
+Relevant files and folders
 
-Please read the link:docu-analysis.adoc[project status].
-
-== Additional Information
-
-* link:docu-commands.adoc[Composer Commands] - New commands for composer
-
-== Notice
-
-link:{pj_snr_dash_url}[image:{cm_snr_tool_sonarcloud_url}[title="Sonarcloud Logo"]]
-
-== Reference
-* link:https://phpunit.de/[PHPUnit]
-* link:https://www.php.net/manual/en/book.reflection.php[Reflection with PHP]
-* link:https://getcomposer.org/[Composer]
+    <project-root>
+    |--src
+    |  |-- PHPUnit
+    |  |-- Tools
+    |
+    |--tests
+    |  |-- PHPUnit
+    |  |-- Tools
+    |
+    |--vendor
+    |  |- *
+    |
+    |-.php-cs-fixer.dist.php
+	|-.phpcs.xml.dist
+	|-.phpmd.xml.dist
+    |-composer.json
+    |-composer.lock
+    |-LICENSE
+    |-phpstan.neon.dist
+    |-phpunit.xml.dist
+    |-psalm.xml.dist
+    |-README.md
+    |-sonar-project.properties
 
 _{pj_cright_author}_

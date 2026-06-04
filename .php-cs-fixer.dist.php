@@ -154,10 +154,10 @@ $projRules = [
     'phpdoc_var_without_name' => true,
     // Risky
     /*
-    '@PHP8x2Migration:risky' => true,
-    'phpdoc_to_param_type' =>true,
-    'phpdoc_to_property_type' =>true,
-    'phpdoc_to_return_type' => true,
+      '@PHP8x2Migration:risky' => true,
+      'phpdoc_to_param_type' =>true,
+      'phpdoc_to_property_type' =>true,
+      'phpdoc_to_return_type' => true,
      */
     // Header
     'header_comment' => ['header' => $headerText]

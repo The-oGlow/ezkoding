@@ -27,5 +27,5 @@ class UnavailableFieldsTraitDummyClazz
 
     protected string $protectedField = 'protectedFieldValue';
 
-    private string $privateField = 'privateFieldValue';
+    private string $privateField = 'privateFieldValue'; // NOSONAR: php:S1068
 }

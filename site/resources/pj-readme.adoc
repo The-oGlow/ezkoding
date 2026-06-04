@@ -39,7 +39,7 @@ Simplify the usage of
 
 == Configuration
 
-Please read the link:config.adoc[configuration].
+Please read the link:docu-config.adoc[configuration].
 
 == Usage
 
@@ -47,15 +47,15 @@ include::{site_resource}/pj-usage.adoc[opts=optional]
 
 == Examples
 
-Please read some link:examples.adoc[examples].
+Please read some link:docu-examples.adoc[examples].
 
 == Project Status
 
-Please read the link:analysis.adoc[project status].
+Please read the link:docu-analysis.adoc[project status].
 
 == Additional Information
 
-* link:commands.adoc[Composer Commands] - New commands for composer
+* link:docu-commands.adoc[Composer Commands] - New commands for composer
 
 == Notice
 
