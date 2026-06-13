@@ -198,10 +198,7 @@ abstract class EasyGoingTestCase extends TestCase
 
         try {
             $debug = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
-            /** @psalm-suppress RedundantCondition
-             * @phpstan-ignore function.alreadyNarrowedType
-             */
-            if (is_array($debug) && !empty($debug)) {
+            if (!empty($debug)) {
                 $calledFunction = $debug[1]['function'];
             }
         } catch (\Exception $exception) {

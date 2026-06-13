@@ -20,11 +20,13 @@ use Psr\Log\LogLevel;
 
 class EasyGoingLogger
 {
-    private const string LOGGER_DEFAULT = 'Monolog\Logger';
+    public const string DEFAULT_LEVEL = LogLevel::INFO;
 
-    private const string LOGGER_CONSOLE = 'Monolog\ConsoleLogger';
+    public const string LOGGER_DEFAULT = 'Monolog\Logger';
 
-    private const string LOGGER_NULL    = 'Psr\Log\NullLogger';
+    public const string LOGGER_CONSOLE = 'Monolog\ConsoleLogger';
+
+    public const string LOGGER_NULL    = 'Psr\Log\NullLogger';
 
     private function __construct()
     {
@@ -38,16 +40,18 @@ class EasyGoingLogger
      * @param array<mixed,mixed> $processors
      * @param ?DateTimeZone      $timezone
      *
+     * @return LoggerInterface
+     *
      * @psalm-suppress InvalidNullableReturnType
      */
     public static function init(
         string $name,
-        string $level = LogLevel::INFO,
+        string $level = self::DEFAULT_LEVEL,
         array $handlers = [],
         array $processors = [],
         ?DateTimeZone $timezone = null
     ): LoggerInterface {
-        /** @psalm-var class-string<LoggerInterface> */
+        /** @phpstan-var class-string<LoggerInterface> */
         $clazzName = self::LOGGER_NULL;
         if (class_exists(self::LOGGER_CONSOLE)) {
             $clazzName = self::LOGGER_CONSOLE;
