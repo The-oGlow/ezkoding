@@ -70,7 +70,7 @@ class EasyGoingLogger
             if (is_null($refClazz->getConstructor())) {
                 $instance = $refClazz->newInstance();
             } else {
-                $instance = $refClazz->newInstance($name, $level, $handlers, $processors, $timezone);
+                $instance = $refClazz->newInstance($name, $handlers, $processors, $timezone, $level);
             }
         } catch (\ReflectionException $refExp) {
             Emergency::exceptionStop($refExp);

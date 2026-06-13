@@ -37,7 +37,6 @@
         "composer/composer": "^2.0"
     },
     "provide": {
-        "monolog/monolog": "^3.0"
     },
     "suggest": {
     },
