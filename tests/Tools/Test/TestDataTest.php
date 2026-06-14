@@ -17,9 +17,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @SuppressWarnings("PHPMD.UnusedFormalParameter")
- */
 class TestDataTest extends TestCase
 {
     private static string $fileName;
@@ -68,6 +65,12 @@ class TestDataTest extends TestCase
         $this->verifyResult($expectedCount, 'array');
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
+     *
+     * @param int    $expectedCount
+     * @param string $pivot
+     */
     public function verifyResult(int $expectedCount, string $pivot): void
     {
         $refClazz = new \ReflectionClass(TestData::class);
