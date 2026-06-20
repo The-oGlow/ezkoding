@@ -24,12 +24,6 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "repositories": [
-        {
-            "type":"path",
-            "url":"../../github-ollily/php-sonar-scanner"
-        }
-    ],
     "require": {
         "php": ">=8.4.1",
         "php-ds/php-ds": "^1.0",
