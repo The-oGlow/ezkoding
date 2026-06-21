@@ -19,12 +19,16 @@ use Psr\Log\LoggerInterface;
 
 class BatchTaskHelper
 {
+
     /** Default key for a tasklist. */
     public const string DEFAULT = 'DEFAULT';
 
+    public const int COL_PAGEID=0;
+    public const int COL_INFO = 1;
+    public const int COL_TITLE = 2;
+
     /** @var Map<mixed,TaskList> */
     private static ?Map $tasklists = null;
-
     private static ?LoggerInterface $logger = null;
 
     private function __construct()
@@ -70,14 +74,14 @@ class BatchTaskHelper
         return self::$tasklists;
     }
 
-    public static function getTaskList(string $listKey = self::DEFAULT): TaskList
+    public static function getTaskList(string $listKey = self::DEFAULT, bool $withHeader = TaskList::DEFAULT_WITH_HEADER): TaskList
     {
         self::init();
         self::logger()->debug('START - listKey', [$listKey]);
 
         $listKey = empty($listKey) ? self::DEFAULT : $listKey;
         if (!self::taskLists()->hasKey($listKey)) {
-            self::taskLists()->put($listKey, new TaskList($listKey));
+            self::taskLists()->put($listKey, new TaskList($listKey, $withHeader));
         }
 
         self::logger()->debug('END');
@@ -85,18 +89,18 @@ class BatchTaskHelper
         return self::taskLists()->get($listKey);
     }
 
-    public static function readTaskList(string $fileName, string $listKey = self::DEFAULT): TaskList
+    public static function readTaskList(string $fileName, string $listKey = self::DEFAULT, bool $withHeader = TaskList::DEFAULT_WITH_HEADER): TaskList
     {
         self::init();
         self::logger()->debug('START - listKey,fileName', [$listKey, $fileName]);
 
         $listKey = empty($listKey) ? self::DEFAULT : $listKey;
         if (file_exists($fileName)) {
-            $taskList = self::getTaskList($listKey);
+            $taskList = self::getTaskList($listKey, $withHeader);
             $taskList->readFile($fileName);
         } else {
             self::logger()->warning('File does not exists!', [$fileName]);
-            $taskList = self::getTaskList($listKey);
+            $taskList = self::getTaskList($listKey, $withHeader);
         }
 
         self::logger()->debug('END');

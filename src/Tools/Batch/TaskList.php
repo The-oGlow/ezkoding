@@ -19,18 +19,26 @@ use Psr\Log\LoggerInterface;
 
 class TaskList
 {
-    private static LoggerInterface $logger;
 
+    public const string ITEM_SEP = ';';
+    public const string DEFAULT_CHARSET = 'UTF-8';
+    public const string DEFAULT_LINE_END = "\n";
+    public const bool DEFAULT_WITH_HEADER = false;
+    public const string LINE_ENDS = "/(\r|\n|\r\n)/";
+
+    private static LoggerInterface $logger;
     private string $listKey;
+    private bool $withHeader = self::DEFAULT_WITH_HEADER;
 
     /** @var Queue<ITaskItem> */
     private Queue $tasks;
 
-    public function __construct(string $listKey)
+    public function __construct(string $listKey, bool $withHeader=self::DEFAULT_WITH_HEADER)
     {
-        self::$logger  = EasyGoingLogger::init(TaskList::class);
+        self::$logger = EasyGoingLogger::init(TaskList::class);
         $this->listKey = $listKey;
-        $this->tasks   = new Queue();
+        $this->withHeader= $withHeader;
+        $this->tasks = new Queue();
     }
 
     public function getListKey(): string
@@ -63,6 +71,11 @@ class TaskList
         return $this->tasks->isEmpty();
     }
 
+    public function isWithHeader(): bool
+    {
+        return $this->withHeader;
+    }
+
     public function readFile(string $fileName): bool
     {
         self::$logger->debug('START - fileName', [$fileName]);
@@ -73,9 +86,9 @@ class TaskList
             $fHandle = fopen($fileName, 'r');
             if (is_resource($fHandle)) {
                 $idx = 0;
-                while ($line = fgets($fHandle, 1000)) {
-                    $convertedLine = mb_convert_encoding($line, 'UTF-8');
-                    $itemKey       = $this->listKey . $idx;
+                while ($line = fgets($fHandle)) {
+                    $convertedLine = mb_convert_encoding($line, self::DEFAULT_CHARSET);
+                    $itemKey = $this->listKey . $idx;
                     $newTask = $this->parseTaskData($itemKey, $convertedLine);
                     if (!is_null($newTask)) {
                         $this->addTask($newTask);
@@ -97,11 +110,11 @@ class TaskList
 
         $newTask = null;
         if (is_string($convertedLine)) {
-            $newLine = preg_filter("/(\r|\n|\r\n)/", '', $convertedLine);
+            $newLine = preg_filter(self::LINE_ENDS, '', $convertedLine);
             self::$logger->debug('newLine', [$newLine]);
             /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($newLine)) {
-                $newTask = new TaskItem($itemKey, explode(';', $newLine));
+                $newTask = new TaskItem($itemKey, explode(self::ITEM_SEP, $newLine));
             }
         }
         self::$logger->debug('newTask', [$newTask]);
@@ -124,10 +137,10 @@ class TaskList
                     if ($line instanceof ITaskItem) {
                         $line = $line->__toString();
                     }
-                    $convertedLine = mb_convert_encoding($line, 'UTF-8');
+                    $convertedLine = mb_convert_encoding($line, self::DEFAULT_CHARSET);
                     /** @phpstan-ignore notIdentical.alwaysTrue */
                     if ($convertedLine !== false) {
-                        $convertedLine .= "\n";
+                        $convertedLine .= self::DEFAULT_LINE_END;
                         fwrite($fHandle, $convertedLine);
                     }
                 }

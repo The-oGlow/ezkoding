@@ -54,6 +54,18 @@ class TaskItem implements ITaskItem
         return $this->data;
     }
 
+    #[\Override]
+    public function empty(): bool
+    {
+        return empty($this->data);
+    }
+    
+    #[\Override]
+    public function count(): int
+    {
+        return is_array($this->data)? count($this->data):0;
+    }
+    
     /**
      * @SuppressWarnings("PHPMD.CamelCaseMethodName")
      */

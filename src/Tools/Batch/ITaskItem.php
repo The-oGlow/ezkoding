@@ -19,6 +19,7 @@ namespace ollily\Tools\Batch;
  */
 interface ITaskItem
 {
+
     /**
      * @phpstan-return TaskKey
      */
@@ -29,5 +30,15 @@ interface ITaskItem
      */
     public function getData(): array;
 
+    /**
+     * @return bool TRUE=Item is empty, else false
+     */
+    public function empty(): bool;
+    
+    /**
+     * @return int Count of columns
+     */
+    public function count(): int;
+    
     public function __toString(): string;
 }
