@@ -14,31 +14,43 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use Ds\Queue;
+use Ds\Set;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
 class TaskList
 {
-
     public const string ITEM_SEP = ';';
+
     public const string DEFAULT_CHARSET = 'UTF-8';
+
     public const string DEFAULT_LINE_END = "\n";
-    public const bool DEFAULT_WITH_HEADER = false;
+
+    public const bool DEFAULT_WITH_DATA_KEYS = false;
+
     public const string LINE_ENDS = "/(\r|\n|\r\n)/";
 
     private static LoggerInterface $logger;
+
     private string $listKey;
-    private bool $withHeader = self::DEFAULT_WITH_HEADER;
+
+    private bool $withDataKeys = self::DEFAULT_WITH_DATA_KEYS;
+
+    /** @var Set<string> */
+    private Set $dataKeys;
+
+    private bool $dataKeysRead = false;
 
     /** @var Queue<ITaskItem> */
     private Queue $tasks;
 
-    public function __construct(string $listKey, bool $withHeader=self::DEFAULT_WITH_HEADER)
+    public function __construct(string $listKey, bool $withDataKeys = self::DEFAULT_WITH_DATA_KEYS)
     {
         self::$logger = EasyGoingLogger::init(TaskList::class);
         $this->listKey = $listKey;
-        $this->withHeader= $withHeader;
+        $this->withDataKeys = $withDataKeys;
         $this->tasks = new Queue();
+        $this->dataKeys = new Set();
     }
 
     public function getListKey(): string
@@ -71,9 +83,9 @@ class TaskList
         return $this->tasks->isEmpty();
     }
 
-    public function isWithHeader(): bool
+    public function isWithDataKeys(): bool
     {
-        return $this->withHeader;
+        return $this->withDataKeys;
     }
 
     public function readFile(string $fileName): bool
@@ -85,6 +97,11 @@ class TaskList
         if (!empty($fileName)) {
             $fHandle = fopen($fileName, 'r');
             if (is_resource($fHandle)) {
+                if ($this->withDataKeys && !$this->dataKeysRead) {
+                    $line = fgets($fHandle);
+                    $convertedLine = mb_convert_encoding($line, self::DEFAULT_CHARSET);
+                    $this->parseDataKeys($convertedLine);
+                }
                 $idx = 0;
                 while ($line = fgets($fHandle)) {
                     $convertedLine = mb_convert_encoding($line, self::DEFAULT_CHARSET);
@@ -104,17 +121,23 @@ class TaskList
         return $fileRead;
     }
 
-    protected function parseTaskData(mixed $itemKey, mixed $convertedLine): ?ITaskItem
+    protected function parseTaskData(mixed $itemKey, mixed $taskDataLine): ?ITaskItem
     {
         self::$logger->debug('START - itemKey', [$itemKey]);
 
         $newTask = null;
-        if (is_string($convertedLine)) {
-            $newLine = preg_filter(self::LINE_ENDS, '', $convertedLine);
+        if (is_string($taskDataLine)) {
+            $newLine = preg_filter(self::LINE_ENDS, '', $taskDataLine);
             self::$logger->debug('newLine', [$newLine]);
             /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($newLine)) {
-                $newTask = new TaskItem($itemKey, explode(self::ITEM_SEP, $newLine));
+                $taskData = [];
+                if ($this->withDataKeys && $this->dataKeysRead) {
+                    $taskData = array_combine($this->dataKeys->toArray(), explode(self::ITEM_SEP, $newLine));
+                } else {
+                    $taskData = explode(self::ITEM_SEP, $newLine);
+                }
+                $newTask = new TaskItem($itemKey, $taskData);
             }
         }
         self::$logger->debug('newTask', [$newTask]);
@@ -152,5 +175,23 @@ class TaskList
         self::$logger->debug('END');
 
         return $fileStored;
+    }
+
+    public function parseDataKeys(mixed $dataKeysLine)
+    {
+        self::$logger->debug('START - itemKey');
+
+        if ($this->withDataKeys && !$this->dataKeysRead) {
+            if (is_string($dataKeysLine)) {
+                $newLine = preg_filter(self::LINE_ENDS, '', $dataKeysLine);
+                /** @psalm-suppress RiskyTruthyFalsyComparison */
+                if (!empty($newLine)) {
+                    $this->dataKeys = new Set(explode(self::ITEM_SEP, $newLine));
+                }
+                $this->dataKeysRead = true;
+            }
+        }
+
+        self::$logger->debug('END');
     }
 }

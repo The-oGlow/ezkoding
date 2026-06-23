@@ -19,16 +19,18 @@ use Psr\Log\LoggerInterface;
 
 class BatchTaskHelper
 {
-
     /** Default key for a tasklist. */
     public const string DEFAULT = 'DEFAULT';
 
-    public const int COL_PAGEID=0;
-    public const int COL_INFO = 1;
-    public const int COL_TITLE = 2;
+    public const bool DEFAULT_WITH_DATA_KEYS = TaskList::DEFAULT_WITH_DATA_KEYS;
+
+    public const int COL_PAGEID = 0;
+
+    public const int COL_TITLE = 1;
 
     /** @var Map<mixed,TaskList> */
     private static ?Map $tasklists = null;
+
     private static ?LoggerInterface $logger = null;
 
     private function __construct()
@@ -74,7 +76,7 @@ class BatchTaskHelper
         return self::$tasklists;
     }
 
-    public static function getTaskList(string $listKey = self::DEFAULT, bool $withHeader = TaskList::DEFAULT_WITH_HEADER): TaskList
+    public static function getTaskList(string $listKey = self::DEFAULT, bool $withHeader = self::DEFAULT_WITH_DATA_KEYS): TaskList
     {
         self::init();
         self::logger()->debug('START - listKey', [$listKey]);
@@ -89,7 +91,7 @@ class BatchTaskHelper
         return self::taskLists()->get($listKey);
     }
 
-    public static function readTaskList(string $fileName, string $listKey = self::DEFAULT, bool $withHeader = TaskList::DEFAULT_WITH_HEADER): TaskList
+    public static function readTaskList(string $fileName, string $listKey = self::DEFAULT, bool $withHeader = self::DEFAULT_WITH_DATA_KEYS): TaskList
     {
         self::init();
         self::logger()->debug('START - listKey,fileName', [$listKey, $fileName]);

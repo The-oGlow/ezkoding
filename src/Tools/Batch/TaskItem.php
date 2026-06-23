@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
+use Ds\Set;
 use ollily\Tools\String\ToStringTrait;
 
 /**
  * @phpstan-import-type TaskKey from ITaskItem
+ * @phpstan-import-type DataKey from ITaskItem
  * @phpstan-import-type TaskData from ITaskItem
  */
 class TaskItem implements ITaskItem
@@ -24,10 +26,10 @@ class TaskItem implements ITaskItem
     use ToStringTrait;
 
     /** @phpstan-var TaskKey */
-    private mixed $key;
+    private mixed $key = '';
 
     /** @phpstan-var TaskData */
-    private array $data;
+    private array $data = [];
 
     /**
      * @param mixed              $key
@@ -55,17 +57,52 @@ class TaskItem implements ITaskItem
     }
 
     #[\Override]
+    public function getDataKeys(): Set
+    {
+        $dataKeys = new Set();
+        if (is_array($this->data)) {
+            $dataKeys = new Set(array_keys($this->data));
+        }
+
+        return $dataKeys;
+    }
+
+    #[\Override]
+    public function getDataValue(mixed $dataKey): mixed
+    {
+        $value = '';
+
+        if ($this->isDataKeyExist($dataKey)) {
+            $value = $this->data[$dataKey];
+        }
+
+        return $value;
+    }
+
+    #[\Override]
+    public function isDataKeyExist(mixed $dataKey): bool
+    {
+        $exists = false;
+
+        if (is_array($this->data)) {
+            $exists = array_key_exists($dataKey, $this->data);
+        }
+
+        return $exists;
+    }
+
+    #[\Override]
     public function empty(): bool
     {
         return empty($this->data);
     }
-    
+
     #[\Override]
     public function count(): int
     {
-        return is_array($this->data)? count($this->data):0;
+        return is_array($this->data) ? count($this->data) : 0;
     }
-    
+
     /**
      * @SuppressWarnings("PHPMD.CamelCaseMethodName")
      */
