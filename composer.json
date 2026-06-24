@@ -26,9 +26,9 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.4.1",
+        "composer/composer": "^2.0",
         "php-ds/php-ds": "^1.0",
-        "psr/log": "^2.0||^3.0",
-        "composer/composer": "^2.0"
+        "psr/log": "^2.0||^3.0"
     },
     "provide": {
     },
