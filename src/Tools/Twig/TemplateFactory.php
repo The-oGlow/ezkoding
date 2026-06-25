@@ -71,13 +71,15 @@ class TemplateFactory
      *
      * @return string
      */
-    public function createTemplate(string $templateName, array $templateData): string
+    public function renderTemplate(string $templateName, array $templateData): string
     {
         self::$logger->debug('START - templateName, count(templateData)', [$templateName, count($templateData)]);
         $templateRendered = '';
 
         $template = $this->loadTemplate($templateName);
         if (!empty($template)) {
+            $templateData = $this->cleanTemplateData($templateData);
+
             try {
                 $templateRendered = $template->render($templateData);
             } catch (Error $exc) {
@@ -127,7 +129,7 @@ class TemplateFactory
         }
         $templatePath = realpath($templatePath);
 
-        if (empty($cachePath) || is_bool($cachePath)) { // @phpstan-ignore function.impossibleType
+        if (empty($cachePath)) {
             $cachePath = 'false';
         } else {
             $cachePath = realpath($cachePath);
@@ -137,5 +139,22 @@ class TemplateFactory
         self::$logger->debug('Cache path ', [$cachePath]);
 
         return [$templatePath, $cachePath];
+    }
+
+    /**
+     * @param array<mixed,mixed> $templateData
+     *
+     * @return array<mixed,mixed>
+     */
+    protected function cleanTemplateData(array $templateData): array
+    {
+        $callback = function (mixed $key): mixed {
+            return str_replace(' ', '', $key);
+        };
+        /** @var array<string,string>
+         * @phpstan-ignore varTag.type */
+        $fixedKeys = array_map($callback, array_keys($templateData));
+
+        return array_combine($fixedKeys, array_values($templateData));
     }
 }

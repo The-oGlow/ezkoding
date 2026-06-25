@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
+use Ds\Set;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -32,6 +33,28 @@ class MagicPublicFunctionTraitTest extends TestCase
                 return MagicPublicFunctionTraitDummyClazz::ABSTRACT;
             }
         };
+    }
+
+    public function testExistingMethodNames(): void
+    {
+        $expected = Set::class;
+        $expectedCount = 2;
+
+        $actual = $this->o2t::existingMethodNames();
+
+        self::assertInstanceOf($expected, $actual);
+        self::assertCount($expectedCount, $actual);
+    }
+
+    public function testExistingMethods(): void
+    {
+        $expected = Set::class;
+        $expectedCount = 2;
+
+        $actual = $this->o2t::existingMethods();
+
+        self::assertInstanceOf($expected, $actual);
+        self::assertCount($expectedCount, $actual);
     }
 
     public function testCallPublicMethod(): void

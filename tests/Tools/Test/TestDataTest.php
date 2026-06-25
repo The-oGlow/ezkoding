@@ -76,13 +76,9 @@ class TestDataTest extends TestCase
         $refClazz = new \ReflectionClass(TestData::class);
 
         $callback = /**
-         * @param mixed $value
          * @param mixed $key
-         *
-         * @psalm-param mixed $value
-         * @psalm-param mixed $key
          */
-        function (mixed $value, mixed $key) use ($pivot): bool {
+        function (mixed $key) use ($pivot): bool {
             $result = false;
             if (!is_array($key)) {
                 $result = str_contains(strtolower($key), $pivot);
@@ -91,7 +87,7 @@ class TestDataTest extends TestCase
             return $result;
         };
 
-        $actual = array_filter($refClazz->getConstants(), $callback, 1);  // NOSONAR: php:S3011
+        $actual = array_filter($refClazz->getConstants(), $callback, ARRAY_FILTER_USE_KEY);  // NOSONAR: php:S3011
 
         self::assertCount($expectedCount, $actual);
     }

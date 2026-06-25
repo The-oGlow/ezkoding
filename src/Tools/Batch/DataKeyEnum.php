@@ -44,8 +44,7 @@ enum DataKeyEnum: string implements IDoubleBackedEnum
             self::SHORT_NAME => 'Short Name',
             self::SHORT_DESCRIPTION => 'Short Description',
             self::DOCTYPE => 'Doctype',
-            self::TYPE => 'Type',
-            default => ''
+            self::TYPE => 'Type'
         };
     }
 }

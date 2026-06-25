@@ -59,12 +59,7 @@ class TaskItem implements ITaskItem
     #[\Override]
     public function getDataKeys(): Set
     {
-        $dataKeys = new Set();
-        if (is_array($this->data)) {
-            $dataKeys = new Set(array_keys($this->data));
-        }
-
-        return $dataKeys;
+        return new Set(array_keys($this->data));
     }
 
     #[\Override]
@@ -82,13 +77,7 @@ class TaskItem implements ITaskItem
     #[\Override]
     public function isDataKeyExist(mixed $dataKey): bool
     {
-        $exists = false;
-
-        if (is_array($this->data)) {
-            $exists = array_key_exists($dataKey, $this->data);
-        }
-
-        return $exists;
+        return array_key_exists($dataKey, $this->data);
     }
 
     #[\Override]
@@ -100,7 +89,7 @@ class TaskItem implements ITaskItem
     #[\Override]
     public function count(): int
     {
-        return is_array($this->data) ? count($this->data) : 0;
+        return count($this->data);
     }
 
     /**

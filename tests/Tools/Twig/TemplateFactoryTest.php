@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Twig;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\TemplateWrapper;
 
@@ -28,6 +29,14 @@ class TemplateFactoryTest extends TestCase
         'Name' => '',
         'ShortName' => '',
         'ShortDescription' => 'A human named \'Max\' & Mustermann',
+    ];
+
+    public const array DEFAULT_TEMPLATE_KEY_INVALID = [
+        'Family Name' => 'Pietersen',
+        'Given Name' => 'Piet',
+        'Name' => '',
+        'Short Name' => 'Pieti',
+        'Short Description' => 'A human named \'Pieti\'',
     ];
 
     protected TemplateFactory $o2t;
@@ -55,18 +64,32 @@ class TemplateFactoryTest extends TestCase
         self::assertStringStartsWith($templateName, $actual->getTemplateName(), 'Wrong templated loaded');
     }
 
-    public function testCreateTemplate(): void
+    /**
+     * @param int                $expected
+     * @param string             $templateName
+     * @param array<mixed,mixed> $templateData
+     */
+    #[DataProvider('provideTemplateData')]
+    public function testRenderTemplate(int $expected, string $templateName, array $templateData): void
     {
-        $expected = 0;
+        $actual = $this->o2t->renderTemplate($templateName, $templateData);
 
-        $templateName = self::DEFAULT_TEMPLATE_NAME;
-        $templateData = self::DEFAULT_TEMPLATE_DATA_CORRECT;
-
-        $actual = $this->o2t->createTemplate($templateName, $templateData);
-
-        self::assertNotNull($actual, 'Null instead of rendered output returned');
         self::assertGreaterThan($expected, strlen($actual), 'Rendered output is empty');
+        foreach ($templateData as $needle) {
+            if (!empty($needle)) {
+                self::assertStringContainsString(htmlentities($needle), $actual, 'Do not found');
+            }
+        }
+    }
 
-        var_dump($actual);
+    /**
+     * @return array<mixed,mixed>
+     */
+    public static function provideTemplateData(): array
+    {
+        return [
+            'valid' => [0, self::DEFAULT_TEMPLATE_NAME, self::DEFAULT_TEMPLATE_DATA_CORRECT],
+            'invalid' => [0, self::DEFAULT_TEMPLATE_NAME, self::DEFAULT_TEMPLATE_KEY_INVALID],
+        ];
     }
 }

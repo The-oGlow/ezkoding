@@ -99,8 +99,10 @@ class TaskList
             if (is_resource($fHandle)) {
                 if ($this->withDataKeys && !$this->dataKeysRead) {
                     $line = fgets($fHandle);
-                    $convertedLine = mb_convert_encoding($line, self::DEFAULT_CHARSET);
-                    $this->parseDataKeys($convertedLine);
+                    if (!is_bool($line)) {
+                        $convertedLine = mb_convert_encoding($line, self::DEFAULT_CHARSET);
+                        $this->parseDataKeys($convertedLine);
+                    }
                 }
                 $idx = 0;
                 while ($line = fgets($fHandle)) {
@@ -177,7 +179,7 @@ class TaskList
         return $fileStored;
     }
 
-    public function parseDataKeys(mixed $dataKeysLine)
+    public function parseDataKeys(mixed $dataKeysLine): void
     {
         self::$logger->debug('START - itemKey');
 

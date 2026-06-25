@@ -28,7 +28,8 @@
         "php": ">=8.4.1",
         "composer/composer": "^2.0",
         "php-ds/php-ds": "^1.0",
-        "psr/log": "^2.0||^3.0"
+        "psr/log": "^2.0||^3.0",
+        "twig/twig": "^3.27"
     },
     "provide": {
     },
