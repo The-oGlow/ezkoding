@@ -59,6 +59,23 @@ class EnvironmentVariableTraitTest extends TestCase
         $this->validateActualEnds(self::PROJECT_NAME, $actual);
     }
 
+    public function testGetSystemTemp(): void {
+        $actual = self::getSystemTemp();
+        
+        self::assertNotEmpty($actual);
+        self::assertFileExists($actual);
+    }
+
+    public function testGetSystemTempWithSub(): void
+    {
+        $expected= TestData::FILE_FOLDERNAME;
+        
+        $actual = self::getSystemTemp($expected);
+        
+        self::assertNotEmpty($actual);
+        $this->validateActualEnds(DIRECTORY_SEPARATOR.$expected, $actual);
+    }
+
     public function testGetComposerFilePath(): void
     {
         $actual = self::getComposerFilePath();
