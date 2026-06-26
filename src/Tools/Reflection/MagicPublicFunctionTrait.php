@@ -43,7 +43,7 @@ trait MagicPublicFunctionTrait
             return !$notAllowed->contains($method->getName());
         };
 
-        $availableMethods = self::collectPublicMethods(self::class);
+        $availableMethods = self::collectPublicMethods(static::class);
         $availableMethods = array_filter($availableMethods, $callback);
 
         return new Set($availableMethods);
