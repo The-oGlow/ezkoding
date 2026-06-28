@@ -76,6 +76,12 @@ class BatchTaskHelper
         return self::$tasklists;
     }
 
+    /**
+     * @param string $listKey
+     * @param bool   $withHeader TRUE=with heade columns, else FALSE (only used, if tasklist will be newly created)
+     *
+     * @return TaskList
+     */
     public static function getTaskList(string $listKey = self::DEFAULT, bool $withHeader = self::DEFAULT_WITH_DATA_KEYS): TaskList
     {
         self::init();
@@ -91,15 +97,27 @@ class BatchTaskHelper
         return self::taskLists()->get($listKey);
     }
 
-    public static function readTaskList(string $fileName, string $listKey = self::DEFAULT, bool $withHeader = self::DEFAULT_WITH_DATA_KEYS): TaskList
-    {
+    /**
+     * @param string      $fileName
+     * @param IItemConfig $itemConfig
+     * @param string      $listKey
+     * @param bool        $withHeader TRUE=with heade columns, else FALSE
+     *
+     * @return TaskList
+     */
+    public static function readTaskList(
+        string $fileName,
+        IItemConfig $itemConfig,
+        string $listKey = self::DEFAULT,
+        bool $withHeader = self::DEFAULT_WITH_DATA_KEYS
+    ): TaskList {
         self::init();
         self::logger()->debug('START - listKey,fileName', [$listKey, $fileName]);
 
         $listKey = empty($listKey) ? self::DEFAULT : $listKey;
         if (file_exists($fileName)) {
             $taskList = self::getTaskList($listKey, $withHeader);
-            $taskList->readFile($fileName);
+            $taskList->readFile($fileName, $itemConfig);
         } else {
             self::logger()->warning('File does not exists!', [$fileName]);
             $taskList = self::getTaskList($listKey, $withHeader);

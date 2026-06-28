@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
+use Ds\Map;
 use Ds\Set;
 
 /**
  * @phpstan-type TaskKey mixed
  * @phpstan-type DataKey mixed
- * @phpstan-type TaskData array<DataKey,mixed>
+ * @phpstan-type TaskData Map<DataKey,mixed>
  */
 interface ITaskItem extends \Stringable
 {
@@ -30,11 +31,11 @@ interface ITaskItem extends \Stringable
     public function getKey(): mixed;
 
     /**
-     * return array<mixed,mixed>.
+     * return Map<mixed,mixed>.
      *
      * @phpstan-return TaskData
      */
-    public function getData(): array;
+    public function getData(): Map;
 
     /**
      * return Set.
@@ -70,6 +71,18 @@ interface ITaskItem extends \Stringable
      * @return int Count of columns
      */
     public function count(): int;
+
+    /**
+     * @return IItemConfig
+     */
+    public function getItemConfig(): IItemConfig;
+
+    /**
+     * @param mixed $key
+     *
+     * @return mixed
+     */
+    public function getConfig(mixed $key): mixed;
 
     #[\Override]
     public function __toString(): string;

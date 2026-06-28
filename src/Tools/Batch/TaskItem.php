@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
+use Ds\Map;
 use Ds\Set;
 use ollily\Tools\String\ToStringTrait;
 
@@ -29,19 +30,23 @@ class TaskItem implements ITaskItem
     private mixed $key = '';
 
     /** @phpstan-var TaskData */
-    private array $data = [];
+    private Map $data;
+
+    private IItemConfig $itemConfig;
 
     /**
-     * @param mixed              $key
-     * @param array<mixed,mixed> $data
+     * @param mixed            $key
+     * @param Map<mixed,mixed> $data
+     * @param IItemConfig      $itemConfig
      *
      * @phpstan-param TaskKey  $key
      * @phpstan-param TaskData $data
      */
-    public function __construct(mixed $key, array $data)
+    public function __construct(mixed $key, Map $data, IItemConfig $itemConfig)
     {
         $this->key = $key;
         $this->data = $data;
+        $this->itemConfig = $itemConfig;
     }
 
     #[\Override]
@@ -51,7 +56,7 @@ class TaskItem implements ITaskItem
     }
 
     #[\Override]
-    public function getData(): array
+    public function getData(): Map
     {
         return $this->data;
     }
@@ -59,7 +64,7 @@ class TaskItem implements ITaskItem
     #[\Override]
     public function getDataKeys(): Set
     {
-        return new Set(array_keys($this->data));
+        return new Set($this->data);
     }
 
     #[\Override]
@@ -77,19 +82,31 @@ class TaskItem implements ITaskItem
     #[\Override]
     public function isDataKeyExist(mixed $dataKey): bool
     {
-        return array_key_exists($dataKey, $this->data);
+        return $this->data->hasKey($dataKey);
     }
 
     #[\Override]
     public function empty(): bool
     {
-        return empty($this->data);
+        return $this->data->isEmpty();
     }
 
     #[\Override]
     public function count(): int
     {
-        return count($this->data);
+        return $this->data->count();
+    }
+
+    #[\Override]
+    public function getItemConfig(): IItemConfig
+    {
+        return $this->itemConfig;
+    }
+
+    #[\Override]
+    public function getConfig(mixed $key): mixed
+    {
+        return $this->itemConfig->getConfig($key);
     }
 
     /**

@@ -16,23 +16,24 @@ namespace ollily\Tools\Twig;
 use Exception;
 use Monolog\EasyGoingLogger;
 use ollily\Tools\Emergency;
+use ollily\Tools\EnvironmentVariableTrait;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Error\Error;
 use Twig\Loader\FilesystemLoader;
 use Twig\Loader\LoaderInterface;
 use Twig\TemplateWrapper;
-use ollily\Tools\EnvironmentVariableTrait;
+
 class TemplateFactory
 {
     use EnvironmentVariableTrait;
-    
+
     public const string DEFAULT_TEMPLATE_FOLDER = 'resources/src/Twig';
 
     public const string DEFAULT_TEMPLATE_EXT = '.html.twig';
 
     public const string DEFAULT_CACHE_FOLDER = 'twigcache';
-    
+
     private static LoggerInterface $logger;
 
     private LoaderInterface $loader;
@@ -47,7 +48,7 @@ class TemplateFactory
     {
         self::$logger = EasyGoingLogger::init(TemplateFactory::class);
         if (empty($cachePath)) {
-            $cachePath= self::getSystemTemp(self::DEFAULT_CACHE_FOLDER);
+            $cachePath = self::getSystemTemp(self::DEFAULT_CACHE_FOLDER);
         }
         [$templatePath, $cachePath] = $this->verifyConfig($templatePath, $cachePath);
 
@@ -134,7 +135,7 @@ class TemplateFactory
         if (empty($cachePath)) {
             $cachePath = 'false';
         } else {
-            if (!file_exists($cachePath)){
+            if (!file_exists($cachePath)) {
                 $result = mkdir(directory:$cachePath, recursive: true);
             }
             $cachePath = realpath($cachePath);

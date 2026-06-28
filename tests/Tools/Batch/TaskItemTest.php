@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
+use Ds\Map;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\EasyGoingTestCase;
 
@@ -20,12 +21,23 @@ class TaskItemTest extends EasyGoingTestCase
 {
     public const int KEY = TestData::KEY_NUM1;
 
-    public const array DATA = [TestData::DATA_ALPHA1, TestData::DATA_BOOL_T];
+    /** @var Map<mixed,mixed> */
+    final public static Map $DATA;
+
+    final public static IItemConfig $CONFIG;
+
+    #[\Override]
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        self::$DATA = new Map([TestData::DATA_ALPHA1, TestData::DATA_BOOL_T]);
+        self::$CONFIG = new ItemConfig(new Map());
+    }
 
     #[\Override]
     protected static function prepareO2t(): ITaskItem
     {
-        return new TaskItem(self::KEY, self::DATA);
+        return new TaskItem(self::KEY, self::$DATA, self::$CONFIG);
     }
 
     #[\Override]
@@ -54,7 +66,7 @@ class TaskItemTest extends EasyGoingTestCase
 
     public function testGetData(): void
     {
-        $expected = self::DATA;
+        $expected = self::$DATA;
 
         $actual = $this->getCasto2t()->getData();
 

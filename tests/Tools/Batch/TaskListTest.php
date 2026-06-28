@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
+use Ds\Map;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\EasyGoingTestCase;
@@ -101,7 +102,7 @@ class TaskListTest extends EasyGoingTestCase
             $item = $this->getCasto2t()->nextTask();
             self::assertNotNull($item);
             self::assertEquals($listKey . $idx, $item->getKey());
-            self::assertEquals([self::DATA . $idx, $idx * 10], $item->getData());
+            self::assertEquals(new Map([self::DATA . $idx, $idx * 10]), $item->getData());
         }
 
         $item = $this->getCasto2t()->nextTask();
@@ -109,10 +110,10 @@ class TaskListTest extends EasyGoingTestCase
     }
 
     #[DataProvider('providerTaskListFile')]
-    public function testReadFileFile(bool $expected, int $expectedCount, string $fileName): void
+    public function testReadFileFile(bool $expected, int $expectedCount, string $fileName, IItemConfig $itemConfig): void
     {
         $this->o2t = new TaskList(self::class);
-        $actual = $this->getCasto2t()->readFile($fileName);
+        $actual = $this->getCasto2t()->readFile($fileName, $itemConfig);
 
         self::assertEquals($expectedCount, $this->getCasto2t()->count());
         self::assertEquals($expected, $actual);
@@ -142,9 +143,9 @@ class TaskListTest extends EasyGoingTestCase
     public static function providerTaskListFile(): array
     {
         return [
-            'emptyFileName' => [false, 0, self::prepareFiles()[0]],
-            'emptyFile' => [true, 0, self::prepareFiles()[1]],
-            'existingFile' => [true, 3, self::prepareFiles()[2]],
+            'emptyFileName' => [false, 0, self::prepareFiles()[0], new ItemConfig(new Map())],
+            'emptyFile' => [true, 0, self::prepareFiles()[1], new ItemConfig(new Map())],
+            'existingFile' => [true, 3, self::prepareFiles()[2], new ItemConfig(new Map())],
         ];
     }
 
@@ -161,7 +162,10 @@ class TaskListTest extends EasyGoingTestCase
         $items = [];
 
         for ($idx = 0; $idx < $count; $idx++) {
-            $items[] = new TaskItem("$taskListKey" . $idx, [self::DATA . $idx, $idx * 10]);
+            $key = "$taskListKey" . $idx;
+            $data = new Map([self::DATA . $idx, $idx * 10]);
+            $itemConfig = new ItemConfig(new Map());
+            $items[] = new TaskItem($key, $data, $itemConfig);
         }
 
         return $items;

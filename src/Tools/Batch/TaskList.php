@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
+use Ds\Map;
 use Ds\Queue;
 use Ds\Set;
 use Monolog\EasyGoingLogger;
@@ -88,7 +89,7 @@ class TaskList
         return $this->withDataKeys;
     }
 
-    public function readFile(string $fileName): bool
+    public function readFile(string $fileName, IItemConfig $itemConfig): bool
     {
         self::$logger->debug('START - fileName', [$fileName]);
 
@@ -108,7 +109,7 @@ class TaskList
                 while ($line = fgets($fHandle)) {
                     $convertedLine = mb_convert_encoding($line, self::DEFAULT_CHARSET);
                     $itemKey = $this->listKey . $idx;
-                    $newTask = $this->parseTaskData($itemKey, $convertedLine);
+                    $newTask = $this->parseTaskData($itemKey, $convertedLine, $itemConfig);
                     if (!is_null($newTask)) {
                         $this->addTask($newTask);
                         $idx++;
@@ -123,7 +124,7 @@ class TaskList
         return $fileRead;
     }
 
-    protected function parseTaskData(mixed $itemKey, mixed $taskDataLine): ?ITaskItem
+    protected function parseTaskData(mixed $itemKey, mixed $taskDataLine, IItemConfig $itemConfig): ?ITaskItem
     {
         self::$logger->debug('START - itemKey', [$itemKey]);
 
@@ -133,13 +134,13 @@ class TaskList
             self::$logger->debug('newLine', [$newLine]);
             /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($newLine)) {
-                $taskData = [];
+                $taskData = new Map();
                 if ($this->withDataKeys && $this->dataKeysRead) {
-                    $taskData = array_combine($this->dataKeys->toArray(), explode(self::ITEM_SEP, $newLine));
+                    $taskData->putAll(array_combine($this->dataKeys->toArray(), explode(self::ITEM_SEP, $newLine)));
                 } else {
-                    $taskData = explode(self::ITEM_SEP, $newLine);
+                    $taskData->putAll(explode(self::ITEM_SEP, $newLine));
                 }
-                $newTask = new TaskItem($itemKey, $taskData);
+                $newTask = new TaskItem($itemKey, $taskData, $itemConfig);
             }
         }
         self::$logger->debug('newTask', [$newTask]);

@@ -38,23 +38,23 @@ class MagicPublicFunctionTraitTest extends TestCase
     public function testExistingMethodNames(): void
     {
         $expected = Set::class;
-        $expectedCount = 2;
+        $expectedCount = 3;
 
         $actual = $this->o2t::existingMethodNames();
 
         self::assertInstanceOf($expected, $actual);
-        self::assertCount($expectedCount, $actual);
+        self::assertCount($expectedCount, $actual, var_export($actual, true));
     }
 
     public function testExistingMethods(): void
     {
         $expected = Set::class;
-        $expectedCount = 2;
+        $expectedCount = 3;
 
         $actual = $this->o2t::existingMethods();
 
         self::assertInstanceOf($expected, $actual);
-        self::assertCount($expectedCount, $actual);
+        self::assertCount($expectedCount, $actual, var_export($actual, true));
     }
 
     public function testCallPublicMethod(): void

@@ -18,15 +18,17 @@ namespace ollily\Tools;
  */
 trait EnvironmentVariableTrait
 {
-    public const string ENV_HOME='HOME';
+    public const string ENV_HOME = 'HOME';
+
     public const string ENV_USERPROFILE = 'USERPROFILE';
+
     public const int ENV_OFFSET = 2;
 
     /**
      * @param string $homeVariable Ignore parameter to use the standard settings
-     * 
+     *
      * @return string Full path to the home directory of the current user
-     * 
+     *
      * @see {@link EnvironmentVariableTrait::ENV_HOME}
      * @see {@link EnvironmentVariableTrait::ENV_USERPROFILE}
      */
@@ -47,7 +49,7 @@ trait EnvironmentVariableTrait
 
     /**
      * @return string The root folder of this php project
-     * 
+     *
      * @see {@link EnvironmentVariableTrait::getComposerFilePath()}
      * @see {@link EnvironmentVariableTrait::getProjectRootFallback()}
      */
@@ -63,17 +65,19 @@ trait EnvironmentVariableTrait
 
     /**
      * @param string $subFolder A folder below the temp folder (optional)
-     * 
+     *
      * @return string The system wide folder for temporarily files
      */
-    final public static function getSystemTemp(string $subFolder=''): string {
+    final public static function getSystemTemp(string $subFolder = ''): string
+    {
         $tmp = sys_get_temp_dir();
         if (!empty($subFolder)) {
             $tmp .= DIRECTORY_SEPARATOR . $subFolder;
         }
+
         return $tmp;
     }
-    
+
     /**
      * @return string The full path to this composer project
      */
@@ -90,7 +94,7 @@ trait EnvironmentVariableTrait
 
     /**
      * @param int $folderOffset Ignore the parameter to use the default
-     * 
+     *
      * @return string Calculate the root folder of the project
      */
     private static function getProjectRootFallback(int $folderOffset = self::ENV_OFFSET): string
