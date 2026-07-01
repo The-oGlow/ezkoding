@@ -18,15 +18,15 @@ use ollily\Tools\Arrays\IDoubleBackedEnum;
 enum DataKeyEnum: string implements IDoubleBackedEnum
 {
     // Confluence Standard
-    case PAGE_ID = "pageid";
-    case TITLE = "title";
+    case PAGE_ID = "Page Id";
+    case TITLE = "Title";
 
     // Projectdoc Toolbox Extension
-    case NAME = "name";
-    case SHORT_NAME = "short-name";
-    case SHORT_DESCRIPTION = "short-description";
-    case DOCTYPE = "doctype";
-    case TYPE = "type";
+    case NAME = "Name";
+    case SHORT_NAME = "Short Name";
+    case SHORT_DESCRIPTION = "Short Description";
+    case DOCTYPE = "Doctype";
+    case TYPE = "Type";
 
     #[\Override]
     public function intValue(): int
