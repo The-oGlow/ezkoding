@@ -136,7 +136,7 @@ class TemplateFactory
             $cachePath = 'false';
         } else {
             if (!file_exists($cachePath)) {
-                $result = mkdir(directory:$cachePath, recursive: true);
+                mkdir(directory:$cachePath, recursive: true);
             }
             $cachePath = realpath($cachePath);
         }

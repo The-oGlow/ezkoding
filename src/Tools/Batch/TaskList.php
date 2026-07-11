@@ -136,9 +136,9 @@ class TaskList
             if (!empty($newLine)) {
                 $taskData = new Map();
                 if ($this->withDataKeys && $this->dataKeysRead) {
-                    $newKeys = $this->dataKeys->toArray();
-                    $newValues = explode(self::ITEM_SEP, $newLine);
-                    $newData = array_combine($newKeys, $newValues);
+                    // $newKeys = $this->dataKeys->toArray();
+                    // $newValues = explode(self::ITEM_SEP, $newLine);
+                    // $newData = array_combine($newKeys, $newValues);
                     $taskData->putAll(array_combine($this->dataKeys->toArray(), explode(self::ITEM_SEP, $newLine)));
                 } else {
                     $taskData->putAll(explode(self::ITEM_SEP, $newLine));
