@@ -22,22 +22,22 @@ class TaskItemTest extends EasyGoingTestCase
     public const int KEY = TestData::KEY_NUM1;
 
     /** @var Map<mixed,mixed> */
-    final public static Map $DATA;
+    public static Map $data;
 
-    final public static IItemConfig $CONFIG;
+    public static IItemConfig $config;
 
     #[\Override]
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$DATA = new Map([TestData::DATA_ALPHA1, TestData::DATA_BOOL_T]);
-        self::$CONFIG = new ItemConfig(new Map());
+        self::$data = new Map([TestData::DATA_ALPHA1, TestData::DATA_BOOL_T]);
+        self::$config = new ItemConfig(new Map());
     }
 
     #[\Override]
     protected static function prepareO2t(): ITaskItem
     {
-        return new TaskItem(self::KEY, self::$DATA, self::$CONFIG);
+        return new TaskItem(self::KEY, self::$data, self::$config);
     }
 
     #[\Override]
@@ -66,7 +66,7 @@ class TaskItemTest extends EasyGoingTestCase
 
     public function testGetData(): void
     {
-        $expected = self::$DATA;
+        $expected = self::$data;
 
         $actual = $this->getCasto2t()->getData();
 
