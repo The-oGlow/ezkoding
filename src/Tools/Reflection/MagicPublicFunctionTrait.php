@@ -91,7 +91,7 @@ trait MagicPublicFunctionTrait
         if (count($foundMethods) > 0) {
             /** @var \ReflectionMethod $foundMethod */
             foreach ($foundMethods as $foundMethod) {
-                if (!(($foundMethod->getModifiers() & \ReflectionMethod::IS_ABSTRACT) == \ReflectionMethod::IS_ABSTRACT)) {
+                if (($foundMethod->getModifiers() & \ReflectionMethod::IS_ABSTRACT) !== \ReflectionMethod::IS_ABSTRACT) {
                     $publicMethods[] = $foundMethod;
                 }
             }

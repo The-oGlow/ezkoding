@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ZipArchive;
+use SplFileInfo;
 
 class UnzipTest extends TestCase
 {
@@ -47,8 +48,9 @@ class UnzipTest extends TestCase
                 echo sprintf("\nRemoving folder '%s'", $folder);
                 $recDI = new RecursiveDirectoryIterator($folder, FilesystemIterator::SKIP_DOTS);
                 $recII = new RecursiveIteratorIterator($recDI, RecursiveIteratorIterator::CHILD_FIRST);
+                /** @var SplFileInfo $deleteItem */
                 foreach ($recII as $deleteItem) {
-                    $deleteItem->isDir() ? rmdir($deleteItem) : unlink($deleteItem);
+                    $deleteItem->isDir() ? rmdir($deleteItem->getRealPath()) : unlink($deleteItem->getRealPath());
                 }
                 rmdir($folder);
             }

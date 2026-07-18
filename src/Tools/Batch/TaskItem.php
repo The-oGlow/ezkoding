@@ -64,7 +64,7 @@ class TaskItem implements ITaskItem
     #[\Override]
     public function getDataKeys(): Set
     {
-        return new Set($this->data);
+        return $this->data->keys();
     }
 
     #[\Override]

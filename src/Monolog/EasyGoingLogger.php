@@ -28,6 +28,9 @@ class EasyGoingLogger
 
     public const string LOGGER_NULL    = 'Psr\Log\NullLogger';
 
+    /** @var array<mixed,class-string> LOGGER_CHOICE */
+    private const array LOGGER_CHOICE = [self::LOGGER_CONSOLE, self::LOGGER_DEFAULT, self::LOGGER_NULL];
+        
     private function __construct()
     {
         // Hide public constructor
@@ -51,16 +54,16 @@ class EasyGoingLogger
         array $processors = [],
         ?DateTimeZone $timezone = null
     ): LoggerInterface {
-        /** @phpstan-var class-string<LoggerInterface> */
-        $clazzName = self::LOGGER_NULL;
-        if (class_exists(self::LOGGER_CONSOLE)) {
-            $clazzName = self::LOGGER_CONSOLE;
-        } elseif (class_exists(self::LOGGER_DEFAULT)) {
-            $clazzName = self::LOGGER_DEFAULT;
-        }
-
+        
         $instance = null;
 
+        /** @phpstan-var class-string<LoggerInterface> $clazzName */
+        foreach (self::LOGGER_CHOICE as $clazzName) {
+            if (class_exists($clazzName)) {
+                break;
+            }
+        }
+        
         try {
             /**
              * @psalm-suppress ArgumentTypeCoercion

@@ -16,6 +16,7 @@ namespace ollily\Tools\Twig;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\TemplateWrapper;
+use ollily\Tools\Test\TestData;
 
 class TemplateFactoryTest extends TestCase
 {
@@ -51,7 +52,7 @@ class TemplateFactoryTest extends TestCase
         self::assertInstanceOf($expected, $this->o2t, 'Instance has wrong clazz-type');
     }
 
-    public function testLoadFile(): void
+    public function testLoadTemplate(): void
     {
         $expected = TemplateWrapper::class;
 
@@ -82,6 +83,14 @@ class TemplateFactoryTest extends TestCase
         }
     }
 
+    public function testCleanTemplateData(): void {
+
+        $expected = TestData::ARRAY_ALPHA_KEY3;
+        $templateData= TestData::ARRAY_ALPHA_KEY3;
+        $actual = $this->o2t::cleanTemplateData($templateData);
+        
+        self::assertEquals($expected, $actual);
+    }
     /**
      * @return array<mixed,mixed>
      */

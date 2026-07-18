@@ -37,7 +37,7 @@ class ItemConfig implements IItemConfig
     #[\Override]
     public function getConfig(mixed $key): mixed
     {
-        return $this->fullConfig->get($key);
+        return $this->fullConfig->get($key, null);
     }
 
     #[\Override]

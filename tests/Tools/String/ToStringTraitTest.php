@@ -57,9 +57,10 @@ class ToStringTraitTest extends TestCase
 
     public function testToStringDefault(): void
     {
-        $result = $this->o2t->__toString();
-        self::assertNotEmpty($result);
-        self::assertStringContainsString(get_class($this->o2t), $result);
+        $actual = $this->o2t->__toString();
+        self::assertNotEmpty($actual);
+        var_dump($actual);
+        self::assertStringContainsString(get_class($this->o2t), $actual);
     }
 
     public function testWakeup(): void
@@ -89,6 +90,10 @@ class ToStringTraitTest extends TestCase
             'StringAsValue' => [
                 TestData::DATA_ALPHA1,
                 sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TestData::DATA_ALPHA1),
+            ],
+            'ScalarAsValue' => [
+                TestData::DATA_FLOAT1,
+                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TestData::DATA_FLOAT1),
             ],
             'IntegerAsValue' => [
                 TestData::DATA_NUM1,

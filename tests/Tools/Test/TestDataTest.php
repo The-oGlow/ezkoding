@@ -92,6 +92,28 @@ class TestDataTest extends TestCase
         self::assertCount($expectedCount, $actual);
     }
 
+    public function testDataObject() {
+        
+        $expected = TestDataFoo::class;
+        $actual = TestData::DATA_OBJECT1();
+        
+        self::assertInstanceOf($expected, $actual);
+        
+    }
+
+        public function testArrayObject()
+    {
+
+        $expected = TestDataFoo::class;
+        $actuals = [1=> TestData::ARRAY_OBJECT1(), 2=> TestData::ARRAY_OBJECT2(), 3=> TestData::ARRAY_OBJECT3()];
+            
+        foreach ($actuals as $key => $actual){
+            self::assertIsArray($actual);
+            self::assertEquals($key,count($actual));
+            self::assertInstanceOf($expected, $actual[array_key_first($actual)]);
+        }
+    }
+
     public function testPrepareTempFile(): void
     {
         self::$fileName = TestData::prepareTempFile();

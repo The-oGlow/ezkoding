@@ -26,19 +26,33 @@ use Twig\TemplateWrapper;
 
 class TemplateFactory
 {
+
     use EnvironmentVariableTrait;
 
     public const string DEFAULT_TEMPLATE_FOLDER = 'resources/src/Twig';
-
     public const string DEFAULT_TEMPLATE_EXT = '.html.twig';
-
     public const string DEFAULT_CACHE_FOLDER = 'twigcache';
 
     private static LoggerInterface $logger;
-
     private LoaderInterface $loader;
-
     private Environment $environment;
+
+    /**
+     * @param array<mixed,mixed> $templateData
+     *
+     * @return array<mixed,mixed>
+     */
+    public static function cleanTemplateData(array $templateData): array
+    {
+        $callback = function (mixed $key): mixed {
+            return str_replace(' ', '', $key);
+        };
+        /** @var array<string,string>
+         * @phpstan-ignore varTag.type */
+        $fixedKeys = array_map($callback, array_keys($templateData));
+
+        return array_combine($fixedKeys, array_values($templateData));
+    }
 
     /**
      * @param string $templatePath
@@ -81,7 +95,7 @@ class TemplateFactory
 
         $template = $this->loadTemplate($templateName);
         if (!empty($template)) {
-            $templateData = $this->cleanTemplateData($templateData);
+            $templateData = self::cleanTemplateData($templateData);
 
             try {
                 $templateRendered = $template->render($templateData);
@@ -136,7 +150,7 @@ class TemplateFactory
             $cachePath = 'false';
         } else {
             if (!file_exists($cachePath)) {
-                mkdir(directory:$cachePath, recursive: true);
+                mkdir(directory: $cachePath, recursive: true);
             }
             $cachePath = realpath($cachePath);
         }
@@ -145,22 +159,5 @@ class TemplateFactory
         self::$logger->debug('Cache path ', [$cachePath]);
 
         return [$templatePath, $cachePath];
-    }
-
-    /**
-     * @param array<mixed,mixed> $templateData
-     *
-     * @return array<mixed,mixed>
-     */
-    protected function cleanTemplateData(array $templateData): array
-    {
-        $callback = function (mixed $key): mixed {
-            return str_replace(' ', '', $key);
-        };
-        /** @var array<string,string>
-         * @phpstan-ignore varTag.type */
-        $fixedKeys = array_map($callback, array_keys($templateData));
-
-        return array_combine($fixedKeys, array_values($templateData));
     }
 }

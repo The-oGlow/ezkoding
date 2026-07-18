@@ -33,7 +33,13 @@ class TestData
     public const int DATA_NUM4 = 44;
 
     public const int DATA_NUM5 = 55;
+    
+    public const float DATA_FLOAT1 = 1.2;
 
+    public const float DATA_FLOAT2 = 23.45;
+    
+    public const float DATA_FLOAT3 = 345.678;
+    
     public const string DATA_ALPHA1 = 'DATA-ALPHA11';
 
     public const string DATA_ALPHA2 = 'DATA-ALPHA22';
