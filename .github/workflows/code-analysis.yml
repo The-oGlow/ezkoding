@@ -111,6 +111,7 @@ jobs:
 
       # not using automatic from sonarcloud
       - name: sonarcloud
+        if: always()        
         uses: SonarSource/sonarqube-scan-action@v5.3.1
         env:
           SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
@@ -118,7 +119,7 @@ jobs:
 
       # coverage must be uploaded manually
       - name: codacy scan
-        if: ${{ hashFiles('target/analysis/clover/coverage.xml') != '' }}
+        if: always() && ${{ hashFiles('target/analysis/clover/coverage.xml') != '' }}
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           api-token: ${{ env.CODACY_API_TOKEN }}
@@ -126,7 +127,7 @@ jobs:
 
       # coverage must be uploaded manually
       - name: coveralls scan
-        if: ${{ hashFiles('target/analysis/clover/coverage.xml') != '' }}
+        if: always() && ${{ hashFiles('target/analysis/clover/coverage.xml') != '' }}
         uses: coverallsapp/github-action@v2.3.6
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
