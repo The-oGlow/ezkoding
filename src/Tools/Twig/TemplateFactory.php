@@ -26,15 +26,18 @@ use Twig\TemplateWrapper;
 
 class TemplateFactory
 {
-
     use EnvironmentVariableTrait;
 
     public const string DEFAULT_TEMPLATE_FOLDER = 'resources/src/Twig';
+
     public const string DEFAULT_TEMPLATE_EXT = '.html.twig';
+
     public const string DEFAULT_CACHE_FOLDER = 'twigcache';
 
     private static LoggerInterface $logger;
+
     private LoaderInterface $loader;
+
     private Environment $environment;
 
     /**

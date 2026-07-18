@@ -52,7 +52,7 @@ final class Unzip
      *
      * @return int 0=Unzip successfull, else >=1
      */
-    final public static function myFile(string $zipFile, string $targetDir = ''): int
+    public static function myFile(string $zipFile, string $targetDir = ''): int
     {
         $isSucc = Unzip::ERROR;
 

@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Twig;
 
+use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\TemplateWrapper;
-use ollily\Tools\Test\TestData;
 
 class TemplateFactoryTest extends TestCase
 {
@@ -83,14 +83,15 @@ class TemplateFactoryTest extends TestCase
         }
     }
 
-    public function testCleanTemplateData(): void {
-
+    public function testCleanTemplateData(): void
+    {
         $expected = TestData::ARRAY_ALPHA_KEY3;
-        $templateData= TestData::ARRAY_ALPHA_KEY3;
+        $templateData = TestData::ARRAY_ALPHA_KEY3;
         $actual = $this->o2t::cleanTemplateData($templateData);
-        
+
         self::assertEquals($expected, $actual);
     }
+
     /**
      * @return array<mixed,mixed>
      */

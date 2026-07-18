@@ -59,7 +59,6 @@ class ToStringTraitTest extends TestCase
     {
         $actual = $this->o2t->__toString();
         self::assertNotEmpty($actual);
-        var_dump($actual);
         self::assertStringContainsString(get_class($this->o2t), $actual);
     }
 

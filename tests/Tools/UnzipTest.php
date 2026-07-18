@@ -19,8 +19,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use ZipArchive;
 use SplFileInfo;
+use ZipArchive;
 
 class UnzipTest extends TestCase
 {

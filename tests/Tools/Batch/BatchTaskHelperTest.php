@@ -61,6 +61,7 @@ class BatchTaskHelperTest extends TestCase
     {
         return [
             'empty' => [BatchTaskHelper::DEFAULT, 0, true, TestData::FILE_FILENAME_EMPTY, new ItemConfig(new Map()), TestData::KEY_EMPTY],
+            'simpleFile' => [BatchTaskHelper::DEFAULT, 3, false, TaskListTest::prepareFiles()[2], new ItemConfig(new Map()), TestData::KEY_EMPTY],
         ];
     }
 }

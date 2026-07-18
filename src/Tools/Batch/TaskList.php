@@ -183,19 +183,21 @@ class TaskList
         return $fileStored;
     }
 
-    public function parseDataKeys(mixed $dataKeysLine): void
+    public function parseDataKeys(mixed $dataKeysLine): bool
     {
         self::$logger->debug('START - itemKey');
 
         if ($this->withDataKeys && !$this->dataKeysRead && is_string($dataKeysLine)) {
-                $newLine = preg_filter(self::LINE_ENDS, '', $dataKeysLine);
-                /** @psalm-suppress RiskyTruthyFalsyComparison */
-                if (!empty($newLine)) {
-                    $this->dataKeys = new Set(explode(self::ITEM_SEP, $newLine));
-                }
-                $this->dataKeysRead = true;
+            $newLine = preg_filter(self::LINE_ENDS, '', $dataKeysLine);
+            /** @psalm-suppress RiskyTruthyFalsyComparison */
+            if (!empty($newLine)) {
+                $this->dataKeys = new Set(explode(self::ITEM_SEP, $newLine));
+            }
+            $this->dataKeysRead = true;
         }
 
         self::$logger->debug('END');
+
+        return $this->dataKeysRead;
     }
 }

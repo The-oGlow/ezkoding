@@ -14,17 +14,16 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use Ds\Map;
-use Ds\Set;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\EasyGoingTestCase;
 
 class TaskItemTest extends EasyGoingTestCase
 {
-
     public const int KEY = TestData::KEY_NUM1;
 
     /** @var Map<mixed,mixed> */
     public static Map $data;
+
     public static IItemConfig $config;
 
     /** @var Map<mixed,mixed> */

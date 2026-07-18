@@ -53,7 +53,7 @@ class TestDataTest extends TestCase
 
     public function testConstantsData(): void
     {
-        $expectedCount = 16;
+        $expectedCount = 19;
 
         $this->verifyResult($expectedCount, 'data');
     }
@@ -92,24 +92,24 @@ class TestDataTest extends TestCase
         self::assertCount($expectedCount, $actual);
     }
 
-    public function testDataObject() {
-        
+    public function testDataObject(): void
+    {
         $expected = TestDataFoo::class;
         $actual = TestData::DATA_OBJECT1();
-        
+
         self::assertInstanceOf($expected, $actual);
-        
     }
 
-        public function testArrayObject()
+    public function testArrayObject(): void
     {
-
         $expected = TestDataFoo::class;
-        $actuals = [1=> TestData::ARRAY_OBJECT1(), 2=> TestData::ARRAY_OBJECT2(), 3=> TestData::ARRAY_OBJECT3()];
-            
-        foreach ($actuals as $key => $actual){
+        /** @var array<mixed,mixed> $actuals */
+        $actuals = [1 => TestData::ARRAY_OBJECT1(), 2 => TestData::ARRAY_OBJECT2(), 3 => TestData::ARRAY_OBJECT3()];
+
+        foreach ($actuals as $key => $actual) {
             self::assertIsArray($actual);
-            self::assertEquals($key,count($actual));
+            self::assertEquals($key, count($actual));
+            /** @psalm-suppress PossiblyNullArrayOffset */
             self::assertInstanceOf($expected, $actual[array_key_first($actual)]);
         }
     }

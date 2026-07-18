@@ -24,6 +24,8 @@ class TaskListTest extends EasyGoingTestCase
 
     public const string DATA = TestData::DATA_ALPHA1;
 
+    public const string DATA_KEY = TestData::KEY_ALPHA1 . TaskList::ITEM_SEP . TestData::KEY_ALPHA2;
+
     private string $writeTaskListFile = '';
 
     #[\Override]
@@ -47,13 +49,13 @@ class TaskListTest extends EasyGoingTestCase
             $existingFile = '';
         }
 
-        return [TestData::FILE_FILENAME_EMPTY,$emptyFile, $existingFile];
+        return [TestData::FILE_FILENAME_EMPTY, $emptyFile, $existingFile];
     }
 
     #[\Override]
     protected static function prepareO2t(): TaskList
     {
-        return new TaskList(self::KEY);
+        return new TaskList(self::KEY, true);
     }
 
     #[\Override]
@@ -76,6 +78,15 @@ class TaskListTest extends EasyGoingTestCase
         $expected = true;
 
         $actual = $this->getCasto2t()->isEmpty();
+
+        self::assertEquals($expected, $actual);
+    }
+
+    public function testIsWithDataKeys(): void
+    {
+        $expected = true;
+
+        $actual = $this->getCasto2t()->isWithDataKeys();
 
         self::assertEquals($expected, $actual);
     }
@@ -133,6 +144,16 @@ class TaskListTest extends EasyGoingTestCase
 
         self::assertEquals($expected, $actual);
         self::assertFileExists($this->writeTaskListFile);
+    }
+
+    public function testParseDataKeys(): void
+    {
+        $expected = true;
+        $dataKeysLine = self::DATA_KEY;
+
+        $actual = $this->getCasto2t()->parseDataKeys($dataKeysLine);
+
+        self::assertEquals($expected, $actual);
     }
 
     // Dataprovider
