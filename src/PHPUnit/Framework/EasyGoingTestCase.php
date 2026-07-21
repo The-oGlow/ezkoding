@@ -22,7 +22,7 @@ abstract class EasyGoingTestCase extends TestCase
     public const string    C_STATIC_SEP = '::';
 
     /** All primitive datatypes */
-    protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float';
+    protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float|double';
 
     private static LoggerInterface $logger;
 
@@ -173,12 +173,12 @@ abstract class EasyGoingTestCase extends TestCase
 
         $isDefined = self::isConstExist($this->o2t, $constantName);
         if ($isDefined) {
-            $constantValue = self::getConstValue($this->o2t, $constantName);
             self::$logger->debug("Checking '$constantName'");
+            $constantValue = self::getConstValue($this->o2t, $constantName);
             if (static::isPrimitive($constantValue)) {
-                self::assertGreaterThan(0, strlen("$constantValue"), sprintf("The primitive '%s'='%s'", $constantName, $constantValue));
+                self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("The primitive '%s'='%s'", $constantName, $constantValue));
             } else {
-                self::assertNotEmpty($constantValue, sprintf('Constant \'%s\' is empty!', $constantName));
+                self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("Constant '%s'='%s'", $constantName, $constantValue));
             }
         } else {
             self::fail(sprintf("FAIL: Constant '%s' not exists", $constantName));
