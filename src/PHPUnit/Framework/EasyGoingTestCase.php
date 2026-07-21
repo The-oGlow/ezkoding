@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework;
 
+use UnitEnum;
+use BackedEnum;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
@@ -178,7 +180,16 @@ abstract class EasyGoingTestCase extends TestCase
             if (static::isPrimitive($constantValue)) {
                 self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("The primitive '%s'='%s'", $constantName, $constantValue));
             } else {
-                self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("Constant '%s'='%s'", $constantName, $constantValue));
+                if($constantValue instanceof UnitEnum) {
+                    if($constantValue instanceof BackedEnum) {
+                        $value=$constantValue->value;
+                    }else {
+                        $value = $constantValue->name;
+                    }
+                    self::assertGreaterThanOrEqual(0, strlen($value), sprintf("Enum '%s'='%s'", $constantName, $value));
+                } else {
+                    self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("Constant '%s'='%s'", $constantName, $constantValue));
+                }
             }
         } else {
             self::fail(sprintf("FAIL: Constant '%s' not exists", $constantName));
