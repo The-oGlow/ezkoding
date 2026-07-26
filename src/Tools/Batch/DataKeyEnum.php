@@ -31,7 +31,7 @@ enum DataKeyEnum: string implements IDoubleBackedEnum
     #[\Override]
     public function intValue(): int
     {
-        return (int) $this->value;
+        return 0;
     }
 
     #[\Override]
