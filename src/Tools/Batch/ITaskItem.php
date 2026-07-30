@@ -17,48 +17,49 @@ use Ds\Map;
 use Ds\Set;
 
 /**
- * @phpstan-type TaskKey mixed
- * @phpstan-type DataKey mixed
- * @phpstan-type TaskData Map<DataKey,mixed>
+ * @phpstan-type TTaskItemId mixed
+ * @phpstan-type TDataKey mixed
+ * @phpstan-type TDataValue mixed
  */
 interface ITaskItem extends \Stringable
 {
     /**
      * return mixed.
      *
-     * @phpstan-return TaskKey
+     * @phpstan-return TTaskItemId
      */
-    public function getKey(): mixed;
+    public function getItemId(): mixed;
 
     /**
      * return Map<mixed,mixed>.
      *
-     * @phpstan-return TaskData
+     * @phpstan-return Map<TDataKey,TDataValue>
      */
     public function getData(): Map;
 
     /**
-     * return Set.
+     * return Set<mixed>
      *
-     * @phpstan-return Set<DataKey>
+     * @phpstan-return Set<TDataKey>
      */
     public function getDataKeys(): Set;
 
     /**
      * @param mixed $dataKey
      *
-     * @phpstan-param DataKey $dataKey
-     *
      * @return mixed
+     * 
+     * @phpstan-param TDataKey $dataKey
+     * @phpstan-return TDataValue
      */
     public function getDataValue(mixed $dataKey): mixed;
 
     /**
      * @param mixed $dataKey
      *
-     * @phpstan-param DataKey $dataKey
-     *
      * @return bool TRUE=Item is empty, else false
+     * 
+     * @phpstan-param TDataKey $dataKey
      */
     public function isDataKeyExist(mixed $dataKey): bool;
 
@@ -71,18 +72,6 @@ interface ITaskItem extends \Stringable
      * @return int Count of columns
      */
     public function count(): int;
-
-    /**
-     * @return IItemConfig
-     */
-    public function getItemConfig(): IItemConfig;
-
-    /**
-     * @param mixed $key
-     *
-     * @return mixed
-     */
-    public function getConfig(mixed $key): mixed;
 
     #[\Override]
     public function __toString(): string;

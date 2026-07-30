@@ -15,13 +15,21 @@ namespace ollily\Tools\Batch;
 
 use Ds\Map;
 
-class ItemConfig implements IItemConfig
+/**
+ * @phpstan-import-type ConfigKey from IBatchConfig
+ * @phpstan-import-type ConfigData from IBatchConfig
+ * @phpstan-import-type ConfigMap from IBatchConfig
+ */
+class BatchConfig implements IBatchConfig
 {
-    /** @var Map<mixed,mixed> */
+    /** @var Map<mixed,mixed> 
+     * @phpstan-var ConfigMap */
     private Map $fullConfig;
 
     /**
      * @param Map<mixed,mixed> $fullConfig
+     * 
+     * @param ConfigMap $fullConfig
      */
     public function __construct(Map $fullConfig)
     {

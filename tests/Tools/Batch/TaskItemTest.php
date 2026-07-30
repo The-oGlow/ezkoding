@@ -19,29 +19,25 @@ use PHPUnit\Framework\EasyGoingTestCase;
 
 class TaskItemTest extends EasyGoingTestCase
 {
-    public const int KEY = TestData::KEY_NUM1;
+    public const int LIST_ID = TestData::KEY_NUM1;
 
-    /** @var Map<mixed,mixed> */
+    /** @var Map<mixed,mixed>
+     * @param-var Map<TDataKey,TDataValue> */
     public static Map $data;
 
-    public static IItemConfig $config;
-
-    /** @var Map<mixed,mixed> */
-    public static Map $configData;
 
     #[\Override]
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+
         self::$data = new Map([TestData::DATA_ALPHA1, TestData::DATA_BOOL_T]);
-        self::$configData = new Map([TestData::KEY_ALPHA2 => TestData::DATA_ALPHA2]);
-        self::$config = new ItemConfig(self::$configData);
     }
 
     #[\Override]
     protected static function prepareO2t(): ITaskItem
     {
-        return new TaskItem(self::KEY, self::$data, self::$config);
+        return new TaskItem(self::LIST_ID, self::$data);
     }
 
     #[\Override]
@@ -59,11 +55,11 @@ class TaskItemTest extends EasyGoingTestCase
         self::assertInstanceOf($expected, $actual);
     }
 
-    public function testGetKey(): void
+    public function testGetItemId(): void
     {
-        $expected = self::KEY;
+        $expected = self::LIST_ID;
 
-        $actual = $this->getCasto2t()->getKey();
+        $actual = $this->getCasto2t()->getItemId();
 
         self::assertEquals($expected, $actual);
     }
@@ -108,7 +104,7 @@ class TaskItemTest extends EasyGoingTestCase
     {
         $expected = true;
 
-        $actual = $this->getCasto2t()->isDataKeyExist(self::KEY);
+        $actual = $this->getCasto2t()->isDataKeyExist(self::LIST_ID);
 
         self::assertEquals($expected, $actual);
     }
@@ -129,25 +125,5 @@ class TaskItemTest extends EasyGoingTestCase
         $actual = $this->getCasto2t()->count();
 
         self::assertEquals($expected, $actual);
-    }
-
-    public function testGetItemConfig(): void
-    {
-        $expected = ItemConfig::class;
-
-        $actual = $this->getCasto2t()->getItemConfig();
-
-        self::assertInstanceOf($expected, $actual);
-        self::assertEquals(self::$config, $actual);
-    }
-
-    public function testGetConfig(): void
-    {
-        $expectedKey = TestData::KEY_ALPHA2;
-        $expectedValue = TestData::DATA_ALPHA2;
-
-        $actual = $this->getCasto2t()->getConfig($expectedKey);
-
-        self::assertEquals($expectedValue, $actual);
     }
 }

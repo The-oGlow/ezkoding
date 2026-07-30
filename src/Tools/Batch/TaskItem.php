@@ -18,41 +18,39 @@ use Ds\Set;
 use ollily\Tools\String\ToStringTrait;
 
 /**
- * @phpstan-import-type TaskKey from ITaskItem
- * @phpstan-import-type DataKey from ITaskItem
- * @phpstan-import-type TaskData from ITaskItem
+ * @phpstan-import-type TTaskItemId from ITaskItem
+ * @phpstan-import-type TDataKey from ITaskItem
+ * @phpstan-import-type TDataValue from ITaskItem
  */
 class TaskItem implements ITaskItem
 {
     use ToStringTrait;
 
-    /** @phpstan-var TaskKey */
-    private mixed $key = '';
+    /** @var mixed $itemId
+     *  @phpstan-var TTaskItemId $itemId */
+    private mixed $itemId = '';
 
-    /** @phpstan-var TaskData */
+    /** @var Map<mixed,mixed> $data
+     *  @phpstan-var Map<TDataKey,TDataValue> $data */
     private Map $data;
 
-    private IItemConfig $itemConfig;
-
     /**
-     * @param mixed            $key
+     * @param mixed            $ItemId
      * @param Map<mixed,mixed> $data
-     * @param IItemConfig      $itemConfig
      *
-     * @phpstan-param TaskKey  $key
-     * @phpstan-param TaskData $data
+     * @phpstan-param TTaskItemId  $ItemId
+     * @phpstan-param Map<TDataKey,TDataValue> $data
      */
-    public function __construct(mixed $key, Map $data, IItemConfig $itemConfig)
+    public function __construct(mixed $ItemId, Map $data)
     {
-        $this->key = $key;
+        $this->itemId = $ItemId;
         $this->data = $data;
-        $this->itemConfig = $itemConfig;
     }
 
     #[\Override]
-    public function getKey(): mixed
+    public function getItemId(): mixed
     {
-        return $this->key;
+        return $this->itemId;
     }
 
     #[\Override]
@@ -95,18 +93,6 @@ class TaskItem implements ITaskItem
     public function count(): int
     {
         return $this->data->count();
-    }
-
-    #[\Override]
-    public function getItemConfig(): IItemConfig
-    {
-        return $this->itemConfig;
-    }
-
-    #[\Override]
-    public function getConfig(mixed $key): mixed
-    {
-        return $this->itemConfig->getConfig($key);
     }
 
     /**

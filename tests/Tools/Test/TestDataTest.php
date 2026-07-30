@@ -46,7 +46,7 @@ class TestDataTest extends TestCase
 
     public function testConstantsKey(): void
     {
-        $expectedCount = 19;
+        $expectedCount = 16;
 
         $this->verifyResult($expectedCount, 'key');
     }

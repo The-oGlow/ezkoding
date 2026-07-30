@@ -182,13 +182,17 @@ abstract class EasyGoingTestCase extends TestCase
             } else {
                 if($constantValue instanceof UnitEnum) {
                     if($constantValue instanceof BackedEnum) {
-                        $value=$constantValue->value;
+                        $constantValue =$constantValue->value;
                     }else {
-                        $value = $constantValue->name;
+                        $constantValue = $constantValue->name;
                     }
-                    self::assertGreaterThanOrEqual(0, strlen($value), sprintf("Enum '%s'='%s'", $constantName, $value));
+                }
+                if (self::isPrimitive($constantValue)) {
+                    self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("Primitive '%s'='%s'", $constantName, $constantValue));
+                } elseif (is_array($constantValue)) {
+                        self::assertGreaterThanOrEqual(0, count($constantValue), sprintf("Array '%s'='%s'", $constantName, implode($constantValue)));
                 } else {
-                    self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("Constant '%s'='%s'", $constantName, $constantValue));
+                    self::assertGreaterThanOrEqual(0, strlen("$constantValue"));
                 }
             }
         } else {

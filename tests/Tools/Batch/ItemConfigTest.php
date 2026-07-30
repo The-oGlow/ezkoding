@@ -19,12 +19,12 @@ use PHPUnit\Framework\TestCase;
 
 class ItemConfigTest extends TestCase
 {
-    private ItemConfig $o2t;
+    private BatchConfig $o2t;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->o2t = new ItemConfig(new Map());
+        $this->o2t = new BatchConfig(new Map());
     }
 
     public function testGetFullConfig(): void

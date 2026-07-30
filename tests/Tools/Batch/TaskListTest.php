@@ -20,11 +20,11 @@ use PHPUnit\Framework\EasyGoingTestCase;
 
 class TaskListTest extends EasyGoingTestCase
 {
-    public const string KEY = TestData::KEY_ALPHA1;
+    public const string LIST_ID = TestData::KEY_ALPHA1;
 
     public const string DATA = TestData::DATA_ALPHA1;
 
-    public const string DATA_KEY = TestData::KEY_ALPHA1 . TaskList::ITEM_SEP . TestData::KEY_ALPHA2;
+    public const string DATA_KEY = TestData::KEY_ALPHA1 . TaskList::DEFAULT_ITEM_SEP . TestData::KEY_ALPHA2;
 
     private string $writeTaskListFile = '';
 
@@ -55,7 +55,7 @@ class TaskListTest extends EasyGoingTestCase
     #[\Override]
     protected static function prepareO2t(): TaskList
     {
-        return new TaskList(self::KEY, true);
+        return new TaskList(self::LIST_ID, new BatchConfig(new Map()), true);
     }
 
     #[\Override]
@@ -64,11 +64,11 @@ class TaskListTest extends EasyGoingTestCase
         return $this->o2t;
     }
 
-    public function testGetListKey(): void
+    public function testGetListId(): void
     {
-        $expected = self::KEY;
+        $expected = self::LIST_ID;
 
-        $actual = $this->getCasto2t()->getListKey();
+        $actual = $this->getCasto2t()->getListId();
 
         self::assertEquals($expected, $actual);
     }
@@ -82,11 +82,11 @@ class TaskListTest extends EasyGoingTestCase
         self::assertEquals($expected, $actual);
     }
 
-    public function testIsWithDataKeys(): void
+    public function testIsWithDataItemId(): void
     {
         $expected = true;
 
-        $actual = $this->getCasto2t()->isWithDataKeys();
+        $actual = $this->getCasto2t()->isWithDataItemId();
 
         self::assertEquals($expected, $actual);
     }
@@ -95,7 +95,8 @@ class TaskListTest extends EasyGoingTestCase
     {
         $expected = $this->randomItems();
 
-        foreach ($this->prepareTaskItem($this->getCasto2t()->getListKey(), $expected) as $taskItem) {
+        $taskItems = $this->prepareTaskItem($this->getCasto2t()->getListId(), $expected);
+        foreach ($taskItems as $taskItem) {
             $this->getCasto2t()->addTask($taskItem);
         }
         self::assertEquals($expected, $this->getCasto2t()->count());
@@ -103,16 +104,17 @@ class TaskListTest extends EasyGoingTestCase
 
     public function testNextTask(): void
     {
-        $listKey = $this->getCasto2t()->getListKey();
+        $listKey = $this->getCasto2t()->getListId();
         $countItems = $this->randomItems();
-        foreach ($this->prepareTaskItem($listKey, $countItems) as $taskItem) {
+        $taskItems = $this->prepareTaskItem($listKey, $countItems);
+        foreach ($taskItems as $taskItem) {
             $this->getCasto2t()->addTask($taskItem);
         }
 
         for ($idx = 0; $idx < $countItems; $idx++) {
             $item = $this->getCasto2t()->nextTask();
             self::assertNotNull($item);
-            self::assertEquals($listKey . $idx, $item->getKey());
+            self::assertEquals($listKey . $idx, $item->getItemId());
             self::assertEquals(new Map([self::DATA . $idx, $idx * 10]), $item->getData());
         }
 
@@ -121,10 +123,10 @@ class TaskListTest extends EasyGoingTestCase
     }
 
     #[DataProvider('providerTaskListFile')]
-    public function testReadFileFile(bool $expected, int $expectedCount, string $fileName, IItemConfig $itemConfig): void
+    public function testReadFileFile(bool $expected, int $expectedCount, string $fileName): void
     {
-        $this->o2t = new TaskList(self::class);
-        $actual = $this->getCasto2t()->readFile($fileName, $itemConfig);
+        $this->o2t = new TaskList(self::class, new BatchConfig(new Map()));
+        $actual = $this->getCasto2t()->readFile($fileName);
 
         self::assertEquals($expectedCount, $this->getCasto2t()->count());
         self::assertEquals($expected, $actual);
@@ -135,7 +137,8 @@ class TaskListTest extends EasyGoingTestCase
         $expected = true;
 
         $countItems = $this->randomItems();
-        foreach ($this->prepareTaskItem($this->getCasto2t()->getListKey(), $countItems) as $taskItem) {
+        $taskItems = $this->prepareTaskItem($this->getCasto2t()->getListId(), $countItems);
+        foreach ($taskItems as $taskItem) {
             $this->getCasto2t()->addTask($taskItem);
         }
         $this->writeTaskListFile = TestData::prepareTempFile();
@@ -146,12 +149,12 @@ class TaskListTest extends EasyGoingTestCase
         self::assertFileExists($this->writeTaskListFile);
     }
 
-    public function testParseDataKeys(): void
+    public function testParseDataItemIds(): void
     {
         $expected = true;
         $dataKeysLine = self::DATA_KEY;
 
-        $actual = $this->getCasto2t()->parseDataKeys($dataKeysLine);
+        $actual = $this->getCasto2t()->parseDataItemIds($dataKeysLine);
 
         self::assertEquals($expected, $actual);
     }
@@ -164,32 +167,31 @@ class TaskListTest extends EasyGoingTestCase
     public static function providerTaskListFile(): array
     {
         return [
-            'emptyFileName' => [false, 0, self::prepareFiles()[0], new ItemConfig(new Map())],
-            'emptyFile' => [true, 0, self::prepareFiles()[1], new ItemConfig(new Map())],
-            'existingFile' => [true, 3, self::prepareFiles()[2], new ItemConfig(new Map())],
+            'emptyFileName' => [false, 0, self::prepareFiles()[0]],
+            'emptyFile' => [true, 0, self::prepareFiles()[1]],
+            'existingFile' => [true, 3, self::prepareFiles()[2]],
         ];
     }
 
     // Misc functions
 
     /**
-     * @param mixed $taskListKey
+     * @param mixed $listId
      * @param int   $count
      *
-     * @return array<ITaskItem>
+     * @return array<mixed,ITaskItem>
      */
-    protected function prepareTaskItem(mixed $taskListKey, int $count): array
+    protected function prepareTaskItem(mixed $listId, int $count): array
     {
-        $items = [];
+        $taskItems = [];
 
         for ($idx = 0; $idx < $count; $idx++) {
-            $key = "$taskListKey" . $idx;
+            $itemId = "$listId" . $idx;
             $data = new Map([self::DATA . $idx, $idx * 10]);
-            $itemConfig = new ItemConfig(new Map());
-            $items[] = new TaskItem($key, $data, $itemConfig);
+            $taskItems[] = new TaskItem($itemId, $data);
         }
 
-        return $items;
+        return $taskItems;
     }
 
     protected function randomItems(): int
