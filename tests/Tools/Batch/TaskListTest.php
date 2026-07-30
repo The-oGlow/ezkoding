@@ -26,7 +26,16 @@ class TaskListTest extends EasyGoingTestCase
 
     public const string DATA_KEY = TestData::KEY_ALPHA1 . TaskList::DEFAULT_ITEM_SEP . TestData::KEY_ALPHA2;
 
+    private static IBatchConfig $listConfig;
+
     private string $writeTaskListFile = '';
+
+    #[\Override]
+    public function setUp(): void
+    {
+        self::$listConfig = new BatchConfig(new Map([TestData::KEY_ALPHA1 => TestData::DATA_ALPHA1]));
+        parent::setUp();
+    }
 
     #[\Override]
     protected function tearDown(): void
@@ -34,28 +43,10 @@ class TaskListTest extends EasyGoingTestCase
         TestData::cleanupTempFile($this->writeTaskListFile);
     }
 
-    /**
-     * @return array<mixed,mixed>
-     */
-    public static function prepareFiles(): array
-    {
-        $reflector = new \ReflectionClass(self::class);
-        $path = realpath('' . $reflector->getFileName());
-        if ($path !== false) {
-            $emptyFile = str_replace(TestData::FILE_EXT_PHP, 'Empty' . TestData::FILE_EXT_CSV, $path);
-            $existingFile = str_replace(TestData::FILE_EXT_PHP, TestData::FILE_EXT_CSV, $path);
-        } else {
-            $emptyFile = '';
-            $existingFile = '';
-        }
-
-        return [TestData::FILE_FILENAME_EMPTY, $emptyFile, $existingFile];
-    }
-
     #[\Override]
     protected static function prepareO2t(): TaskList
     {
-        return new TaskList(self::LIST_ID, new BatchConfig(new Map()), true);
+        return new TaskList(self::LIST_ID, self::$listConfig, true);
     }
 
     #[\Override]
@@ -69,6 +60,15 @@ class TaskListTest extends EasyGoingTestCase
         $expected = self::LIST_ID;
 
         $actual = $this->getCasto2t()->getListId();
+
+        self::assertEquals($expected, $actual);
+    }
+
+    public function testGetListConfig(): void
+    {
+        $expected = self::$listConfig;
+
+        $actual = $this->getCasto2t()->getListConfig();
 
         self::assertEquals($expected, $actual);
     }
@@ -174,6 +174,24 @@ class TaskListTest extends EasyGoingTestCase
     }
 
     // Misc functions
+
+    /**
+     * @return array<mixed,mixed>
+     */
+    public static function prepareFiles(): array
+    {
+        $reflector = new \ReflectionClass(self::class);
+        $path = realpath('' . $reflector->getFileName());
+        if ($path !== false) {
+            $emptyFile = str_replace(TestData::FILE_EXT_PHP, 'Empty' . TestData::FILE_EXT_CSV, $path);
+            $existingFile = str_replace(TestData::FILE_EXT_PHP, TestData::FILE_EXT_CSV, $path);
+        } else {
+            $emptyFile = '';
+            $existingFile = '';
+        }
+
+        return [TestData::FILE_FILENAME_EMPTY, $emptyFile, $existingFile];
+    }
 
     /**
      * @param mixed $listId

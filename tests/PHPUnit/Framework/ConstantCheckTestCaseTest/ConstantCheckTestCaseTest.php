@@ -8,7 +8,7 @@ declare(strict_types=1);
  * (c) 2025 Oliver Glowa, coding.glowa.com
  *
  * This source file is subject to the Apache-2.0 license that is bundled
- * with this source code in zthe file LICENSE.
+ * with this source code in the file LICENSE.
  */
 
 namespace PHPUnit\Framework\ConstantCheckTestCaseTest;

@@ -18,18 +18,17 @@ use Ds\Map;
 /**
  * @phpstan-import-type ConfigKey from IBatchConfig
  * @phpstan-import-type ConfigData from IBatchConfig
- * @phpstan-import-type ConfigMap from IBatchConfig
  */
 class BatchConfig implements IBatchConfig
 {
-    /** @var Map<mixed,mixed> 
-     * @phpstan-var ConfigMap */
+    /** @var Map<mixed,mixed>
+     * @phpstan-var Map<ConfigKey,ConfigData> */
     private Map $fullConfig;
 
     /**
      * @param Map<mixed,mixed> $fullConfig
-     * 
-     * @param ConfigMap $fullConfig
+     *
+     * @phpstan-param Map<ConfigKey,ConfigData> $fullConfig
      */
     public function __construct(Map $fullConfig)
     {

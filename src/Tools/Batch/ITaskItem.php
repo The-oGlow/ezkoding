@@ -38,7 +38,7 @@ interface ITaskItem extends \Stringable
     public function getData(): Map;
 
     /**
-     * return Set<mixed>
+     * return Set<mixed>.
      *
      * @phpstan-return Set<TDataKey>
      */
@@ -47,9 +47,10 @@ interface ITaskItem extends \Stringable
     /**
      * @param mixed $dataKey
      *
-     * @return mixed
-     * 
      * @phpstan-param TDataKey $dataKey
+     *
+     * @return mixed
+     *
      * @phpstan-return TDataValue
      */
     public function getDataValue(mixed $dataKey): mixed;
@@ -57,9 +58,9 @@ interface ITaskItem extends \Stringable
     /**
      * @param mixed $dataKey
      *
-     * @return bool TRUE=Item is empty, else false
-     * 
      * @phpstan-param TDataKey $dataKey
+     *
+     * @return bool TRUE=Item is empty, else false
      */
     public function isDataKeyExist(mixed $dataKey): bool;
 

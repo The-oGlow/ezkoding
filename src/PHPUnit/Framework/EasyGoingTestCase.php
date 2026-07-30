@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework;
 
-use UnitEnum;
 use BackedEnum;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
+use UnitEnum;
 
 abstract class EasyGoingTestCase extends TestCase
 {
@@ -180,17 +180,17 @@ abstract class EasyGoingTestCase extends TestCase
             if (static::isPrimitive($constantValue)) {
                 self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("The primitive '%s'='%s'", $constantName, $constantValue));
             } else {
-                if($constantValue instanceof UnitEnum) {
-                    if($constantValue instanceof BackedEnum) {
-                        $constantValue =$constantValue->value;
-                    }else {
+                if ($constantValue instanceof UnitEnum) {
+                    if ($constantValue instanceof BackedEnum) {
+                        $constantValue = $constantValue->value;
+                    } else {
                         $constantValue = $constantValue->name;
                     }
                 }
                 if (self::isPrimitive($constantValue)) {
                     self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("Primitive '%s'='%s'", $constantName, $constantValue));
                 } elseif (is_array($constantValue)) {
-                        self::assertGreaterThanOrEqual(0, count($constantValue), sprintf("Array '%s'='%s'", $constantName, implode($constantValue)));
+                    self::assertGreaterThanOrEqual(0, count($constantValue), sprintf("Array '%s'='%s'", $constantName, implode($constantValue)));
                 } else {
                     self::assertGreaterThanOrEqual(0, strlen("$constantValue"));
                 }

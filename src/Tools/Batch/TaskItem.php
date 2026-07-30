@@ -26,24 +26,24 @@ class TaskItem implements ITaskItem
 {
     use ToStringTrait;
 
-    /** @var mixed $itemId
+    /** @var mixed
      *  @phpstan-var TTaskItemId $itemId */
     private mixed $itemId = '';
 
-    /** @var Map<mixed,mixed> $data
+    /** @var Map<mixed,mixed>
      *  @phpstan-var Map<TDataKey,TDataValue> $data */
     private Map $data;
 
     /**
-     * @param mixed            $ItemId
+     * @param mixed            $itemId
      * @param Map<mixed,mixed> $data
      *
-     * @phpstan-param TTaskItemId  $ItemId
+     * @phpstan-param TTaskItemId              $itemId
      * @phpstan-param Map<TDataKey,TDataValue> $data
      */
-    public function __construct(mixed $ItemId, Map $data)
+    public function __construct(mixed $itemId, Map $data)
     {
-        $this->itemId = $ItemId;
+        $this->itemId = $itemId;
         $this->data = $data;
     }
 

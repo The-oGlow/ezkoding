@@ -18,32 +18,34 @@ use Ds\Map;
 /**
  * @phpstan-type ConfigKey mixed
  * @phpstan-type ConfigData mixed
- * @phpstan-type ConfigMap Map<ConfigKey,ConfigData>
  */
 interface IBatchConfig
 {
     /**
      * @return Map<mixed,mixed>
-     * 
-     * @phpstan-return ConfigMap
+     *
+     * @phpstan-return Map<ConfigKey,ConfigData>
      */
     public function getFullConfig(): Map;
 
     /**
      * @param mixed $key
-     * 
-     * @return mixed
-     * 
+     *
      * @phpstan-param ConfigKey $key
+     *
+     * @return mixed
+     *
      * @phpstan-return ConfigData
      */
     public function getConfig(mixed $key): mixed;
 
     /**
      * @param mixed $key
+     * @param mixed $value
+     *
      * @oaram mixed $value
-     * 
-     * @phpstan-param ConfigKey $key
+     *
+     * @phpstan-param ConfigKey  $key
      * @phpstan-param ConfigData $value
      */
     public function setConfig(mixed $key, mixed $value): void;

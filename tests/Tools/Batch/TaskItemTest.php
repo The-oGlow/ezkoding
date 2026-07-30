@@ -25,7 +25,6 @@ class TaskItemTest extends EasyGoingTestCase
      * @param-var Map<TDataKey,TDataValue> */
     public static Map $data;
 
-
     #[\Override]
     public static function setUpBeforeClass(): void
     {

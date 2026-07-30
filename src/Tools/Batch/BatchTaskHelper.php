@@ -16,7 +16,6 @@ namespace ollily\Tools\Batch;
 use Ds\Map;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
-use ollily\Tools\Batch\IBatchConfig;
 
 /**
  * @phpstan-import-type TTaskListId from ITaskList
@@ -29,26 +28,28 @@ class BatchTaskHelper
 
     public const bool DEFAULT_WITH_DATA_KEYS = TaskList::DEFAULT_WITH_DATA_ITEM_ID;
 
-    
     public const int COL_PAGEID = 0;
 
     public const int COL_TITLE = 1;
 
-    private static bool $isInit=false;
-    
+    private static bool $isInit = false;
+
     /** @var Map<mixed,TaskList>
      * @phpstan-var Map<TTaskListId,TaskList> */
-    protected static final Map $tasklists;
+    protected static Map $tasklists;
 
-    protected static final LoggerInterface $logger;
+    protected static LoggerInterface $logger;
 
-    protected static final IBatchConfig $defaultConfig;
+    protected static IBatchConfig $defaultConfig;
 
     private function __construct()
     {
         self::init();
     }
 
+    /**
+     * @psalm-suppress RedundantPropertyInitializationCheck
+     */
     public static function init(): void
     {
         if (!self::$isInit) {
@@ -61,7 +62,7 @@ class BatchTaskHelper
             if (!isset(self::$defaultConfig)) {
                 self::$defaultConfig = new BatchConfig(new Map());
             }
-            self::$isInit=true;
+            self::$isInit = true;
         }
     }
 
@@ -71,40 +72,44 @@ class BatchTaskHelper
     private static function logger(): LoggerInterface
     {
         self::init();
+
         return self::$logger;
     }
 
     /**
      * @return Map<mixed,TaskList>
-     * 
+     *
      * @phpstan-return Map<TTaskListId,TaskList>
      */
     private static function taskLists(): Map
     {
         self::init();
+
         return self::$tasklists;
     }
 
-        /**
+    /**
      * @return IBatchConfig
      */
     private static function defaultConfig(): IBatchConfig
     {
         self::init();
+
         return self::$defaultConfig;
     }
 
     /**
-     * @param mixed $listId
-     * @param bool   $withHeader TRUE=with heade columns, else FALSE (only used, if tasklist will be newly created)
+     * @param mixed         $listId
+     * @param ?IBatchConfig $listConfig
+     * @param bool          $withHeader TRUE=with heade columns, else FALSE (only used, if tasklist will be newly created)
+     *
+     * @phpstan-param $listId TTaskListId
      *
      * @return TaskList
-     * 
-     * @phpstan-param $listId TTaskListId
      */
     public static function getTaskList(
-        mixed $listId = self::DEFAULT, 
-        ?IBatchConfig $listConfig= null, 
+        mixed $listId = self::DEFAULT,
+        ?IBatchConfig $listConfig = null,
         bool $withHeader = self::DEFAULT_WITH_DATA_KEYS
     ): TaskList {
         self::init();
@@ -122,13 +127,14 @@ class BatchTaskHelper
     }
 
     /**
-     * @param string      $fileName
-     * @param mixed      $listId
-     * @param bool        $withHeader TRUE=with heade columns, else FALSE
+     * @param string        $fileName
+     * @param ?IBatchConfig $listConfig
+     * @param mixed         $listId
+     * @param bool          $withHeader TRUE=with heade columns, else FALSE
+     *
+     * @phpstan-param TTaskListId $listId
      *
      * @return TaskList
-     * 
-     * @phpstan-param TTaskListId $listId
      */
     public static function readTaskList(
         string $fileName,

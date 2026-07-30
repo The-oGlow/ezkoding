@@ -26,30 +26,32 @@ use Psr\Log\LoggerInterface;
  */
 class TaskList implements ITaskList
 {
-
     protected const string LINE_ENDS = "/(\r|\n|\r\n)/";
 
     private static LoggerInterface $logger;
 
-    /** @var mixed $listId
+    /** @var mixed
      * @phpstan-var TTaskListId $listId */
     private mixed $listId;
 
-    /** @var Vector<mixed> $dataItemIds
+    /** @var Vector<mixed>
      * @phpstan-var Vector<TDataKey> $dataItemIds */
     private Vector $dataItemIds;
+
     private bool $isDataItemIdRead = false;
+
     private bool $withDataItemId = self::DEFAULT_WITH_DATA_ITEM_ID;
+
     private IBatchConfig $listConfig;
 
     /** @var Queue<ITaskItem> */
     private Queue $tasks;
 
     /**
-     * @param mixed $listId
+     * @param mixed        $listId
      * @param IBatchConfig $listConfig
-     * @param bool $withDataItemId
-     * 
+     * @param bool         $withDataItemId
+     *
      * @phpstan-param TTaskListId $listId
      */
     public function __construct(mixed $listId, IBatchConfig $listConfig, bool $withDataItemId = self::DEFAULT_WITH_DATA_ITEM_ID)
@@ -62,28 +64,36 @@ class TaskList implements ITaskList
         $this->dataItemIds = new Vector();
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function getListId(): string
     {
         return $this->listId;
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function getListConfig(): IBatchConfig
     {
         return $this->listConfig;
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function addTask(ITaskItem $taskItem): void
     {
         $this->tasks->push($taskItem);
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function nextTask(): ?ITaskItem
     {
@@ -95,28 +105,36 @@ class TaskList implements ITaskList
         return $taskItem;
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function count(): int
     {
         return $this->tasks->count();
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function isEmpty(): bool
     {
         return $this->tasks->isEmpty();
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function isWithDataItemId(): bool
     {
         return $this->withDataItemId;
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function readFile(string $fileName): bool
     {
@@ -153,7 +171,9 @@ class TaskList implements ITaskList
         return $fileRead;
     }
 
-    /** {@inheritDoc] */
+    /**
+     * {@inheritDoc].
+     */
     #[\Override]
     public function storeFile(string $fileName): bool
     {
@@ -194,7 +214,7 @@ class TaskList implements ITaskList
     /**
      * @param mixed $taskItemId
      * @param mixed $taskDataLine The raw taskdata
-     * 
+     *
      * @phpstan-param TTaskItemId $taskItemId
      */
     protected function parseTaskData(mixed $taskItemId, mixed $taskDataLine): ?ITaskItem
@@ -224,6 +244,7 @@ class TaskList implements ITaskList
 
     /**
      * @param mixed $dataKeysLine The raw dataKeys
+     *
      * @return bool TRUE=Parsing was successfull, else FALSE
      */
     public function parseDataItemIds(mixed $dataKeysLine): bool
