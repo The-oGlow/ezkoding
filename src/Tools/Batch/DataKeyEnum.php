@@ -47,4 +47,10 @@ enum DataKeyEnum: string implements IDoubleBackedEnum
             self::TYPE => 'Type'
         };
     }
+
+    #[\Override]
+    public function objectValue(): mixed
+    {
+        return null;
+    }
 }

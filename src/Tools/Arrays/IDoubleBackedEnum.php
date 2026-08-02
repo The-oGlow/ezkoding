@@ -15,7 +15,18 @@ namespace ollily\Tools\Arrays;
 
 interface IDoubleBackedEnum
 {
+    /**
+     * @return int The integer representation
+     */
     public function intValue(): int;
 
+    /**
+     * @return string The textual representation
+     */
     public function text(): string;
+    
+    /**
+     * @return mixed The object representation
+     */
+    public function objectValue() : mixed;
 }
