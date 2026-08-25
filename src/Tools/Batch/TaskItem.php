@@ -13,45 +13,86 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
+use Ds\Map;
+use Ds\Set;
 use ollily\Tools\String\ToStringTrait;
 
 /**
- * @phpstan-import-type TaskKey from ITaskItem
- * @phpstan-import-type TaskData from ITaskItem
+ * @phpstan-import-type TTaskItemId from ITaskItem
+ * @phpstan-import-type TDataKey from ITaskItem
+ * @phpstan-import-type TDataValue from ITaskItem
  */
 class TaskItem implements ITaskItem
 {
     use ToStringTrait;
 
-    /** @phpstan-var TaskKey */
-    private mixed $key;
+    /** @var mixed
+     *  @phpstan-var TTaskItemId $itemId */
+    private mixed $itemId = '';
 
-    /** @phpstan-var TaskData */
-    private array $data;
+    /** @var Map<mixed,mixed>
+     *  @phpstan-var Map<TDataKey,TDataValue> $data */
+    private Map $data;
 
     /**
-     * @param mixed              $key
-     * @param array<mixed,mixed> $data
+     * @param mixed            $itemId
+     * @param Map<mixed,mixed> $data
      *
-     * @phpstan-param TaskKey  $key
-     * @phpstan-param TaskData $data
+     * @phpstan-param TTaskItemId              $itemId
+     * @phpstan-param Map<TDataKey,TDataValue> $data
      */
-    public function __construct(mixed $key, array $data)
+    public function __construct(mixed $itemId, Map $data)
     {
-        $this->key = $key;
+        $this->itemId = $itemId;
         $this->data = $data;
     }
 
     #[\Override]
-    public function getKey(): mixed
+    public function getItemId(): mixed
     {
-        return $this->key;
+        return $this->itemId;
     }
 
     #[\Override]
-    public function getData(): array
+    public function getData(): Map
     {
         return $this->data;
+    }
+
+    #[\Override]
+    public function getDataKeys(): Set
+    {
+        return $this->data->keys();
+    }
+
+    #[\Override]
+    public function getDataValue(mixed $dataKey): mixed
+    {
+        $value = '';
+
+        if ($this->isDataKeyExist($dataKey)) {
+            $value = $this->data[$dataKey];
+        }
+
+        return $value;
+    }
+
+    #[\Override]
+    public function isDataKeyExist(mixed $dataKey): bool
+    {
+        return $this->data->hasKey($dataKey);
+    }
+
+    #[\Override]
+    public function empty(): bool
+    {
+        return $this->data->isEmpty();
+    }
+
+    #[\Override]
+    public function count(): int
+    {
+        return $this->data->count();
     }
 
     /**

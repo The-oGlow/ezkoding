@@ -20,6 +20,10 @@ parameters:
     ignoreErrors:
         # Too strict -> disabled
         -
+            identifier: method.dynamicName
+            paths:
+                - tests/*/*TraitTest.php
+        -
             identifier: method.unused
             paths:
                 - tests/*/*DummyClazz.php

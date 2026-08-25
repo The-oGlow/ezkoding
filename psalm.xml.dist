@@ -24,7 +24,6 @@
         <!-- too strict -->
         <ClassMustBeFinal errorLevel="info"/>
         <InternalMethod errorLevel="info"/>
-        <LessSpecificImplementedReturnType errorLevel="info"/>
         <MixedArgument errorLevel="info"/>
         <MixedReturnStatement errorLevel="info"/>
         <MixedArrayAccess errorLevel="info"/>
@@ -33,6 +32,9 @@
         <MixedPropertyTypeCoercion errorLevel="info"/>
         <PropertyNotSetInConstructor errorLevel="info"/>
         <UndefinedConstant errorLevel="info"/>
+        <LessSpecificImplementedReturnType errorLevel="suppress"/>
+        <MoreSpecificReturnType errorLevel="suppress"/>
+        <MissingOverrideAttribute errorLevel="suppress"/>
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>

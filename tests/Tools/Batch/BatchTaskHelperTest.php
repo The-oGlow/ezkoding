@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
+use Ds\Map;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -25,18 +26,18 @@ class BatchTaskHelperTest extends TestCase
         $actual = BatchTaskHelper::getTaskList($listKey);
 
         self::assertInstanceOf(TaskList::class, $actual);
-        self::assertEquals($expectedKey, $actual->getListKey());
+        self::assertEquals($expectedKey, $actual->getListId());
         self::assertEquals($expectedCount, $actual->count());
         self::assertEquals($expectedEmpty, $actual->isEmpty());
     }
 
     #[DataProvider('providerTaskListFile')]
-    public function testReadTaskList(string $expectedKey, int $expectedCount, bool $expectedEmpty, string $fileName, string $listKey): void
+    public function testReadTaskList(string $expectedKey, int $expectedCount, bool $expectedEmpty, string $fileName, IBatchConfig $itemConfig, string $listKey): void
     {
-        $actual = BatchTaskHelper::readTaskList($fileName, $listKey);
+        $actual = BatchTaskHelper::readTaskList($fileName, $itemConfig, $listKey);
 
         self::assertInstanceOf(TaskList::class, $actual);
-        self::assertEquals($expectedKey, $actual->getListKey());
+        self::assertEquals($expectedKey, $actual->getListId());
         self::assertEquals($expectedCount, $actual->count());
         self::assertEquals($expectedEmpty, $actual->isEmpty());
     }
@@ -59,7 +60,8 @@ class BatchTaskHelperTest extends TestCase
     public static function providerTaskListFile(): array
     {
         return [
-            'empty' => [BatchTaskHelper::DEFAULT, 0, true, TestData::FILE_FILENAME_EMPTY, TestData::KEY_EMPTY],
+            'empty' => [BatchTaskHelper::DEFAULT, 0, true, TestData::FILE_FILENAME_EMPTY, new BatchConfig(new Map()), TestData::KEY_EMPTY],
+            'simpleFile' => [BatchTaskHelper::DEFAULT, 3, false, TaskListTest::prepareFiles()[2], new BatchConfig(new Map()), TestData::KEY_EMPTY],
         ];
     }
 }

@@ -17,86 +17,141 @@ use Ds\Map;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @phpstan-import-type TTaskListId from ITaskList
+ * @phpstan-import-type TTaskItemId from ITaskItem
+ */
 class BatchTaskHelper
 {
     /** Default key for a tasklist. */
     public const string DEFAULT = 'DEFAULT';
 
-    /** @var Map<mixed,TaskList> */
-    private static ?Map $tasklists = null;
+    public const bool DEFAULT_WITH_DATA_KEYS = TaskList::DEFAULT_WITH_DATA_ITEM_ID;
 
-    private static ?LoggerInterface $logger = null;
+    public const int COL_PAGEID = 0;
+
+    public const int COL_TITLE = 1;
+
+    private static bool $isInit = false;
+
+    /** @var Map<mixed,TaskList>
+     * @phpstan-var Map<TTaskListId,TaskList> */
+    protected static Map $tasklists;
+
+    protected static LoggerInterface $logger;
+
+    protected static IBatchConfig $defaultConfig;
 
     private function __construct()
     {
         self::init();
     }
 
+    /**
+     * @psalm-suppress RedundantPropertyInitializationCheck
+     */
     public static function init(): void
     {
-        if (is_null(self::$logger)) {
-            self::$logger = EasyGoingLogger::init(BatchTaskHelper::class);
-        }
-        if (is_null(self::$tasklists)) {
-            self::$tasklists = new Map();
+        if (!self::$isInit) {
+            if (!isset(self::$logger)) {
+                self::$logger = EasyGoingLogger::init(BatchTaskHelper::class);
+            }
+            if (!isset(self::$tasklists)) {
+                self::$tasklists = new Map();
+            }
+            if (!isset(self::$defaultConfig)) {
+                self::$defaultConfig = new BatchConfig(new Map());
+            }
+            self::$isInit = true;
         }
     }
 
     /**
      * @return LoggerInterface
-     *
-     * @psalm-suppress InvalidNullableReturnType
      */
     private static function logger(): LoggerInterface
     {
-        /**
-         * @psalm-suppress NullableReturnStatement
-         * @phpstan-ignore return.type
-         */
+        self::init();
+
         return self::$logger;
     }
 
     /**
      * @return Map<mixed,TaskList>
      *
-     * @psalm-suppress InvalidNullableReturnType
+     * @phpstan-return Map<TTaskListId,TaskList>
      */
     private static function taskLists(): Map
     {
-        /**
-         * @psalm-suppress NullableReturnStatement
-         * @phpstan-ignore return.type
-         */
+        self::init();
+
         return self::$tasklists;
     }
 
-    public static function getTaskList(string $listKey = self::DEFAULT): TaskList
+    /**
+     * @return IBatchConfig
+     */
+    private static function defaultConfig(): IBatchConfig
     {
         self::init();
-        self::logger()->debug('START - listKey', [$listKey]);
 
-        $listKey = empty($listKey) ? self::DEFAULT : $listKey;
-        if (!self::taskLists()->hasKey($listKey)) {
-            self::taskLists()->put($listKey, new TaskList($listKey));
+        return self::$defaultConfig;
+    }
+
+    /**
+     * @param mixed         $listId
+     * @param ?IBatchConfig $listConfig
+     * @param bool          $withHeader TRUE=with heade columns, else FALSE (only used, if tasklist will be newly created)
+     *
+     * @phpstan-param $listId TTaskListId
+     *
+     * @return TaskList
+     */
+    public static function getTaskList(
+        mixed $listId = self::DEFAULT,
+        ?IBatchConfig $listConfig = null,
+        bool $withHeader = self::DEFAULT_WITH_DATA_KEYS
+    ): TaskList {
+        self::init();
+        self::logger()->debug('START - listId', [$listId]);
+
+        $listId = empty($listId) ? self::DEFAULT : $listId;
+        $listConfig = empty($listConfig) ? self::defaultConfig() : $listConfig;
+        if (!self::taskLists()->hasKey($listId)) {
+            self::taskLists()->put($listId, new TaskList($listId, $listConfig, $withHeader));
         }
 
         self::logger()->debug('END');
 
-        return self::taskLists()->get($listKey);
+        return self::taskLists()->get($listId);
     }
 
-    public static function readTaskList(string $fileName, string $listKey = self::DEFAULT): TaskList
-    {
+    /**
+     * @param string        $fileName
+     * @param ?IBatchConfig $listConfig
+     * @param mixed         $listId
+     * @param bool          $withHeader TRUE=with heade columns, else FALSE
+     *
+     * @phpstan-param TTaskListId $listId
+     *
+     * @return TaskList
+     */
+    public static function readTaskList(
+        string $fileName,
+        ?IBatchConfig $listConfig = null,
+        mixed $listId = self::DEFAULT,
+        bool $withHeader = self::DEFAULT_WITH_DATA_KEYS
+    ): TaskList {
         self::init();
-        self::logger()->debug('START - listKey,fileName', [$listKey, $fileName]);
+        self::logger()->debug('START - listKey,fileName', [$listId, $fileName]);
 
-        $listKey = empty($listKey) ? self::DEFAULT : $listKey;
+        $listId = empty($listId) ? self::DEFAULT : $listId;
         if (file_exists($fileName)) {
-            $taskList = self::getTaskList($listKey);
+            $taskList = self::getTaskList($listId, $listConfig, $withHeader);
             $taskList->readFile($fileName);
         } else {
             self::logger()->warning('File does not exists!', [$fileName]);
-            $taskList = self::getTaskList($listKey);
+            $taskList = self::getTaskList($listId, $listConfig, $withHeader);
         }
 
         self::logger()->debug('END');

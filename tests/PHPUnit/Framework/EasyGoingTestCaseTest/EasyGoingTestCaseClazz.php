@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework\EasyGoingTestCaseTest;
 
+use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\EasyGoingTestCase;
 use PHPUnit\Framework\EasyGoingTestCaseTest;
 
@@ -24,7 +25,19 @@ use PHPUnit\Framework\EasyGoingTestCaseTest;
  */
 class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
 {
-    public const int C_TEST = 1;
+    public const int C_TEST_INT = TestData::DATA_NUM1;
+
+    public const float C_TEST_FLOAT = TestData::DATA_FLOAT3;
+
+    public const bool C_TEST_BOOL_F = TestData::DATA_BOOL_F;
+
+    public const bool C_TEST_BOOL_T = TestData::DATA_BOOL_T;
+
+    public const string C_TEST_STRING_EMPTY = TestData::DATA_EMPTY;
+
+    public const string C_TEST_STRING_TEXT = TestData::DATA_ALPHA1;
+
+    public const mixed C_TEST_MIXED = TestData::DATA_ALPHA1;
 
     #[\Override]
     public static function tearDownAfterClass(): void

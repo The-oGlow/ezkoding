@@ -129,13 +129,8 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
                     return $res;
                 };
 
-            self::$logger->info(' * Remove clazz prefix');
-            $actual = array_map($callback, $actualConsts);
-            self::$logger->info(' * Flip constants');
-            $actual = array_flip($actual);
-            self::$logger->info(' * Sort constants');
+            $actual = array_flip(array_map($callback, $actualConsts));
             ksort($actual);
-            self::$logger->info(' * Get array keys');
             $actual = array_keys($actual);
 
             self::$logger->info(' * Verify expected vs actual constants');

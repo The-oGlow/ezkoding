@@ -53,7 +53,7 @@ class TestDataTest extends TestCase
 
     public function testConstantsData(): void
     {
-        $expectedCount = 16;
+        $expectedCount = 19;
 
         $this->verifyResult($expectedCount, 'data');
     }
@@ -76,13 +76,9 @@ class TestDataTest extends TestCase
         $refClazz = new \ReflectionClass(TestData::class);
 
         $callback = /**
-         * @param mixed $value
          * @param mixed $key
-         *
-         * @psalm-param mixed $value
-         * @psalm-param mixed $key
          */
-        function (mixed $value, mixed $key) use ($pivot): bool {
+        function (mixed $key) use ($pivot): bool {
             $result = false;
             if (!is_array($key)) {
                 $result = str_contains(strtolower($key), $pivot);
@@ -91,9 +87,31 @@ class TestDataTest extends TestCase
             return $result;
         };
 
-        $actual = array_filter($refClazz->getConstants(), $callback, 1);  // NOSONAR: php:S3011
+        $actual = array_filter($refClazz->getConstants(), $callback, ARRAY_FILTER_USE_KEY);  // NOSONAR: php:S3011
 
         self::assertCount($expectedCount, $actual);
+    }
+
+    public function testDataObject(): void
+    {
+        $expected = TestDataFoo::class;
+        $actual = TestData::DATA_OBJECT1();
+
+        self::assertInstanceOf($expected, $actual);
+    }
+
+    public function testArrayObject(): void
+    {
+        $expected = TestDataFoo::class;
+        /** @var array<mixed,mixed> $actuals */
+        $actuals = [1 => TestData::ARRAY_OBJECT1(), 2 => TestData::ARRAY_OBJECT2(), 3 => TestData::ARRAY_OBJECT3()];
+
+        foreach ($actuals as $key => $actual) {
+            self::assertIsArray($actual);
+            self::assertEquals($key, count($actual));
+            /** @psalm-suppress PossiblyNullArrayOffset */
+            self::assertInstanceOf($expected, $actual[array_key_first($actual)]);
+        }
     }
 
     public function testPrepareTempFile(): void

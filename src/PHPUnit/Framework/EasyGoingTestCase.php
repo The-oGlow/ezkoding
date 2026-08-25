@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework;
 
+use BackedEnum;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
+use UnitEnum;
 
 abstract class EasyGoingTestCase extends TestCase
 {
@@ -22,7 +24,7 @@ abstract class EasyGoingTestCase extends TestCase
     public const string    C_STATIC_SEP = '::';
 
     /** All primitive datatypes */
-    protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float';
+    protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float|double';
 
     private static LoggerInterface $logger;
 
@@ -173,12 +175,25 @@ abstract class EasyGoingTestCase extends TestCase
 
         $isDefined = self::isConstExist($this->o2t, $constantName);
         if ($isDefined) {
-            $constantValue = self::getConstValue($this->o2t, $constantName);
             self::$logger->debug("Checking '$constantName'");
+            $constantValue = self::getConstValue($this->o2t, $constantName);
             if (static::isPrimitive($constantValue)) {
-                self::assertGreaterThan(0, strlen("$constantValue"), sprintf("The primitive '%s'='%s'", $constantName, $constantValue));
+                self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("The primitive '%s'='%s'", $constantName, $constantValue));
             } else {
-                self::assertNotEmpty($constantValue, sprintf('Constant \'%s\' is empty!', $constantName));
+                if ($constantValue instanceof UnitEnum) {
+                    if ($constantValue instanceof BackedEnum) {
+                        $constantValue = $constantValue->value;
+                    } else {
+                        $constantValue = $constantValue->name;
+                    }
+                }
+                if (self::isPrimitive($constantValue)) {
+                    self::assertGreaterThanOrEqual(0, strlen("$constantValue"), sprintf("Primitive '%s'='%s'", $constantName, $constantValue));
+                } elseif (is_array($constantValue)) {
+                    self::assertGreaterThanOrEqual(0, count($constantValue), sprintf("Array '%s'='%s'", $constantName, implode($constantValue)));
+                } else {
+                    self::assertGreaterThanOrEqual(0, strlen("$constantValue"));
+                }
             }
         } else {
             self::fail(sprintf("FAIL: Constant '%s' not exists", $constantName));

@@ -16,6 +16,8 @@ namespace PHPUnit\Framework\EasyGoingTestCaseTest;
 use Monolog\EasyGoingLogger;
 use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Reflection\UnavailableMethodsTrait;
+use ollily\Tools\Test\TestData;
+use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -106,7 +108,7 @@ class EasyGoingTestCaseTest extends TestCase
         try {
             $this->o2t->testInit();
         } catch (\Exception $except) {
-            self::fail(sprintf('FAIL: Should not raise any exection: %s', $except->getMessage()));
+            self::fail(sprintf('FAIL: Should not raise any exception: %s', $except->getMessage()));
         }
     }
 
@@ -134,19 +136,17 @@ class EasyGoingTestCaseTest extends TestCase
         self::assertEquals($expected, $actual, sprintf("Not equals: '%s'='%s'", $expected, $actual));
     }
 
-    public function testIsPrimitive(): void
+    #[DataProvider('providerPrimitives')]
+    public function testIsPrimitive(bool $expected, mixed $value): void
     {
-        $expected = true;
-        $var      = 100;
-
-        $actual = $this->o2t::publicIsPrimitive($var);
+        $actual = $this->o2t::publicIsPrimitive($value);
 
         self::assertEquals($expected, $actual);
     }
 
     public function testGetAllDefinedConsts(): void
     {
-        $expectedSize = 3;
+        $expectedSize = 7 + 2;
         $clazz        = get_class($this->o2t);
 
         $actual = $this->o2t::publicGetAllDefinedConsts($clazz);
@@ -163,14 +163,23 @@ class EasyGoingTestCaseTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    public function testVerifyConstExists(): void
+    #[DataProvider('providerVerifyConstExists')]
+    public function testVerifyConstExists(bool $expected, string $expectedError, string $constantSuffix): void
     {
-        $constantName = get_class($this->o2t) . '::C_TEST';
+        $constantName = get_class($this->o2t) . '::C_TEST_' . $constantSuffix;
 
         try {
             $this->o2t->publicVerifyConstExists($constantName);
-        } catch (\Exception $exception) {
-            self::fail(sprintf('FAIL: Should not raise any exection: %s', $exception->getMessage()));
+            if (!$expected) {
+                throw new \Exception('FAIL: Should raised any exception!');
+            }
+        } catch (AssertionFailedError $exception) {
+            if ($expected) {
+                self::fail(sprintf('FAIL: Should not raise any exception: \'%s\'', $exception->getMessage()));
+            }
+            if (!str_starts_with($exception->getMessage(), $expectedError)) {
+                self::fail(sprintf('FAIL: Wrong exception raised: \'%s\'', $exception->getMessage()));
+            }
         }
     }
 
@@ -196,5 +205,39 @@ class EasyGoingTestCaseTest extends TestCase
             'private'   => [true, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_PRIVATE', 'private'],
             'notexist'  => [false, EasyGoingTestCaseDummyClazz::TEST_CONST_PREFIX . '_NOTEXISTS', ''],
         ];
+    }
+
+    /**
+     * @return array<mixed,mixed>
+     */
+    public static function providerPrimitives(): array
+    {
+        return [
+            'int' => [true,TestData::DATA_NUM1],
+            'float' => [true,  TestData::DATA_FLOAT3],
+            'double' => [true,  TestData::DATA_FLOAT3],
+            'boolTrue' => [true,  TestData::DATA_BOOL_F],
+            'boolFalse' => [true,  TestData::DATA_BOOL_T],
+            'stringEmpty' => [false,TestData::DATA_EMPTY],
+            'stringText' => [false,TestData::DATA_ALPHA1],
+            'mixed' => [false, TestData::DATA_NULL],
+        ];
+    }
+
+    /**
+     * @return array<mixed,mixed>
+     */
+    public static function providerVerifyConstExists(): array
+    {
+        return [
+             'int' => [true, '', 'INT'],
+             'float' => [true, '', 'FLOAT'],
+             'boolTrue' => [true, '', 'BOOL_F'],
+             'boolFalse' => [true, '', 'BOOL_T'],
+             'stringEmpty' => [true, '', 'STRING_EMPTY'],
+             'stringText' => [true, '', 'STRING_TEXT'],
+            'mixed' => [true, '', 'MIXED'],
+             'notExists' => [false, 'FAIL: Constant', 'NOT_EXISTS'],
+         ];
     }
 }

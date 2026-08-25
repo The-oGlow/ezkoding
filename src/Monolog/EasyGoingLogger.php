@@ -26,7 +26,10 @@ class EasyGoingLogger
 
     public const string LOGGER_CONSOLE = 'Monolog\ConsoleLogger';
 
-    public const string LOGGER_NULL    = 'Psr\Log\NullLogger';
+    public const string LOGGER_NULL = 'Psr\Log\NullLogger';
+
+    /** @var array<mixed,mixed> LOGGER_CHOICE */
+    private const array LOGGER_CHOICE = [self::LOGGER_CONSOLE, self::LOGGER_DEFAULT, self::LOGGER_NULL];
 
     private function __construct()
     {
@@ -41,8 +44,6 @@ class EasyGoingLogger
      * @param ?DateTimeZone      $timezone
      *
      * @return LoggerInterface
-     *
-     * @psalm-suppress InvalidNullableReturnType
      */
     public static function init(
         string $name,
@@ -51,15 +52,18 @@ class EasyGoingLogger
         array $processors = [],
         ?DateTimeZone $timezone = null
     ): LoggerInterface {
-        /** @phpstan-var class-string<LoggerInterface> */
-        $clazzName = self::LOGGER_NULL;
-        if (class_exists(self::LOGGER_CONSOLE)) {
-            $clazzName = self::LOGGER_CONSOLE;
-        } elseif (class_exists(self::LOGGER_DEFAULT)) {
-            $clazzName = self::LOGGER_DEFAULT;
-        }
-
+        /** @var mixed $instance */
         $instance = null;
+
+        /** @phpstan-var class-string<LoggerInterface> $clazzName */
+        foreach (self::LOGGER_CHOICE as $clazzName) {
+            if (class_exists($clazzName)) {
+                break;
+            }
+        }
+        if (empty($clazzName)) {
+            $clazzName = self::LOGGER_NULL;
+        }
 
         try {
             /**
@@ -77,8 +81,7 @@ class EasyGoingLogger
         }
 
         /**
-         * @psalm-suppress NullableReturnStatement
-         * @phpstan-ignore return.type
+         * @psalm-suppress LessSpecificReturnStatement
          */
         return $instance;
     }

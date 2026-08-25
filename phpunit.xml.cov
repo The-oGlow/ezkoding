@@ -4,11 +4,20 @@
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     bootstrap="tests/bootstrap.php"
     cacheDirectory=".phpunit.cache"
-    colors="true"
+    colors="false"
     executionOrder="depends,defects"
     beStrictAboutOutputDuringTests="false"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnPhpunitDeprecations="true"
+    stopOnDefect="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnNotice="false"
+    stopOnRisky="false"
+    stopOnSkipped="false"
+    stopOnWarning="false"
+    failOnAllIssues="false"
 >
     <php>
         <ini name="display_errors" value="1"/>
