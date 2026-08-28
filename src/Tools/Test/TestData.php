@@ -76,6 +76,8 @@ class TestData
 
     public const string NOTEXIST_FILE = DIRECTORY_SEPARATOR . 'NotExistFile';
 
+    public const string NOTEXIST_SPACE_KEY = 'NO_SPACEKEY';
+    
     // Array Data
 
     public const string ARRAY_ITEM_SEP = ',';
