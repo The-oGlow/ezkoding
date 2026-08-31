@@ -171,14 +171,14 @@ class EasyGoingTestCaseTest extends TestCase
         try {
             $this->o2t->publicVerifyConstExists($constantName);
             if (!$expected) {
-                throw new \Exception('FAIL: Should raised any exception!');
+                throw new \Exception('FAIL: Should raised any exception');
             }
         } catch (AssertionFailedError $exception) {
             if ($expected) {
-                self::fail(sprintf('FAIL: Should not raise any exception: \'%s\'', $exception->getMessage()));
+                self::fail(sprintf("FAIL: Should not raise any exception: '%s'", $exception->getMessage()));
             }
             if (!str_starts_with($exception->getMessage(), $expectedError)) {
-                self::fail(sprintf('FAIL: Wrong exception raised: \'%s\'', $exception->getMessage()));
+                self::fail(sprintf("FAIL: Wrong exception raised: '%s'", $exception->getMessage()));
             }
         }
     }

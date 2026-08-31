@@ -64,7 +64,7 @@ final class Unzip
                 $targetDir = pathinfo($zipFile, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . pathinfo($zipFile, PATHINFO_FILENAME);
             }
             if (!file_exists($targetDir)) {
-                echo sprintf("\nmyFile: Creating folder '%s'!", $targetDir);
+                echo sprintf("\nmyFile: Creating folder '%s'", $targetDir);
                 mkdir($targetDir, recursive: true);
             }
             if (file_exists($targetDir) && is_dir($targetDir)) {
@@ -76,7 +76,7 @@ final class Unzip
                         $zip->close();
                         $isSucc = self::OK;
                     } else {
-                        echo sprintf("\nmyFile: Zip file '%s' cannot be opened!", $zipFile);
+                        echo sprintf("\nmyFile: Zip file '%s' cannot be opened", $zipFile);
                         $isSucc = self::ZIP_NOT_OPENED;
                     }
                 } catch (\Throwable $except) {
@@ -84,11 +84,11 @@ final class Unzip
                     $isSucc = self::ZIPARCHIVE_ERROR;
                 }
             } else {
-                echo sprintf("\nmyFile: Target folder '%s' does not exists!", $targetDir);
+                echo sprintf("\nmyFile: Target folder '%s' does not exists", $targetDir);
                 $isSucc = self::TARGET_NOT_EXIST;
             }
         } else {
-            echo sprintf("\nmyFile: Zip file '%s' does not exists or is not a file!", "$zipFile");
+            echo sprintf("\nmyFile: Zip file '%s' does not exists or is not a file", "$zipFile");
             $isSucc = self::ZIP_NOT_EXIST;
         }
 

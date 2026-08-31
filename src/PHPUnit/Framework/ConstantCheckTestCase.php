@@ -260,8 +260,8 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
         self::$logger->debug('START');
 
         $constantValue = self::getConstValue($this->o2t, $constantName);
-        self::assertIsArray($constantValue, sprintf('Constant \'%s\' is not an array!', $constantName));
-        self::assertCount($expectedSize, $constantValue, sprintf('Constant \'%s\' array size is not matching!', $constantName));
+        self::assertIsArray($constantValue, sprintf("Constant '%s' is not an array", $constantName));
+        self::assertCount($expectedSize, $constantValue, sprintf("Constant '%s' array size is not matching", $constantName));
 
         self::$logger->debug('END');
     }
