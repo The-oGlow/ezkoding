@@ -32,7 +32,7 @@ class ToStringTraitTestDummyClazz
     }
 
     /**
-     * @SuppressWarnings("PHPMD.CamelCaseMethodName")
+     * 
      */
     #[\Override]
     protected function __toStringValues(): mixed // NOSONAR: php:S100

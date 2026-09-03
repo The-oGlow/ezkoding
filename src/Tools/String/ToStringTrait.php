@@ -18,7 +18,7 @@ trait ToStringTrait
     use ImplodeTrait;
 
     /**
-     * @SuppressWarnings("PHPMD.CamelCaseMethodName")
+     * 
      */
     abstract protected function __toStringValues(): mixed;  // NOSONAR: php:S100
 

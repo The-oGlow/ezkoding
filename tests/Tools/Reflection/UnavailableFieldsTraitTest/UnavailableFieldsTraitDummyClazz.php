@@ -19,8 +19,8 @@ namespace ollily\Tools\Reflection\UnavailableFieldsTraitTest;
  * @see UnavailableFieldsTraitTestO2tClazz
  * @see UnavailableFieldsTraitTestWrongO2tClazz
  *
- * @SuppressWarnings("PHPMD.UnusedPrivateField")
- */
+ * @SuppressWarnings("PHPMD.UnusedPrivateField") 
+*/
 class UnavailableFieldsTraitDummyClazz
 {
     public string $publicField = 'publicFieldValue';

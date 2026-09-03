@@ -15,9 +15,6 @@ namespace ollily\Tools\Test;
 
 /**
  * Providing useful data for the use in test cases.
- *
- * @SuppressWarnings("PHPMD.CamelCasePropertyName")
- * @SuppressWarnings("PHPMD.CamelCaseMethodName")
  */
 class TestData
 {

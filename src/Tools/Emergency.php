@@ -35,7 +35,6 @@ class Emergency
      *
      * @return int The error code for ending the application
      *
-     * @SuppressWarnings("PHPMD.ExitExpression")
      */
     public static function exceptionStop(\Throwable $throwable, bool $unitTest = false): int
     {

@@ -54,9 +54,7 @@ abstract class MagicPublicFunctionTraitDummyClazz
         return self::PROTECTED;
     }
 
-    /**
-     * @SuppressWarnings("PHPMD.UnusedPrivateMethod")
-     */
+    /** @SuppressWarnings("PHPMD.UnusedPrivateMethod") */
     private function privateFunction(): string
     {
         return self::PRIVATE;

@@ -66,8 +66,6 @@ class TestDataTest extends TestCase
     }
 
     /**
-     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
-     *
      * @param int    $expectedCount
      * @param string $pivot
      */
