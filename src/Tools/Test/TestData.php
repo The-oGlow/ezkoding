@@ -69,9 +69,6 @@ class TestData
 
     public const string NOTEXIST_CLAZZ = 'ollily/NotExistClazz';
 
-    public const string NOTEXIST_FOLDER = DIRECTORY_SEPARATOR . 'FolderNotExist';
-
-    public const string NOTEXIST_FILE = DIRECTORY_SEPARATOR . 'NotExistFile';
 
     public const string NOTEXIST_SPACE_KEY = 'NO_SPACEKEY';
     
@@ -195,6 +192,7 @@ class TestData
 
     public const string FILE_FOLDERNAME = 'FOLDER-EXIST';
 
+    public const string FILE_FOLDERNAME_NOT_EXIST = 'FolderNotExist';
     // Filenames
 
     public const ?object FILE_FILENAME_NULL = null;
@@ -202,6 +200,8 @@ class TestData
     public const string FILE_FILENAME_EMPTY = '';
 
     public const string FILE_FILENAME = 'FILE-EXIST';
+
+    public const string FILE_FILENAME_NOT_EXIST = 'FileNotExist';
 
     public const string FILE_FILENAME_PREFIX = 'teda-';
 
@@ -211,8 +211,10 @@ class TestData
 
     public const string FILE_EXT_EMPTY = '';
 
-    public const string FILE_EXT_NAME = 'EXT-EXIST';
+    public const string FILE_EXT_NAME = '.EXT-EXIST';
 
+    public const string FILE_EXT_NAME_NOT_EXIST = '.EXT-NotExist';
+    
     public const string FILE_EXT_PHP = '.php';
 
     public const string FILE_EXT_TXT = '.txt';
@@ -220,6 +222,12 @@ class TestData
     public const string FILE_EXT_JSON = '.json';
 
     public const string FILE_EXT_CSV = '.csv';
+
+    // Full File
+    
+    public const FILE_FILE_EXISTS = DIRECTORY_SEPARATOR . self::FILE_FOLDERNAME . DIRECTORY_SEPARATOR . self::FILE_FILENAME . self::FILE_EXT_NAME;
+    
+    public const FILE_FILE_NOT_EXISTS = DIRECTORY_SEPARATOR . self::FILE_FOLDERNAME_NOT_EXIST . DIRECTORY_SEPARATOR . self::FILE_FILENAME_NOT_EXIST . self::FILE_EXT_NAME_NOT_EXIST;
 
     // Static functions
 
