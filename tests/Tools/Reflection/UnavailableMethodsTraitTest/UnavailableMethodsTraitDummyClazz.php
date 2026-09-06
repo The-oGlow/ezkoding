@@ -19,18 +19,23 @@ namespace ollily\Tools\Reflection\UnavailableMethodsTraitTest;
  * @see UnavailableMethodsTraitTestO2tClazz
  * @see UnavailableMethodsTraitTestWrongO2tClazz
  */
-class UnavailableMethodsTraitDummyClazz {
-
-    public function publicFunc(): string {
+class UnavailableMethodsTraitDummyClazz
+{
+    public function publicFunc(): string
+    {
         return 'publicFuncValue';
     }
 
-    protected function protectedFunc(): string {
+    protected function protectedFunc(): string
+    {
         return 'protectedFuncValue';
     }
 
-    /** @SuppressWarnings("PHPMD.UnusedPrivateMethod") */
-    private function privateFunc(): string {
+    /**
+     * @SuppressWarnings("PHPMD.UnusedPrivateMethod")
+     */
+    private function privateFunc(): string
+    {
         return 'privateFuncValue';
     }
 }

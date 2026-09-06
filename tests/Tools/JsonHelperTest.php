@@ -1,36 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * Copyright 2026 postm.
+ * This file is part of ezkoding
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * (c) 2025 Oliver Glowa, coding.glowa.com
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This source file is subject to the Apache-2.0 license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace ollily\Tools;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
-use ollily\Tools\Test\TestData;
-use ollily\Tools\Reflection\ClazzHelper;
 use Exception;
+use ollily\Tools\Reflection\ClazzHelper;
+use ollily\Tools\Test\TestData;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+
 class JsonHelperTest extends TestCase
 {
-    
     use EnvironmentVariableTrait;
-    
+
     /**
      * @param array<mixed,mixed> $expected
-     * @param string $jsonFile
+     * @param string             $jsonFile
      */
     #[DataProvider('providerLoadJson')]
     public function testLoadJson(array $expected, string $jsonFile): void
@@ -40,9 +35,9 @@ class JsonHelperTest extends TestCase
     }
 
     /**
-     * @param array $expected
-     * @param array<data,data> $data
-     * @param string $jsonFile
+     * @param bool               $expected
+     * @param array<mixed,mixed> $data
+     * @param string             $jsonFile
      */
     #[DataProvider('providerStoreJson')]
     public function testStoreJson(bool $expected, array $data, string $jsonFile): void
@@ -50,9 +45,11 @@ class JsonHelperTest extends TestCase
         if ($expected) {
             TestData::cleanupTempFile($jsonFile);
         }
+
         try {
-            $actual = JsonHelper::StoreJson($data, $jsonFile);
+            $actual = JsonHelper::storeJson($data, $jsonFile);
         } catch (Exception $exc) {
+            $actual = false;
             if ($expected) {
                 self::fail('Must not raise an exception');
             } else {
@@ -60,7 +57,7 @@ class JsonHelperTest extends TestCase
             }
         }
         self::assertEquals($expected, $actual);
-        
+
         if ($expected) {
             self::assertFileExists($jsonFile);
         }
@@ -72,7 +69,7 @@ class JsonHelperTest extends TestCase
      */
     public static function providerLoadJson(): array
     {
-        $fileExists = ClazzHelper::getClazzPath(self::class) . DIRECTORY_SEPARATOR . ClazzHelper::getClazzFilename(self::class). TestData::FILE_EXT_JSON;
+        $fileExists = ClazzHelper::getClazzPath(self::class) . DIRECTORY_SEPARATOR . ClazzHelper::getClazzFilename(self::class) . TestData::FILE_EXT_JSON;
 
         $jsonData = ['name' => basename(self::class), 'data' => [0 => 'data0', 1 => 1]];
 

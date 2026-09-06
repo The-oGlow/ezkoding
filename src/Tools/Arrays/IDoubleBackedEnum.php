@@ -24,9 +24,9 @@ interface IDoubleBackedEnum
      * @return string The textual representation
      */
     public function text(): string;
-    
+
     /**
      * @return mixed The object representation
      */
-    public function objectValue() : mixed;
+    public function objectValue(): mixed;
 }

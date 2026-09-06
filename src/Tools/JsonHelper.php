@@ -1,30 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * Copyright 2026 postm.
+ * This file is part of ezkoding
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * (c) 2025 Oliver Glowa, coding.glowa.com
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This source file is subject to the Apache-2.0 license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace ollily\Tools;
 
-use Exception;
 use Ds\Collection;
+use Exception;
 
 class JsonHelper
 {
-
-    public const FILE_EXT_JSON = '.json';
+    public const string FILE_EXT_JSON = '.json';
 
     private function __construct()
     {
@@ -32,9 +26,11 @@ class JsonHelper
     }
 
     /**
-     * @param string $jsonFile
-     * 
+     * @param string $file
+     * @param string $fileExt
+     *
      * @return array<mixed,mixed>
+     *
      * @throws Exception
      */
     public static function loadJson(string $file, string $fileExt = ''): array
@@ -60,15 +56,18 @@ class JsonHelper
         } else {
             echo sprintf("File not exists: '%s'\n", $jsonFile);
         }
+
         return $data;
     }
 
     /**
      * @param array<mixed,mixed> $data
-     * @param string $jsonFile
-     * @param bool $prettyPrint
-     * 
-     * @return bool 
+     * @param string             $file
+     * @param string             $fileExt
+     * @param bool               $prettyPrint
+     *
+     * @return bool
+     *
      * @throws Exception
      */
     public static function storeJson(array $data, string $file, string $fileExt = '', bool $prettyPrint = false): bool
@@ -82,13 +81,12 @@ class JsonHelper
 
         $jsonFolder = dirname($jsonFile);
         if (!is_dir($jsonFolder)) {
-            if (!mkdir($jsonFolder, 0777, true)) {
+            if (!mkdir($jsonFolder, 0o777, true)) {
                 throw new Exception("Cannot create folder: '$jsonFolder'");
             }
         }
         if (is_dir($jsonFolder)) {
             if (!file_exists($jsonFile)) {
-
                 $options = $prettyPrint ? JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE : JSON_UNESCAPED_UNICODE;
                 $jsonData = json_encode($data, $options);
 
@@ -104,15 +102,18 @@ class JsonHelper
             }
             $isOk = true;
         }
+
         return $isOk;
     }
-    
+
     /**
      * @param Collection<mixed,mixed> $data
-     * @param string $jsonFile
-     * @param bool $prettyPrint
-     * 
-     * @return bool 
+     * @param string                  $file
+     * @param string                  $fileExt
+     * @param bool                    $prettyPrint
+     *
+     * @return bool
+     *
      * @throws Exception
      */
     public static function storeJsonCollection(Collection $data, string $file, string $fileExt = '', bool $prettyPrint = false): bool

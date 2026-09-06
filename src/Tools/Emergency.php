@@ -34,7 +34,6 @@ class Emergency
      * @param bool       $unitTest  TRUE=don't call exit(), it's an unit test, FALSE= Standard termination (Default: FALSE)
      *
      * @return int The error code for ending the application
-     *
      */
     public static function exceptionStop(\Throwable $throwable, bool $unitTest = false): int
     {

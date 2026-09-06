@@ -1,19 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * Copyright 2026 postm.
+ * This file is part of ezkoding
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * (c) 2025 Oliver Glowa, coding.glowa.com
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This source file is subject to the Apache-2.0 license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace ollily\Tools\Reflection;
@@ -23,7 +18,6 @@ use ReflectionException;
 
 class ClazzHelper
 {
-
     private function __construct()
     {
         // Hide the public constructor
@@ -31,29 +25,53 @@ class ClazzHelper
 
     /**
      * @param string $clazz
+     *
+     * @phpstan-param class-string $clazz
+     *
      * @return string
      */
     public static function getClazzFile(string $clazz): string
     {
         $file = '';
+
         try {
             $reflection = new ReflectionClass($clazz);
             $file = $reflection->getFileName();
+            if (false === $file) {
+                $file = '';
+            }
         } catch (ReflectionException $e) {
             // nothing to do
         }
+
         return $file;
     }
 
+    /**
+     * @param string $clazz
+     *
+     * @phpstan-param class-string $clazz
+     *
+     * @return string
+     */
     public static function getClazzPath(string $clazz): string
     {
         $file = self::getClazzFile($clazz);
+
         return pathinfo($file, PATHINFO_DIRNAME);
     }
 
+    /**
+     * @param string $clazz
+     *
+     * @phpstan-param class-string $clazz
+     *
+     * @return string
+     */
     public static function getClazzFilename(string $clazz): string
     {
         $file = self::getClazzFile($clazz);
+
         return pathinfo($file, PATHINFO_FILENAME);
     }
 }

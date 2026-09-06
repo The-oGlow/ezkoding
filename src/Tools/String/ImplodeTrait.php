@@ -45,8 +45,6 @@ trait ImplodeTrait
      * @return string imploded array
      *
      * @see https://www.php.net/manual/en/language.types.type-system.php
-     *
-     * 
      */
     // @phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     final public static function implode_recursive(string $glue, mixed $anyData, bool $withTextSep = false, bool $withKeys = false): string // NOSONAR: php:S100
@@ -110,8 +108,6 @@ trait ImplodeTrait
      * @return array<mixed,mixed>
      *
      * @see https://stackoverflow.com/a/526633
-     *
-     * 
      */
     // @phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     final public function array_flatten(array $anyData, int $preserveKeys = 0, array &$output = []): array // NOSONAR: php:S100

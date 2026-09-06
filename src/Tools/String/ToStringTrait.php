@@ -17,9 +17,6 @@ trait ToStringTrait
 {
     use ImplodeTrait;
 
-    /**
-     * 
-     */
     abstract protected function __toStringValues(): mixed;  // NOSONAR: php:S100
 
     public function __toString(): string

@@ -19,7 +19,6 @@ namespace ollily\Tools\Test;
 class TestData
 {
     // Unspecific test data
-
     // Single data
     public const int DATA_NUM1 = 11;
 
@@ -58,7 +57,6 @@ class TestData
     public const string DATA_INVALID = 'INVALID';
 
     public const string DATA_NOTEXIST = 'NOT-EXIST';
-
     // Misc Data
 
     public const string NOTEXIST_NAME = 'XXXName';
@@ -69,9 +67,7 @@ class TestData
 
     public const string NOTEXIST_CLAZZ = 'ollily/NotExistClazz';
 
-
     public const string NOTEXIST_SPACE_KEY = 'NO_SPACEKEY';
-    
     // Array Data
 
     public const string ARRAY_ITEM_SEP = ',';
@@ -96,13 +92,11 @@ class TestData
     public const ?object KEY_NULL = null;
 
     public const string KEY_EMPTY = '';
-
     // Arrays complete
 
     public const array ARRAY_EMPTY = [];
 
     public const ?array ARRAY_NULL = null;
-
     // Arrays with alphanumeric data
 
     public const array ARRAY_ALPHA1 = [self::DATA_ALPHA1];
@@ -114,7 +108,6 @@ class TestData
     public const array ARRAY_ALPHA4 = [self::DATA_ALPHA1, self::DATA_ALPHA2, self::DATA_ALPHA3, self::DATA_ALPHA4];
 
     public const array ARRAY_ALPHA5 = [self::DATA_ALPHA1, self::DATA_ALPHA2, self::DATA_ALPHA3, self::DATA_ALPHA4, self::DATA_ALPHA5];
-
     // Arrays with numeric data
 
     public const array ARRAY_NUM1 = [self::DATA_NUM1];
@@ -122,13 +115,11 @@ class TestData
     public const array ARRAY_NUM2 = [self::DATA_NUM1, self::DATA_NUM2];
 
     public const array ARRAY_NUM3 = [self::DATA_NUM1, self::DATA_NUM2, self::DATA_NUM3];
-
     // Arrays with bool data
 
     public const array ARRAY_BOOL1 = [self::DATA_BOOL_T];
 
     public const array ARRAY_BOOL2 = [self::DATA_BOOL_T, self::DATA_BOOL_F];
-
     // Arrays with alphanumeric key
 
     public const array ARRAY_ALPHA_KEY1 = [self::KEY_ALPHA1 => self::DATA_ALPHA1];
@@ -143,7 +134,6 @@ class TestData
         self::KEY_ALPHA2 => self::DATA_ALPHA2,
         self::KEY_ALPHA3 => self::DATA_ALPHA3,
     ];
-
     // Arrays with exlicit numeric key
 
     public const array ARRAY_NUM_KEY1 = [self::KEY_NUM1 => self::DATA_NUM1];
@@ -183,7 +173,6 @@ class TestData
     private static array $ARRAY_OBJECT3 = []; // NOSONAR: php:S100
 
     // Filesystem Data
-
     // Foldernames
 
     public const ?object FILE_FOLDERNAME_NULL = null;
@@ -204,7 +193,6 @@ class TestData
     public const string FILE_FILENAME_NOT_EXIST = 'FileNotExist';
 
     public const string FILE_FILENAME_PREFIX = 'teda-';
-
     // File Extensions
 
     public const ?object FILE_EXT_NULL = null;
@@ -214,7 +202,7 @@ class TestData
     public const string FILE_EXT_NAME = '.EXT-EXIST';
 
     public const string FILE_EXT_NAME_NOT_EXIST = '.EXT-NotExist';
-    
+
     public const string FILE_EXT_PHP = '.php';
 
     public const string FILE_EXT_TXT = '.txt';
@@ -222,15 +210,14 @@ class TestData
     public const string FILE_EXT_JSON = '.json';
 
     public const string FILE_EXT_CSV = '.csv';
-
     // Full File
-    
-    public const FILE_FILE_EXISTS = DIRECTORY_SEPARATOR . self::FILE_FOLDERNAME . DIRECTORY_SEPARATOR . self::FILE_FILENAME . self::FILE_EXT_NAME;
-    
-    public const FILE_FILE_NOT_EXISTS = DIRECTORY_SEPARATOR . self::FILE_FOLDERNAME_NOT_EXIST . DIRECTORY_SEPARATOR . self::FILE_FILENAME_NOT_EXIST . self::FILE_EXT_NAME_NOT_EXIST;
+
+    public const string FILE_FILE_EXISTS = DIRECTORY_SEPARATOR . self::FILE_FOLDERNAME . DIRECTORY_SEPARATOR . self::FILE_FILENAME . self::FILE_EXT_NAME;
+
+    public const string FILE_FILE_NOT_EXISTS = DIRECTORY_SEPARATOR . self::FILE_FOLDERNAME_NOT_EXIST . DIRECTORY_SEPARATOR . self::FILE_FILENAME_NOT_EXIST
+    . self::FILE_EXT_NAME_NOT_EXIST;
 
     // Static functions
-
     // Misc Data
 
     public static function DATA_OBJECT1(): TestDataFoo // NOSONAR: php:S100

@@ -95,9 +95,6 @@ class TaskItem implements ITaskItem
         return $this->data->count();
     }
 
-    /**
-     * 
-     */
     #[\Override]
     protected function __toStringValues(): mixed // NOSONAR: php:S100
     {

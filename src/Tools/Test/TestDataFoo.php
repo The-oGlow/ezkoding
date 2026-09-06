@@ -34,9 +34,6 @@ class TestDataFoo
         $this->fooValue = $fooValue;
     }
 
-    /**
-     * 
-     */
     #[\Override]
     protected function __toStringValues(): mixed // NOSONAR: php:S100
     {
