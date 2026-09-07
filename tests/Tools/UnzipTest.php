@@ -24,8 +24,6 @@ use ZipArchive;
 
 class UnzipTest extends TestCase
 {
-    use EnvironmentVariableTrait;
-
     private static string $zipTestFile;
 
     private static string $targetTestFolder;
@@ -43,7 +41,7 @@ class UnzipTest extends TestCase
     public static function cleanUpFolder(string $folder): void
     {
         if (!empty($folder) && is_dir($folder)) {
-            $tmpDir = self::getSystemTemp();
+            $tmpDir = EnvironmentHelper::getSystemTemp();
             if (str_starts_with($folder, $tmpDir)) {
                 echo sprintf("\nRemoving folder '%s'", $folder);
                 $recDI = new RecursiveDirectoryIterator($folder, FilesystemIterator::SKIP_DOTS);
@@ -61,7 +59,7 @@ class UnzipTest extends TestCase
     {
         switch ($mode) {
             case 1:
-                $fileName = self::getSystemTemp(uniqid()) . '.zip';
+                $fileName = EnvironmentHelper::getSystemTemp(uniqid()) . '.zip';
                 $zip = new ZipArchive();
                 if ($zip->open($fileName, ZipArchive::CREATE) === true) {
                     $zip->addFromString(time() . "-sample.txt", "The quick brown fox jumps over the lazy dog.\n");
@@ -69,7 +67,7 @@ class UnzipTest extends TestCase
                 }
                 break;
             default:
-                $fileName = tempnam(self::getSystemTemp(), 'uzm');
+                $fileName = tempnam(EnvironmentHelper::getSystemTemp(), 'uzm');
                 break;
         }
         if (is_string($fileName)) {
@@ -83,7 +81,7 @@ class UnzipTest extends TestCase
 
     public static function prepareTargetFolder(): string
     {
-        $folder = self::getSystemTemp(uniqid());
+        $folder = EnvironmentHelper::getSystemTemp(uniqid());
         echo sprintf("\nUsing '%s'\n", $folder);
 
         return $folder;
@@ -104,7 +102,7 @@ class UnzipTest extends TestCase
 
     public function testLargeZip(): void
     {
-        $sourceDir = self::getHome() . DIRECTORY_SEPARATOR . 'Downloads';
+        $sourceDir = EnvironmentHelper::getHome() . DIRECTORY_SEPARATOR . 'Downloads';
         $zipFile = $sourceDir . DIRECTORY_SEPARATOR . 'sonar-scanner-cli-8.1.0.6389.zip';
         $targetDir = self::prepareTargetFolder();
         if (file_exists($zipFile)) {

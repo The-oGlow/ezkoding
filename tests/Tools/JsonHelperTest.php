@@ -21,8 +21,6 @@ use PHPUnit\Framework\TestCase;
 
 class JsonHelperTest extends TestCase
 {
-    use EnvironmentVariableTrait;
-
     /**
      * @param array<mixed,mixed> $expected
      * @param string             $jsonFile
@@ -85,8 +83,8 @@ class JsonHelperTest extends TestCase
     public static function providerStoreJson(): array
     {
         $jsonData = ['name' => basename(self::class), 'data' => [0 => 'data0', 1 => 1]];
-        $fileNotExists = self::getSystemTemp(TestData::FILE_FOLDERNAME_NOT_EXIST . DIRECTORY_SEPARATOR . TestData::FILE_FILENAME_NOT_EXIST . TestData::FILE_EXT_JSON);
-        $fileExists = self::getSystemTemp(TestData::FILE_FOLDERNAME . DIRECTORY_SEPARATOR . TestData::FILE_FILENAME . TestData::FILE_EXT_JSON);
+        $fileNotExists = EnvironmentHelper::getSystemTemp(TestData::FILE_FOLDERNAME_NOT_EXIST . DIRECTORY_SEPARATOR . TestData::FILE_FILENAME_NOT_EXIST . TestData::FILE_EXT_JSON);
+        $fileExists = EnvironmentHelper::getSystemTemp(TestData::FILE_FOLDERNAME . DIRECTORY_SEPARATOR . TestData::FILE_FILENAME . TestData::FILE_EXT_JSON);
 
         return [
             'fileNotExists' => [true, [$jsonData], $fileNotExists],

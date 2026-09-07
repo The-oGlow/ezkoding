@@ -74,4 +74,23 @@ class ClazzHelper
 
         return pathinfo($file, PATHINFO_FILENAME);
     }
+
+    /**
+     * Retrieve all child classes of a given class.
+     *
+     * @param mixed $clazzName
+     *
+     * @return string[]
+     */
+    public static function getAllChildren(mixed $clazzName): array
+    {
+        $children = [];
+        foreach (get_declared_classes() as $currentClazz) {
+            if (is_subclass_of($currentClazz, $clazzName)) {
+                $children[] = $currentClazz;
+            }
+        }
+
+        return $children;
+    }
 }
