@@ -15,6 +15,8 @@ namespace ollily\Tools;
 
 use Ds\Collection;
 use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 
 class JsonHelper
 {
@@ -31,7 +33,8 @@ class JsonHelper
      *
      * @return array<mixed,mixed>
      *
-     * @throws Exception
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public static function loadJson(string $file, string $fileExt = ''): array
     {
@@ -46,12 +49,12 @@ class JsonHelper
             $jsonData = file_get_contents($jsonFile);
 
             if ($jsonData === false) {
-                throw new Exception("Cannot read content of: '$jsonFile'");
+                throw new RuntimeException("Cannot read content of: '$jsonFile'");
             }
             $data = json_decode($jsonData, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new Exception("Content has invalid JSON: " . json_last_error_msg());
+                throw new InvalidArgumentException("Content has invalid JSON: " . json_last_error_msg());
             }
         } else {
             echo sprintf("File not exists: '%s'\n", $jsonFile);
@@ -68,7 +71,8 @@ class JsonHelper
      *
      * @return bool
      *
-     * @throws Exception
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public static function storeJson(array $data, string $file, string $fileExt = '', bool $prettyPrint = false): bool
     {
@@ -81,8 +85,8 @@ class JsonHelper
 
         $jsonFolder = dirname($jsonFile);
         if (!is_dir($jsonFolder)) {
-            if (!mkdir($jsonFolder, 0o777, true)) {
-                throw new Exception("Cannot create folder: '$jsonFolder'");
+            if (!mkdir($jsonFolder, 0o777, true)) { // NOSONAR: php:S1066
+                throw new RuntimeException("Cannot create folder: '$jsonFolder'");
             }
         }
         if (is_dir($jsonFolder)) {
@@ -91,14 +95,14 @@ class JsonHelper
                 $jsonData = json_encode($data, $options);
 
                 if ($jsonData === false) {
-                    throw new Exception("Content has invalid JSON: " . json_last_error_msg());
+                    throw new InvalidArgumentException("Content has invalid JSON: " . json_last_error_msg());
                 }
 
                 if (file_put_contents($jsonFile, $jsonData) === false) {
-                    throw new Exception("Cannot write content to: '$jsonFile'");
+                    throw new RuntimeException("Cannot write content to: '$jsonFile'");
                 }
             } else {
-                throw new Exception("File already exists: '$jsonFile'");
+                throw new RuntimeException("File already exists: '$jsonFile'");
             }
             $isOk = true;
         }
@@ -114,7 +118,8 @@ class JsonHelper
      *
      * @return bool
      *
-     * @throws Exception
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public static function storeJsonCollection(Collection $data, string $file, string $fileExt = '', bool $prettyPrint = false): bool
     {
