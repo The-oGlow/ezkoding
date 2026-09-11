@@ -25,19 +25,24 @@ use ZipArchive;
 class UnzipTest extends TestCase
 {
     private static string $zipTestFile;
-
+    private static string $notZipTestFile;
     private static string $targetTestFolder;
 
     #[\Override]
     public static function tearDownAfterClass(): void
     {
-        if (!empty(self::$zipTestFile) && is_file(self::$zipTestFile)) {
-            echo sprintf("\nRemoving file '%s'", self::$zipTestFile);
-            unlink(self::$zipTestFile);
-        }
+        self::cleanUpFile(self::$zipTestFile);
+        self::cleanUpFile(self::$notZipTestFile);
         self::cleanUpFolder(self::$targetTestFolder);
     }
 
+    public static function cleanUpFile(string $file): void {
+    if (!empty($file) && is_file($file)) {
+            echo sprintf("\nRemoving file '%s'", $file);
+            unlink($file);
+        }
+    }
+    
     public static function cleanUpFolder(string $folder): void
     {
         if (!empty($folder) && is_dir($folder)) {
@@ -59,7 +64,7 @@ class UnzipTest extends TestCase
     {
         switch ($mode) {
             case 1:
-                $fileName = EnvironmentHelper::getSystemTemp(uniqid()) . '.zip';
+                $fileName = EnvironmentHelper::getSystemTemp('zip-'.uniqid()) . '.zip';
                 $zip = new ZipArchive();
                 if ($zip->open($fileName, ZipArchive::CREATE) === true) {
                     $zip->addFromString(time() . "-sample.txt", "The quick brown fox jumps over the lazy dog.\n");
@@ -67,7 +72,7 @@ class UnzipTest extends TestCase
                 }
                 break;
             default:
-                $fileName = tempnam(EnvironmentHelper::getSystemTemp(), 'uzm');
+                $fileName = tempnam(EnvironmentHelper::getSystemTemp(), 'no-');
                 break;
         }
         if (is_string($fileName)) {
@@ -81,7 +86,7 @@ class UnzipTest extends TestCase
 
     public static function prepareTargetFolder(): string
     {
-        $folder = EnvironmentHelper::getSystemTemp(uniqid());
+        $folder = EnvironmentHelper::getSystemTemp('target-'.uniqid());
         echo sprintf("\nUsing '%s'\n", $folder);
 
         return $folder;
@@ -104,8 +109,9 @@ class UnzipTest extends TestCase
     {
         $sourceDir = EnvironmentHelper::getHome() . DIRECTORY_SEPARATOR . 'Downloads';
         $zipFile = $sourceDir . DIRECTORY_SEPARATOR . 'sonar-scanner-cli-8.1.0.6389.zip';
-        $targetDir = self::prepareTargetFolder();
+        $targetDir ='';
         if (file_exists($zipFile)) {
+            $targetDir = self::prepareTargetFolder();
             $result = Unzip::myFile($zipFile, $targetDir);
         } else {
             echo "\nLarge zip file test disabled";
@@ -123,11 +129,12 @@ class UnzipTest extends TestCase
     public static function providerMyFile(): array
     {
         self::$zipTestFile = self::prepareZipFile(1);
+        self::$notZipTestFile = self::prepareZipFile(0);
         self::$targetTestFolder = self::prepareTargetFolder();
 
         return[
             'noZipFile' => [Unzip::ZIP_NOT_EXIST, TestData::FILE_FILENAME_EMPTY, TestData::FILE_FOLDERNAME_EMPTY],
-            'notAZipFile' => [Unzip::ZIP_NOT_OPENED,self::prepareZipFile(), TestData::FILE_FOLDERNAME_EMPTY],
+            'notAZipFile' => [Unzip::ZIP_NOT_OPENED, self::$notZipTestFile, TestData::FILE_FOLDERNAME_EMPTY],
             'ZipWithDefaultDir' => [Unzip::OK, self::$zipTestFile, TestData::FILE_FOLDERNAME_EMPTY],
             'ZipWithCustomDir' => [Unzip::OK, self::$zipTestFile, self::$targetTestFolder],
         ];

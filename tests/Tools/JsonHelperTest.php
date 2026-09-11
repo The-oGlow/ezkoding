@@ -69,7 +69,7 @@ class JsonHelperTest extends TestCase
     {
         $fileExists = ClazzHelper::getClazzPath(self::class) . DIRECTORY_SEPARATOR . ClazzHelper::getClazzFilename(self::class) . TestData::FILE_EXT_JSON;
 
-        $jsonData = ['name' => basename(self::class), 'data' => [0 => 'data0', 1 => 1]];
+        $jsonData = ['name' => 'JsonHelperTest', 'data' => [0 => 'data0', 1 => 1]];
 
         return [
             'fileNotExists' => [[], TestData::FILE_FILE_NOT_EXISTS],
