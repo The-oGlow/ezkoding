@@ -25,7 +25,9 @@ use ZipArchive;
 class UnzipTest extends TestCase
 {
     private static string $zipTestFile;
+
     private static string $notZipTestFile;
+
     private static string $targetTestFolder;
 
     #[\Override]
@@ -36,13 +38,14 @@ class UnzipTest extends TestCase
         self::cleanUpFolder(self::$targetTestFolder);
     }
 
-    public static function cleanUpFile(string $file): void {
-    if (!empty($file) && is_file($file)) {
+    public static function cleanUpFile(string $file): void
+    {
+        if (!empty($file) && is_file($file)) {
             echo sprintf("\nRemoving file '%s'", $file);
             unlink($file);
         }
     }
-    
+
     public static function cleanUpFolder(string $folder): void
     {
         if (!empty($folder) && is_dir($folder)) {
@@ -64,7 +67,7 @@ class UnzipTest extends TestCase
     {
         switch ($mode) {
             case 1:
-                $fileName = EnvironmentHelper::getSystemTemp('zip-'.uniqid()) . '.zip';
+                $fileName = EnvironmentHelper::getSystemTemp('zip-' . uniqid()) . '.zip';
                 $zip = new ZipArchive();
                 if ($zip->open($fileName, ZipArchive::CREATE) === true) {
                     $zip->addFromString(time() . "-sample.txt", "The quick brown fox jumps over the lazy dog.\n");
@@ -86,7 +89,7 @@ class UnzipTest extends TestCase
 
     public static function prepareTargetFolder(): string
     {
-        $folder = EnvironmentHelper::getSystemTemp('target-'.uniqid());
+        $folder = EnvironmentHelper::getSystemTemp('target-' . uniqid());
         echo sprintf("\nUsing '%s'\n", $folder);
 
         return $folder;
@@ -109,7 +112,7 @@ class UnzipTest extends TestCase
     {
         $sourceDir = EnvironmentHelper::getHome() . DIRECTORY_SEPARATOR . 'Downloads';
         $zipFile = $sourceDir . DIRECTORY_SEPARATOR . 'sonar-scanner-cli-8.1.0.6389.zip';
-        $targetDir ='';
+        $targetDir = '';
         if (file_exists($zipFile)) {
             $targetDir = self::prepareTargetFolder();
             $result = Unzip::myFile($zipFile, $targetDir);

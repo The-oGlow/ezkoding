@@ -150,20 +150,20 @@ abstract class EasyGoingTestCase extends TestCase
     /**
      * @param string $filterTerm
      * @param string $clazzName
-     * @return array<mixed,mixed>
-     * 
+     *
      * @phpstan-param class-string $clazzName
+     *
+     * @return array<mixed,mixed>
      */
-    protected static function filterConsts(string $filterTerm, string $clazzName) : array
+    protected static function filterConsts(string $filterTerm, string $clazzName): array
     {
-        $callback = fn($val, $key) => str_starts_with($key, $filterTerm);
+        $callback = fn ($val, $key) => str_starts_with($key, $filterTerm);
         $consts = array_filter(self::getAllDefinedConsts($clazzName), $callback, ARRAY_FILTER_USE_BOTH);
-        $constsMap = fn($val) => $clazzName . self::C_STATIC_SEP . $val;
-        $consts = array_map($constsMap, array_keys($consts));
-        
-        return $consts;
+        $constsMap = fn ($val) => $clazzName . self::C_STATIC_SEP . $val;
+
+        return array_map($constsMap, array_keys($consts));
     }
-    
+
     protected static function getConstValue(mixed $clazz, string $constantName): mixed
     {
         self::$logger->debug('START');

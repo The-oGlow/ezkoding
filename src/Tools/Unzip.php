@@ -27,16 +27,22 @@ use ZipArchive;
  *  $result = Unzip.myFile('/download/my.zip', '/tmp');
  * </code>
  */
-final class Unzip {
-
+final class Unzip
+{
     public const int OK = 0;
+
     public const int ERROR = 1;
+
     public const int ZIP_NOT_EXIST = 2;
+
     public const int TARGET_NOT_EXIST = 3;
+
     public const int ZIP_NOT_OPENED = 4;
+
     public const int ZIPARCHIVE_ERROR = 99;
 
-    private function __construct() {
+    private function __construct()
+    {
         // hide constructor
     }
 
@@ -46,7 +52,8 @@ final class Unzip {
      *
      * @return int 0=Unzip successfull, else >=1
      */
-    public static function myFile(string $zipFile, string $targetDir = ''): int {
+    public static function myFile(string $zipFile, string $targetDir = ''): int
+    {
         $isSucc = Unzip::ERROR;
 
         if (!empty($zipFile)) {
@@ -57,6 +64,7 @@ final class Unzip {
             if (empty($targetDir)) {
                 $targetDir = pathinfo($zipFile, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . pathinfo($zipFile, PATHINFO_FILENAME);
             }
+
             try {
                 $zip = new ZipArchive();
                 $isOpen = $zip->open($zipFile, ZipArchive::RDONLY);
