@@ -127,7 +127,7 @@ class UnzipTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerMyFile(): array
     {

@@ -71,9 +71,9 @@ class ImplodeTraitTest extends TestCase
     }
 
     /**
-     * @param int                $expectedCount
-     * @param array<mixed,mixed> $testData
-     * @param int                $preserveKeys
+     * @param int          $expectedCount
+     * @param array<mixed> $testData
+     * @param int          $preserveKeys
      */
     #[DataProvider('providerArrayFlatten')]
     public function testArray_flatten(int $expectedCount, array $testData, int $preserveKeys): void
@@ -106,7 +106,7 @@ class ImplodeTraitTest extends TestCase
     // Dataprovider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerArrayFlatten(): array
     {

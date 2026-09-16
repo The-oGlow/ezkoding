@@ -17,12 +17,15 @@ use Ds\Map;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\EasyGoingTestCase;
 
+/**
+ * @phpstan-import-type TDataKey from ITaskItem
+ * @phpstan-import-type TDataValue from ITaskItem
+ */
 class TaskItemTest extends EasyGoingTestCase
 {
     public const int LIST_ID = TestData::KEY_NUM1;
 
-    /** @var Map<mixed,mixed>
-     * @param-var Map<TDataKey,TDataValue> */
+    /** @var Map<TDataKey,TDataValue> */
     public static Map $data;
 
     #[\Override]
@@ -30,6 +33,7 @@ class TaskItemTest extends EasyGoingTestCase
     {
         parent::setUpBeforeClass();
 
+        /** @psalm-suppress InvalidPropertyAssignmentValue */
         self::$data = new Map([TestData::DATA_ALPHA1, TestData::DATA_BOOL_T]);
     }
 

@@ -45,7 +45,7 @@ class BatchTaskHelperTest extends TestCase
     // Dataprovider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerTaskList(): array
     {
@@ -55,7 +55,7 @@ class BatchTaskHelperTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerTaskListFile(): array
     {

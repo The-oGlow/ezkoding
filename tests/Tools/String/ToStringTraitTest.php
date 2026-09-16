@@ -79,7 +79,7 @@ class ToStringTraitTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      *
      * @psalm-suppress InvalidArgument
      */

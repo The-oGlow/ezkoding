@@ -53,7 +53,7 @@ class EmergencyTest extends TestCase
     // Dataprovider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerBreakSystem(): array
     {
@@ -66,7 +66,7 @@ class EmergencyTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerExceptionStop(): array
     {

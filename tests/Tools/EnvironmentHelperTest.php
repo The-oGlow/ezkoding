@@ -120,7 +120,7 @@ class EnvironmentHelperTest extends TestCase
     // Dataprovider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerPhpVersion(): array
     {

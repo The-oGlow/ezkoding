@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace ollily\Tools\Reflection;
 
 use Ds\Set;
+use Ds\Vector;
+use ReflectionMethod;
 
 trait MagicPublicFunctionTrait
 {
@@ -24,7 +26,7 @@ trait MagicPublicFunctionTrait
      */
     final public static function existingMethodNames(): Set
     {
-        $callback = function (\ReflectionMethod $method): string {
+        $callback = function (ReflectionMethod $method): string {
             return $method->getName();
         };
         $availableMethodNames = array_map($callback, self::existingMethods()->toArray());
@@ -33,13 +35,14 @@ trait MagicPublicFunctionTrait
     }
 
     /**
-     * @return Set<\ReflectionMethod> All public methods of this clazz
+     * @return Set<ReflectionMethod> All public methods of this clazz
      */
     final public static function existingMethods(): Set
     {
-        $callback = function (\ReflectionMethod $method): bool {
-            $notAllowed = new Set(['__call', 'existingMethodNames', 'existingMethods']);
+        $notAllowed = new Vector(['__call', 'existingMethodNames', 'existingMethods']);
 
+        $callback = function (ReflectionMethod $method) use ($notAllowed): bool {
+            /** @psalm-suppress ArgumentTypeCoercion */
             return !$notAllowed->contains($method->getName());
         };
 
@@ -50,8 +53,8 @@ trait MagicPublicFunctionTrait
     }
 
     /**
-     * @param string             $methodName Name of the called function
-     * @param array<mixed,mixed> $arguments  All arguments send with the function
+     * @param string       $methodName Name of the called function
+     * @param array<mixed> $arguments  All arguments send with the function
      *
      * @phpstan-param non-empty-string $methodName
      *
@@ -78,20 +81,20 @@ trait MagicPublicFunctionTrait
      *
      * @phpstan-param class-string $clazzName
      *
-     * @return array<mixed,\ReflectionMethod> All public methods of {@link $clazzName)
+     * @return array<mixed,ReflectionMethod> All public methods of {@link $clazzName)
      */
     final protected static function collectPublicMethods(string $clazzName): array
     {
         $publicMethods = [];
 
         $reflectObj = new \ReflectionClass($clazzName);
-        /** @var array<mixed,\ReflectionMethod> */
-        $foundMethods = $reflectObj->getMethods(\ReflectionMethod::IS_PUBLIC);
+        /** @var array<mixed,ReflectionMethod> */
+        $foundMethods = $reflectObj->getMethods(ReflectionMethod::IS_PUBLIC);
 
         if (count($foundMethods) > 0) {
-            /** @var \ReflectionMethod $foundMethod */
+            /** @var ReflectionMethod $foundMethod */
             foreach ($foundMethods as $foundMethod) {
-                if (($foundMethod->getModifiers() & \ReflectionMethod::IS_ABSTRACT) !== \ReflectionMethod::IS_ABSTRACT) {
+                if (($foundMethod->getModifiers() & ReflectionMethod::IS_ABSTRACT) !== ReflectionMethod::IS_ABSTRACT) {
                     $publicMethods[] = $foundMethod;
                 }
             }
@@ -101,15 +104,15 @@ trait MagicPublicFunctionTrait
     }
 
     /**
-     * @param object             $instance   The current instance
-     * @param string             $methodName Name of the called function
-     * @param array<mixed,mixed> $arguments  All arguments send with the function
+     * @param object       $instance   The current instance
+     * @param string       $methodName Name of the called function
+     * @param array<mixed> $arguments  All arguments send with the function
      *
      * @return mixed Result of the called method
      */
     final protected static function callThatMethod(object $instance, string $methodName, array $arguments): mixed
     {
-        $reflectMethod = new \ReflectionMethod($instance, $methodName);
+        $reflectMethod = new ReflectionMethod($instance, $methodName);
         echo sprintf("\nCalling '%s'->'%s'\n", get_class($instance), $methodName);
 
         return $reflectMethod->invokeArgs($instance, $arguments);

@@ -29,7 +29,7 @@ class JsonHelper
      * @param string $file
      * @param string $fileExt
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      *
      * @throws InvalidArgumentException
      */
@@ -61,10 +61,10 @@ class JsonHelper
     }
 
     /**
-     * @param array<mixed,mixed> $data
-     * @param string             $file
-     * @param string             $fileExt
-     * @param bool               $prettyPrint
+     * @param array<mixed> $data
+     * @param string       $file
+     * @param string       $fileExt
+     * @param bool         $prettyPrint
      *
      * @return bool
      *

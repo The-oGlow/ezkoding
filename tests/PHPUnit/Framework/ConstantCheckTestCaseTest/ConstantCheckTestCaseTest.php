@@ -154,7 +154,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param array<mixed,mixed> $actualConstants
+     * @param array<mixed> $actualConstants
      */
     #[DataProvider('providerCrossCheck')]
     public function testCrossCheckConstants(bool $success, bool $crossCheckActive, string $clazz, array $actualConstants): void
@@ -211,7 +211,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param array<mixed,mixed> $constants
+     * @param array<mixed> $constants
      */
     #[DataProvider('providerConstants')]
     public function testVerifyConstAllExists(bool $success, array $constants): void
@@ -232,7 +232,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param array<mixed,mixed> $constants
+     * @param array<mixed> $constants
      */
     #[DataProvider('providerConstantsArray')]
     public function testVerifyConstArrayAllExists(bool $success, array $constants): void
@@ -273,7 +273,7 @@ class ConstantCheckTestCaseTest extends TestCase
     // Data Provider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerConstants(): array
     {
@@ -286,7 +286,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerConstantsArray(): array
     {
@@ -299,7 +299,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerConstantName(): array
     {
@@ -312,7 +312,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerCrossCheck(): array
     {
@@ -338,9 +338,9 @@ class ConstantCheckTestCaseTest extends TestCase
     // Misc functions
 
     /**
-     * @param bool               $success
-     * @param ?\Exception        $exception
-     * @param array<mixed,mixed> $extraData
+     * @param bool         $success
+     * @param ?\Exception  $exception
+     * @param array<mixed> $extraData
      */
     protected function verifyConstantsTestResult(bool $success, ?\Exception $exception, array $extraData): void
     {

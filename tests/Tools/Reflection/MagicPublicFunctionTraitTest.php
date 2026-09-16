@@ -153,7 +153,7 @@ class MagicPublicFunctionTraitTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function provideMethodNames(): array
     {

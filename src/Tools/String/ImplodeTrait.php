@@ -99,13 +99,13 @@ trait ImplodeTrait
      * Flatten a multidimensional anyData to one dimension, optionally preserving keys.
      * Original found on {@link https://stackoverflow.com/a/526633}.
      *
-     * @param array<mixed,mixed> $anyData      the anyData to flatten
-     * @param int                $preserveKeys 0 to not preserve keys (default),
-     *                                         1 to preserve string keys only,
-     *                                         2 to preserve all keys
-     * @param array<mixed,mixed> $output       internal use argument for recursion
+     * @param array<mixed> $anyData      the anyData to flatten
+     * @param int          $preserveKeys 0 to not preserve keys (default),
+     *                                   1 to preserve string keys only,
+     *                                   2 to preserve all keys
+     * @param array<mixed> $output       internal use argument for recursion
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      *
      * @see https://stackoverflow.com/a/526633
      */

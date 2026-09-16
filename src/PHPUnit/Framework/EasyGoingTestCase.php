@@ -21,7 +21,7 @@ use UnitEnum;
 abstract class EasyGoingTestCase extends TestCase
 {
     /** Separator for static access */
-    public const string    C_STATIC_SEP = '::';
+    public const string C_STATIC_SEP = '::';
 
     /** All primitive datatypes */
     protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float|double';
@@ -100,7 +100,7 @@ abstract class EasyGoingTestCase extends TestCase
     /**
      * @param mixed $clazzName
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     protected static function getAllDefinedConsts(mixed $clazzName): array
     {
@@ -121,9 +121,9 @@ abstract class EasyGoingTestCase extends TestCase
             $isDefined = false;
         }
         if (!$isDefined) {
-            $allConsts  = self::getAllDefinedConsts($clazz);
+            $allConsts = self::getAllDefinedConsts($clazz);
             $splitClazz = explode(self::C_STATIC_SEP, $constantName);
-            $isDefined  = isset($allConsts[$splitClazz[count($splitClazz) - 1]]);
+            $isDefined = isset($allConsts[$splitClazz[count($splitClazz) - 1]]);
             self::$logger->debug('Verify existence by reflection', [$constantName]);
         }
 
@@ -153,13 +153,17 @@ abstract class EasyGoingTestCase extends TestCase
      *
      * @phpstan-param class-string $clazzName
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     protected static function filterConsts(string $filterTerm, string $clazzName): array
     {
-        $callback = fn ($val, $key) => str_starts_with($key, $filterTerm);
+        $callback = function (string $val, string $key) use ($filterTerm): bool {
+            return str_starts_with($key, $filterTerm);
+        };
         $consts = array_filter(self::getAllDefinedConsts($clazzName), $callback, ARRAY_FILTER_USE_BOTH);
-        $constsMap = fn ($val) => $clazzName . self::C_STATIC_SEP . $val;
+        $constsMap = function (string $val) use ($clazzName): string {
+            return $clazzName . self::C_STATIC_SEP . $val;
+        };
 
         return array_map($constsMap, array_keys($consts));
     }
@@ -176,8 +180,8 @@ abstract class EasyGoingTestCase extends TestCase
         }
         if (!isset($constantValue)) {
             $reflectionClazz = new \ReflectionClass($clazz);
-            $splitClazz      = explode(self::C_STATIC_SEP, $constantName);
-            $constantValue   = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR: php:S3011
+            $splitClazz = explode(self::C_STATIC_SEP, $constantName);
+            $constantValue = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR: php:S3011
             self::$logger->debug('Recieved by reflection', [$constantName]);
         }
 

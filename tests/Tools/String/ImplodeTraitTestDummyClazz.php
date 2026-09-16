@@ -24,10 +24,10 @@ class ImplodeTraitTestDummyClazz
 {
     use ImplodeTrait;
 
-    /** @var array<mixed,mixed> */
+    /** @var array<mixed> */
     public array $traitData = TestData::ARRAY_ALPHA2;
 
-    /** @var array<mixed,mixed> */
+    /** @var array<mixed> */
     public array $traitObject = TestData::ARRAY_EMPTY;
 
     public function __construct()

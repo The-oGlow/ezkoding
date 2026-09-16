@@ -176,7 +176,7 @@ class TaskListTest extends EasyGoingTestCase
     // Misc functions
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function prepareFiles(): array
     {
@@ -205,6 +205,7 @@ class TaskListTest extends EasyGoingTestCase
 
         for ($idx = 0; $idx < $count; $idx++) {
             $itemId = "$listId" . $idx;
+            /** @var Map<mixed,mixed> */
             $data = new Map([self::DATA . $idx, $idx * 10]);
             $taskItems[] = new TaskItem($itemId, $data);
         }

@@ -70,10 +70,10 @@ class ClazzHelperTest extends TestCase
     }
 
     /**
-     * @param int                $expected
-     * @param string             $clazz
-     * @param array<mixed,mixed> $childClazzes
-     * @param bool               $isEqual
+     * @param int          $expected
+     * @param string       $clazz
+     * @param array<mixed> $childClazzes
+     * @param bool         $isEqual
      *
      * @phpsta-param class-string $clazz
      */
@@ -95,7 +95,7 @@ class ClazzHelperTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerGetClazzFile(): array
     {
@@ -109,7 +109,7 @@ class ClazzHelperTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerGetAllChildren(): array
     {

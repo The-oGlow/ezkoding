@@ -28,7 +28,7 @@ class EasyGoingLogger
 
     public const string LOGGER_NULL = 'Psr\Log\NullLogger';
 
-    /** @var array<mixed,mixed> LOGGER_CHOICE */
+    /** @var array<mixed> LOGGER_CHOICE */
     private const array LOGGER_CHOICE = [self::LOGGER_CONSOLE, self::LOGGER_DEFAULT, self::LOGGER_NULL];
 
     private function __construct()
@@ -37,11 +37,11 @@ class EasyGoingLogger
     }
 
     /**
-     * @param string             $name
-     * @param string             $level
-     * @param array<mixed,mixed> $handlers
-     * @param array<mixed,mixed> $processors
-     * @param ?DateTimeZone      $timezone
+     * @param string        $name
+     * @param string        $level
+     * @param array<mixed>  $handlers
+     * @param array<mixed>  $processors
+     * @param ?DateTimeZone $timezone
      *
      * @return LoggerInterface
      */

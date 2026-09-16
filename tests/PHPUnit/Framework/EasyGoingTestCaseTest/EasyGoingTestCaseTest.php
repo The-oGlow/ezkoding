@@ -53,7 +53,7 @@ class EasyGoingTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     protected static function prepareAllConsts(): array
     {
@@ -195,7 +195,7 @@ class EasyGoingTestCaseTest extends TestCase
     // Data Provider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerConstant(): array
     {
@@ -208,7 +208,7 @@ class EasyGoingTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerPrimitives(): array
     {
@@ -225,7 +225,7 @@ class EasyGoingTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerVerifyConstExists(): array
     {

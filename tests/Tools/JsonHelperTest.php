@@ -22,8 +22,8 @@ use PHPUnit\Framework\TestCase;
 class JsonHelperTest extends TestCase
 {
     /**
-     * @param array<mixed,mixed> $expected
-     * @param string             $jsonFile
+     * @param array<mixed> $expected
+     * @param string       $jsonFile
      */
     #[DataProvider('providerLoadJson')]
     public function testLoadJson(array $expected, string $jsonFile): void
@@ -33,9 +33,9 @@ class JsonHelperTest extends TestCase
     }
 
     /**
-     * @param bool               $expected
-     * @param array<mixed,mixed> $data
-     * @param string             $jsonFile
+     * @param bool         $expected
+     * @param array<mixed> $data
+     * @param string       $jsonFile
      */
     #[DataProvider('providerStoreJson')]
     public function testStoreJson(bool $expected, array $data, string $jsonFile): void
@@ -63,7 +63,7 @@ class JsonHelperTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerLoadJson(): array
     {
@@ -78,7 +78,7 @@ class JsonHelperTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerStoreJson(): array
     {

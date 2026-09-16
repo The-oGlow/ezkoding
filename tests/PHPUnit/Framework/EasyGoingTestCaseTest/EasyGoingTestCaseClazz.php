@@ -82,7 +82,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
     /**
      * @param string $clazz
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function publicGetAllDefinedConsts(string $clazz): array
     {
@@ -107,7 +107,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
     // Misc functions
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function prepareAllConsts(): array
     {

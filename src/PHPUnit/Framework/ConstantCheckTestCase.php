@@ -40,7 +40,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      */
     private static int $expectedConstsCount = self::INIT_CONST_COUNT;
 
-    /** @var array<mixed,mixed> Array of the names of all constants in the class. */
+    /** @var array<mixed> Array of the names of all constants in the class. */
     private static array $actualConsts = [];
 
     private static LoggerInterface $logger;
@@ -97,8 +97,8 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
     /**
      * Executes the constant crosscheck  and fails if a constant is not found or not expected to exist.
      *
-     * @param mixed              $clazz        the clazz having the constants to check
-     * @param array<mixed,mixed> $actualConsts an array of the already found constants
+     * @param mixed        $clazz        the clazz having the constants to check
+     * @param array<mixed> $actualConsts an array of the already found constants
      *
      * @see ConstantCheckTestCase::$withConstCrossCheck
      */
@@ -166,8 +166,8 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
     /**
      * Checks, if {@link $allDefinedConsts) has the size of {@link $expectedCount}.
      *
-     * @param int                $expectedCount    count of constants which must exists
-     * @param array<mixed,mixed> $allDefinedConsts an array with all defined constants
+     * @param int          $expectedCount    count of constants which must exists
+     * @param array<mixed> $allDefinedConsts an array with all defined constants
      *
      * @return array<mixed> [true|false, count($allDefinedConsts)]
      *
@@ -218,7 +218,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      * Checks, if all constants exists.
      * <code>['CONST1','CONST2',...]</code>.
      *
-     * @param array<mixed,mixed> $constants an array with constants to check
+     * @param array<mixed> $constants an array with constants to check
      */
     protected function verifyConstAllExists(array $constants = []): void
     {
@@ -235,7 +235,7 @@ abstract class ConstantCheckTestCase extends EasyGoingTestCase
      * Checks, if all constants exists are arrays and have the expected size.
      * <code>['CONST1'=>3,'CONST2'=>10,...]</code>.
      *
-     * @param array<mixed,mixed> $constants an array with constants and expected sizes to check
+     * @param array<mixed> $constants an array with constants and expected sizes to check
      */
     protected function verifyConstArrayAllExists(array $constants = []): void
     {

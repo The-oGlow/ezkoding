@@ -32,7 +32,7 @@ class TestDataTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerData(): array
     {
@@ -101,7 +101,7 @@ class TestDataTest extends TestCase
     public function testArrayObject(): void
     {
         $expected = TestDataFoo::class;
-        /** @var array<mixed,mixed> $actuals */
+        /** @var array<mixed> $actuals */
         $actuals = [1 => TestData::ARRAY_OBJECT1(), 2 => TestData::ARRAY_OBJECT2(), 3 => TestData::ARRAY_OBJECT3()];
 
         foreach ($actuals as $key => $actual) {

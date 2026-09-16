@@ -66,9 +66,9 @@ class TemplateFactoryTest extends TestCase
     }
 
     /**
-     * @param int                $expected
-     * @param string             $templateName
-     * @param array<mixed,mixed> $templateData
+     * @param int          $expected
+     * @param string       $templateName
+     * @param array<mixed> $templateData
      */
     #[DataProvider('provideTemplateData')]
     public function testRenderTemplate(int $expected, string $templateName, array $templateData): void
@@ -93,7 +93,7 @@ class TemplateFactoryTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function provideTemplateData(): array
     {
