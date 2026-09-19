@@ -254,7 +254,6 @@ class TaskList implements ITaskList
             $newLine = preg_filter(self::LINE_ENDS, '', $dataKeysLine);
             /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($newLine)) {
-                /** @psalm-suppress InvalidPropertyAssignmentValue */
                 $this->dataItemIds = new Vector(explode(self::DEFAULT_ITEM_SEP, $newLine));
             }
             $this->isDataItemIdRead = true;

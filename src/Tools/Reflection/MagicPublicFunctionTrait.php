@@ -30,7 +30,7 @@ trait MagicPublicFunctionTrait
      */
     final public static function existingMethodNames(): Sequence
     {
-        $callback = function (ReflectionMethod $method): string {
+        $callback = function (\ReflectionMethod $method): string {
             return $method->getName();
         };
         $availableMethodNames = array_map($callback, self::existingMethods()->toArray());
@@ -45,11 +45,8 @@ trait MagicPublicFunctionTrait
      */
     final public static function existingMethods(): Sequence
     {
-        $callback = function (\ReflectionMethod $method): bool {
-            $notAllowed = new Vector(['__call', 'existingMethodNames', 'existingMethods']);
-
-        $callback = function (ReflectionMethod $method) use ($notAllowed): bool {
-            /** @psalm-suppress ArgumentTypeCoercion */
+        $notAllowed = new Vector(['__call', 'existingMethodNames', 'existingMethods']);
+        $callback = function (\ReflectionMethod $method) use ($notAllowed): bool {
             return !$notAllowed->contains($method->getName());
         };
 
@@ -101,9 +98,9 @@ trait MagicPublicFunctionTrait
         $foundMethods = $reflectObj->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         if (count($foundMethods) > 0) {
-            /** @var ReflectionMethod $foundMethod */
+            /** @var \ReflectionMethod $foundMethod */
             foreach ($foundMethods as $foundMethod) {
-                if (($foundMethod->getModifiers() & ReflectionMethod::IS_ABSTRACT) !== ReflectionMethod::IS_ABSTRACT) {
+                if (($foundMethod->getModifiers() & \ReflectionMethod::IS_ABSTRACT) !== \ReflectionMethod::IS_ABSTRACT) {
                     $publicMethods[] = $foundMethod;
                 }
             }
@@ -123,7 +120,7 @@ trait MagicPublicFunctionTrait
      */
     final protected static function callThatMethod(object $instance, string $methodName, array $arguments): mixed
     {
-        $reflectMethod = new ReflectionMethod($instance, $methodName);
+        $reflectMethod = new \ReflectionMethod($instance, $methodName);
         echo sprintf("\nCalling '%s'->'%s'\n", get_class($instance), $methodName);
 
         return $reflectMethod->invokeArgs($instance, $arguments);
