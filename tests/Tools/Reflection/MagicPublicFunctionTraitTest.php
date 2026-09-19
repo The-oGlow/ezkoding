@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-use Ds\Set;
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use Ds\Vector;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
 class MagicPublicFunctionTraitTest extends TestCase
@@ -37,7 +36,7 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testExistingMethodNames(): void
     {
-        $expected = Set::class;
+        $expected = Vector::class;
         $expectedCount = 3;
 
         $actual = $this->o2t::existingMethodNames();
@@ -48,7 +47,7 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testExistingMethods(): void
     {
-        $expected = Set::class;
+        $expected = Vector::class;
         $expectedCount = 3;
 
         $actual = $this->o2t::existingMethods();
@@ -68,8 +67,8 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testCallPublicMethodWithArgs(): void
     {
-        $arg1 = TestData::DATA_NUM2;
-        $arg2 = TestData::DATA_ALPHA1;
+        $arg1 = TeDa::DATA_NUM2;
+        $arg2 = TeDa::DATA_ALPHA1;
 
         $expected = sprintf(MagicPublicFunctionTraitDummyClazz::MSG, MagicPublicFunctionTraitDummyClazz::PUBLIC, $arg1, $arg2);
 
@@ -80,8 +79,8 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testCallPublicMethodWithWrongArgs(): void
     {
-        $arg1 = TestData::DATA_NUM2;
-        $arg2 = TestData::DATA_ALPHA1;
+        $arg1 = TeDa::DATA_NUM2;
+        $arg2 = TeDa::DATA_ALPHA1;
 
         $this->expectException(\TypeError::class);
         /** @psalm-suppress InvalidArgument
@@ -91,8 +90,8 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testCallDynamicallyWithWrongArgs(): void
     {
-        $arg1 = TestData::DATA_NUM2;
-        $arg2 = TestData::DATA_ALPHA1;
+        $arg1 = TeDa::DATA_NUM2;
+        $arg2 = TeDa::DATA_ALPHA1;
         $methodName = 'publicFunctionWithArgs';
 
         $this->expectException(\TypeError::class);
@@ -102,7 +101,7 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testCallProtectedMethod(): void
     {
-        $expected = TestData::DATA_NULL;
+        $expected = TeDa::DATA_NULL;
 
         /** @psalm-suppress UndefinedMagicMethod
          *  @phpstan-ignore method.protected */
@@ -113,7 +112,7 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testCallPrivateMethod(): void
     {
-        $expected = TestData::DATA_NULL;
+        $expected = TeDa::DATA_NULL;
 
         /** @psalm-suppress UndefinedMagicMethod
          * @phpstan-ignore method.private */
@@ -137,7 +136,7 @@ class MagicPublicFunctionTraitTest extends TestCase
      * @param mixed  $arg1
      * @param mixed  $arg2
      */
-    #[DataProvider('provideMethodNames')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideMethodNames')]
     public function testCallDynamically(mixed $expected, string $methodName, mixed $arg1 = null, mixed $arg2 = null): void
     {
         if (!is_null($arg1)) {
@@ -153,19 +152,19 @@ class MagicPublicFunctionTraitTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function provideMethodNames(): array
     {
         return [
             MagicPublicFunctionTraitDummyClazz::MN_PUBLIC => [MagicPublicFunctionTraitDummyClazz::PUBLIC, MagicPublicFunctionTraitDummyClazz::MN_PUBLIC],
-            MagicPublicFunctionTraitDummyClazz::MN_PROTECTED => [TestData::DATA_NULL, MagicPublicFunctionTraitDummyClazz::MN_PROTECTED],
-            MagicPublicFunctionTraitDummyClazz::MN_PRIVATE => [TestData::DATA_NULL, MagicPublicFunctionTraitDummyClazz::MN_PRIVATE],
+            MagicPublicFunctionTraitDummyClazz::MN_PROTECTED => [TeDa::DATA_NULL, MagicPublicFunctionTraitDummyClazz::MN_PROTECTED],
+            MagicPublicFunctionTraitDummyClazz::MN_PRIVATE => [TeDa::DATA_NULL, MagicPublicFunctionTraitDummyClazz::MN_PRIVATE],
             MagicPublicFunctionTraitDummyClazz::MN_ABSTRACT => [MagicPublicFunctionTraitDummyClazz::ABSTRACT, MagicPublicFunctionTraitDummyClazz::MN_ABSTRACT],
             MagicPublicFunctionTraitDummyClazz::MN_PUBLIC_WITH_ARGS => [
-                sprintf(MagicPublicFunctionTraitDummyClazz::MSG, MagicPublicFunctionTraitDummyClazz::PUBLIC, TestData::DATA_NUM2, TestData::DATA_ALPHA1),
-                MagicPublicFunctionTraitDummyClazz::MN_PUBLIC_WITH_ARGS, TestData::DATA_NUM2, TestData::DATA_ALPHA1],
-            TestData::NOTEXIST_NAME => [TestData::DATA_NULL, TestData::NOTEXIST_NAME],
+                sprintf(MagicPublicFunctionTraitDummyClazz::MSG, MagicPublicFunctionTraitDummyClazz::PUBLIC, TeDa::DATA_NUM2, TeDa::DATA_ALPHA1),
+                MagicPublicFunctionTraitDummyClazz::MN_PUBLIC_WITH_ARGS, TeDa::DATA_NUM2, TeDa::DATA_ALPHA1],
+            TeDa::NOTEXIST_NAME => [TeDa::DATA_NULL, TeDa::NOTEXIST_NAME],
         ];
     }
 }

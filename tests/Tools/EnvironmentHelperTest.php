@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools;
 
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
 class EnvironmentHelperTest extends TestCase
@@ -46,9 +45,9 @@ class EnvironmentHelperTest extends TestCase
 
     public function testHomeUserProfileIndirect(): void
     {
-        $actual = EnvironmentHelper::getHome(TestData::NOTEXIST_NAME);
+        $actual = EnvironmentHelper::getHome(TeDa::NOTEXIST_NAME);
 
-        self::assertEquals(TestData::DATA_EMPTY, $actual);
+        self::assertEquals(TeDa::DATA_EMPTY, $actual);
     }
 
     public function testGetProjectRoot(): void
@@ -68,7 +67,7 @@ class EnvironmentHelperTest extends TestCase
 
     public function testGetSystemTempWithSub(): void
     {
-        $expected = TestData::FILE_FOLDERNAME;
+        $expected = TeDa::FILE_FOLDERNAME;
 
         $actual = EnvironmentHelper::getSystemTemp($expected);
 
@@ -90,7 +89,7 @@ class EnvironmentHelperTest extends TestCase
         $this->validateActualEnds(self::PROJECT_NAME, $actual);
     }
 
-    #[DataProvider('providerPhpVersion')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerPhpVersion')]
     public function testIsPhpGreater(bool $expected, string $checkVersion): void
     {
         $actual = EnvironmentHelper::isPhpGreater($checkVersion);
@@ -120,7 +119,7 @@ class EnvironmentHelperTest extends TestCase
     // Dataprovider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerPhpVersion(): array
     {
@@ -128,7 +127,7 @@ class EnvironmentHelperTest extends TestCase
             'equal' => [true, self::PHP_VERSION_CURR],
             'lower' => [true, self::PHP_VERSION_MIN],
             'higher' => [false, self::PHP_VERSION_MAX],
-            'wrong' => [true, TestData::DATA_INVALID],
+            'wrong' => [true, TeDa::DATA_INVALID],
         ];
     }
 }

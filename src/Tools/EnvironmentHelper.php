@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace ollily\Tools;
 
 use Composer\Factory;
-use ReflectionClass;
 
 /**
  * Provide some common used environment variables or functions accessing environment data.
@@ -125,7 +124,7 @@ class EnvironmentHelper
      */
     public static function getProjectRootFallback(int $folderOffset = self::ENV_OFFSET): string
     {
-        $rootClazz = new ReflectionClass(EnvironmentHelper::class);
+        $rootClazz = new \ReflectionClass(EnvironmentHelper::class);
         $rootPath  = dirname((string)realpath((string)$rootClazz->getFileName()));
 
         return (string)realpath($rootPath . str_repeat(DIRECTORY_SEPARATOR . self::DIR_PARENT, $folderOffset));

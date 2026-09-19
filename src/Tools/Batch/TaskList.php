@@ -223,9 +223,9 @@ class TaskList implements ITaskList
 
         $newTask = null;
         if (is_string($taskDataLine)) {
+            /** @var string */
             $rawDataLine = preg_filter(self::LINE_ENDS, '', $taskDataLine);
             self::$logger->debug('newLine', [$rawDataLine]);
-            /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($rawDataLine)) {
                 $taskData = new Map();
                 if ($this->withDataItemId && $this->isDataItemIdRead) {

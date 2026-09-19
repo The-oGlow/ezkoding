@@ -13,80 +13,67 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 class ClazzHelperTest extends TestCase
 {
     /**
      * @param string $expected
-     * @param string $clazz
-     *
-     * @phpstan-param class-string $expected
-     * @phpstan-param class-string $clazz
+     * @param string $clazzName
      */
-    #[DataProvider('providerGetClazzFile')]
-    public function testGetClazzFile(string $expected, string $clazz): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerGetClazzFile')]
+    public function testGetClazzFile(string $expected, string $clazzName): void
     {
-        $actual = ClazzHelper::getClazzFile($clazz);
+        $actual = ClazzHelper::getClazzFile($clazzName);
 
         self::assertEquals($expected, $actual);
     }
 
     /**
      * @param string $expected
-     * @param string $clazz
-     *
-     * @phpstan-param class-string $expected
-     * @phpstan-param class-string $clazz
+     * @param string $clazzName
      */
-    #[DataProvider('providerGetClazzFile')]
-    public function testGetClazzPath(string $expected, string $clazz): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerGetClazzFile')]
+    public function testGetClazzPath(string $expected, string $clazzName): void
     {
         $expected = dirname($expected);
 
-        $actual = ClazzHelper::getClazzPath($clazz);
+        $actual = ClazzHelper::getClazzPath($clazzName);
 
         self::assertEquals($expected, $actual);
     }
 
     /**
      * @param string $expected
-     * @param string $clazz
-     *
-     * @phpstan-param class-string $expected
-     * @phpstan-param class-string $clazz
+     * @param string $clazzName
      */
-    #[DataProvider('providerGetClazzFile')]
-    public function testGetClazzFilename(string $expected, string $clazz): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerGetClazzFile')]
+    public function testGetClazzFilename(string $expected, string $clazzName): void
     {
-        $expected = basename($expected, TestData::FILE_EXT_PHP);
+        $expected = basename($expected, TeDa::FILE_EXT_PHP);
 
-        $actual = ClazzHelper::getClazzFilename($clazz);
+        $actual = ClazzHelper::getClazzFilename($clazzName);
 
         self::assertEquals($expected, $actual);
     }
 
     /**
-     * @param int                $expected
-     * @param string             $clazz
-     * @param array<mixed,mixed> $childClazzes
-     * @param bool               $isEqual
-     *
-     * @phpsta-param class-string $clazz
+     * @param int          $expected
+     * @param string       $clazzName
+     * @param array<mixed> $childClazzes
+     * @param bool         $isEqual
      */
-    #[DataProvider('providerGetAllChildren')]
-    public function testGetAllChildren(int $expected, string $clazz, array $childClazzes, bool $isEqual = true): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerGetAllChildren')]
+    public function testGetAllChildren(int $expected, string $clazzName, array $childClazzes, bool $isEqual = true): void
     {
-        $actual = ClazzHelper::getAllChildren($clazz);
+        $actual = ClazzHelper::getAllChildren($clazzName);
         if ($isEqual) {
             self::assertCount($expected, $actual);
         } else {
             self::assertThat(count($actual), self::greaterThanOrEqual($expected));
         }
-        self::assertNotContains($clazz, $actual);
+        self::assertNotContains($clazzName, $actual);
         if (!empty($childClazzes)) {
             foreach ($childClazzes as $childClazz) {
                 self::assertContains($childClazz, $actual);
@@ -95,27 +82,28 @@ class ClazzHelperTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerGetClazzFile(): array
     {
-        $expectedFile = new ReflectionClass(ClazzHelperTest::class)->getFileName();
+        $expectedClazz = new \ReflectionClass(ClazzHelperTest::class);
+        $expectedFile = $expectedClazz->getFileName();
 
         return [
-            'noClass' => [TestData::DATA_EMPTY, TestData::DATA_EMPTY],
-            'notExists' => [TestData::DATA_EMPTY, TestData::NOTEXIST_CLAZZ],
+            'noClass' => [TeDa::DATA_EMPTY, TeDa::DATA_EMPTY],
+            'notExists' => [TeDa::DATA_EMPTY, TeDa::NOTEXIST_CLAZZ],
             'clazzExists' => [$expectedFile, ClazzHelperTest::class],
         ];
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerGetAllChildren(): array
     {
         return [
             'noChildren' => [0, ClazzHelperTest::class, []],
-            'clazzNotExists' => [0, TestData::NOTEXIST_CLAZZ, []],
+            'clazzNotExists' => [0, TeDa::NOTEXIST_CLAZZ, []],
             'oneOrManyChildren' => [4, TestCase::class, [self::class], false],
         ];
     }

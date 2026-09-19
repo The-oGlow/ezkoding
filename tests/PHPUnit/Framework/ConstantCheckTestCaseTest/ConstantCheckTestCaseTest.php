@@ -16,8 +16,7 @@ namespace PHPUnit\Framework\ConstantCheckTestCaseTest;
 use Monolog\EasyGoingLogger;
 use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Reflection\UnavailableMethodsTrait;
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\ConstantCheckTestCase;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -154,9 +153,9 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param array<mixed,mixed> $actualConstants
+     * @param array<mixed> $actualConstants
      */
-    #[DataProvider('providerCrossCheck')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerCrossCheck')]
     public function testCrossCheckConstants(bool $success, bool $crossCheckActive, string $clazz, array $actualConstants): void
     {
         self::$logger->debug('parameters', [$success, $crossCheckActive, $clazz, $actualConstants]);
@@ -184,7 +183,7 @@ class ConstantCheckTestCaseTest extends TestCase
     {
         $this->o2t::setUpBeforeClass(true);
 
-        $checkedConsts = TestData::ARRAY_ALPHA5;
+        $checkedConsts = TeDa::ARRAY_ALPHA5;
         $before   = $this->getFieldByReflection(ConstantCheckTestCase::class, 'actualConsts', $this->o2t);
 
         $expected = count($before) + count($checkedConsts);
@@ -202,7 +201,7 @@ class ConstantCheckTestCaseTest extends TestCase
         $expectedAllCount = 0;
 
         $expectedCount    = 0;
-        $allDefinedConsts = TestData::ARRAY_EMPTY;
+        $allDefinedConsts = TeDa::ARRAY_EMPTY;
 
         $actual = $this->o2t::publicCheckConstantsCount($expectedCount, $allDefinedConsts);
 
@@ -211,9 +210,9 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param array<mixed,mixed> $constants
+     * @param array<mixed> $constants
      */
-    #[DataProvider('providerConstants')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerConstants')]
     public function testVerifyConstAllExists(bool $success, array $constants): void
     {
         self::$logger->debug('parameters', [$success, $constants]);
@@ -232,9 +231,9 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @param array<mixed,mixed> $constants
+     * @param array<mixed> $constants
      */
-    #[DataProvider('providerConstantsArray')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerConstantsArray')]
     public function testVerifyConstArrayAllExists(bool $success, array $constants): void
     {
         self::$logger->debug('parameters', [$success, $constants]);
@@ -252,7 +251,7 @@ class ConstantCheckTestCaseTest extends TestCase
         $this->verifyConstantsTestResult($success, $exception, [$success, $constants]);
     }
 
-    #[DataProvider('providerConstantName')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerConstantName')]
     public function testVerifyConstArraySize(bool $success, string $constantName, int $expectedSize): void
     {
         self::$logger->debug('parameters', [$constantName, $expectedSize]);
@@ -273,7 +272,7 @@ class ConstantCheckTestCaseTest extends TestCase
     // Data Provider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerConstants(): array
     {
@@ -286,7 +285,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerConstantsArray(): array
     {
@@ -299,7 +298,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerConstantName(): array
     {
@@ -312,7 +311,7 @@ class ConstantCheckTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerCrossCheck(): array
     {
@@ -338,9 +337,9 @@ class ConstantCheckTestCaseTest extends TestCase
     // Misc functions
 
     /**
-     * @param bool               $success
-     * @param ?\Exception        $exception
-     * @param array<mixed,mixed> $extraData
+     * @param bool         $success
+     * @param ?\Exception  $exception
+     * @param array<mixed> $extraData
      */
     protected function verifyConstantsTestResult(bool $success, ?\Exception $exception, array $extraData): void
     {
@@ -348,13 +347,13 @@ class ConstantCheckTestCaseTest extends TestCase
             if (empty($exception)) {
                 self::$logger->debug('Testcase ended correctly.', $extraData);
             } else {
-                self::fail(sprintf('FAIL: Should not raise any exection: %s ', implode(TestData::ARRAY_ITEM_SEP, $extraData)));
+                self::fail(sprintf('FAIL: Should not raise any exection: %s ', implode(TeDa::ARRAY_ITEM_SEP, $extraData)));
             }
         } else {
             if (!empty($exception)) {
                 self::$logger->debug('Testcase ended correctly with an exception.', $extraData);
             } else {
-                self::fail(sprintf('FAIL: Should raise an exection: %s ', implode(TestData::ARRAY_ITEM_SEP, $extraData)));
+                self::fail(sprintf('FAIL: Should raise an exection: %s ', implode(TeDa::ARRAY_ITEM_SEP, $extraData)));
             }
         }
         self::assertTrue(true);

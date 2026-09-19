@@ -39,9 +39,9 @@ class TemplateFactory
     private Environment $environment;
 
     /**
-     * @param array<mixed,mixed> $templateData
+     * @param array<mixed> $templateData
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function cleanTemplateData(array $templateData): array
     {
@@ -84,8 +84,8 @@ class TemplateFactory
     }
 
     /**
-     * @param string             $templateName
-     * @param array<mixed,mixed> $templateData
+     * @param string       $templateName
+     * @param array<mixed> $templateData
      *
      * @return string
      */
@@ -138,7 +138,7 @@ class TemplateFactory
      * @param string $templatePath
      * @param string $cachePath
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     protected function verifyConfig(string $templatePath, string $cachePath): array
     {

@@ -15,17 +15,16 @@ namespace ollily\Tools;
 
 use Exception;
 use ollily\Tools\Reflection\ClazzHelper;
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
 class JsonHelperTest extends TestCase
 {
     /**
-     * @param array<mixed,mixed> $expected
-     * @param string             $jsonFile
+     * @param array<mixed> $expected
+     * @param string       $jsonFile
      */
-    #[DataProvider('providerLoadJson')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerLoadJson')]
     public function testLoadJson(array $expected, string $jsonFile): void
     {
         $actual = JsonHelper::loadJson($jsonFile);
@@ -33,15 +32,15 @@ class JsonHelperTest extends TestCase
     }
 
     /**
-     * @param bool               $expected
-     * @param array<mixed,mixed> $data
-     * @param string             $jsonFile
+     * @param bool         $expected
+     * @param array<mixed> $data
+     * @param string       $jsonFile
      */
-    #[DataProvider('providerStoreJson')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerStoreJson')]
     public function testStoreJson(bool $expected, array $data, string $jsonFile): void
     {
         if ($expected) {
-            TestData::cleanupTempFile($jsonFile);
+            TeDa::cleanupTempFile($jsonFile);
         }
 
         try {
@@ -59,32 +58,32 @@ class JsonHelperTest extends TestCase
         if ($expected) {
             self::assertFileExists($jsonFile);
         }
-        TestData::cleanupTempFile($jsonFile);
+        TeDa::cleanupTempFile($jsonFile);
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerLoadJson(): array
     {
-        $fileExists = ClazzHelper::getClazzPath(self::class) . DIRECTORY_SEPARATOR . ClazzHelper::getClazzFilename(self::class) . TestData::FILE_EXT_JSON;
+        $fileExists = ClazzHelper::getClazzPath(self::class) . DIRECTORY_SEPARATOR . ClazzHelper::getClazzFilename(self::class) . TeDa::FILE_EXT_JSON;
 
         $jsonData = ['name' => 'JsonHelperTest', 'data' => [0 => 'data0', 1 => 1]];
 
         return [
-            'fileNotExists' => [[], TestData::FILE_FILE_NOT_EXISTS],
+            'fileNotExists' => [[], TeDa::FILE_FILE_NOT_EXISTS],
             'fileExists' => [$jsonData, $fileExists],
         ];
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerStoreJson(): array
     {
         $jsonData = ['name' => basename(self::class), 'data' => [0 => 'data0', 1 => 1]];
-        $fileNotExists = EnvironmentHelper::getSystemTemp(TestData::FILE_FOLDERNAME_NOT_EXIST . DIRECTORY_SEPARATOR . TestData::FILE_FILENAME_NOT_EXIST . TestData::FILE_EXT_JSON);
-        $fileExists = EnvironmentHelper::getSystemTemp(TestData::FILE_FOLDERNAME . DIRECTORY_SEPARATOR . TestData::FILE_FILENAME . TestData::FILE_EXT_JSON);
+        $fileNotExists = EnvironmentHelper::getSystemTemp(TeDa::FILE_FOLDERNAME_NOT_EXIST . DIRECTORY_SEPARATOR . TeDa::FILE_FILENAME_NOT_EXIST . TeDa::FILE_EXT_JSON);
+        $fileExists = EnvironmentHelper::getSystemTemp(TeDa::FILE_FOLDERNAME . DIRECTORY_SEPARATOR . TeDa::FILE_FILENAME . TeDa::FILE_EXT_JSON);
 
         return [
             'fileNotExists' => [true, [$jsonData], $fileNotExists],

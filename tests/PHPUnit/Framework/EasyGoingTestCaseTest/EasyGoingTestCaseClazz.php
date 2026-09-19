@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework\EasyGoingTestCaseTest;
 
-use ollily\Tools\Test\TestData;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\EasyGoingTestCase;
 use PHPUnit\Framework\EasyGoingTestCaseTest;
 
@@ -25,19 +25,19 @@ use PHPUnit\Framework\EasyGoingTestCaseTest;
  */
 class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
 {
-    public const int C_TEST_INT = TestData::DATA_NUM1;
+    public const int C_TEST_INT = TeDa::DATA_NUM1;
 
-    public const float C_TEST_FLOAT = TestData::DATA_FLOAT3;
+    public const float C_TEST_FLOAT = TeDa::DATA_FLOAT3;
 
-    public const bool C_TEST_BOOL_F = TestData::DATA_BOOL_F;
+    public const bool C_TEST_BOOL_F = TeDa::DATA_BOOL_F;
 
-    public const bool C_TEST_BOOL_T = TestData::DATA_BOOL_T;
+    public const bool C_TEST_BOOL_T = TeDa::DATA_BOOL_T;
 
-    public const string C_TEST_STRING_EMPTY = TestData::DATA_EMPTY;
+    public const string C_TEST_STRING_EMPTY = TeDa::DATA_EMPTY;
 
-    public const string C_TEST_STRING_TEXT = TestData::DATA_ALPHA1;
+    public const string C_TEST_STRING_TEXT = TeDa::DATA_ALPHA1;
 
-    public const mixed C_TEST_MIXED = TestData::DATA_ALPHA1;
+    public const mixed C_TEST_MIXED = TeDa::DATA_ALPHA1;
 
     #[\Override]
     public static function tearDownAfterClass(): void
@@ -59,14 +59,14 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
 
     // Override the visibility for the test cases
 
-    public static function publicIsConstExist(mixed $clazz, string $constantName): bool
+    public static function publicIsConstExist(mixed $clazzName, string $constantName): bool
     {
-        return parent::isConstExist($clazz, $constantName);
+        return parent::isConstExist($clazzName, $constantName);
     }
 
-    public static function publicGetConstValue(mixed $clazz, string $constantName): mixed
+    public static function publicGetConstValue(mixed $clazzName, string $constantName): mixed
     {
-        return parent::getConstValue($clazz, $constantName);
+        return parent::getConstValue($clazzName, $constantName);
     }
 
     public static function publicIsPrimitive(mixed $var): bool
@@ -80,13 +80,13 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
     }
 
     /**
-     * @param string $clazz
+     * @param mixed $clazzName
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
-    public static function publicGetAllDefinedConsts(string $clazz): array
+    public static function publicGetAllDefinedConsts(mixed $clazzName): array
     {
-        return parent::getAllDefinedConsts($clazz);
+        return parent::getAllDefinedConsts($clazzName);
     }
 
     public function publicVerifyConstExists(string $constantName): void
@@ -107,7 +107,7 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
     // Misc functions
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function prepareAllConsts(): array
     {

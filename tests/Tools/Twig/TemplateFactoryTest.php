@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Twig;
 
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 use Twig\TemplateWrapper;
 
@@ -66,11 +65,11 @@ class TemplateFactoryTest extends TestCase
     }
 
     /**
-     * @param int                $expected
-     * @param string             $templateName
-     * @param array<mixed,mixed> $templateData
+     * @param int          $expected
+     * @param string       $templateName
+     * @param array<mixed> $templateData
      */
-    #[DataProvider('provideTemplateData')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTemplateData')]
     public function testRenderTemplate(int $expected, string $templateName, array $templateData): void
     {
         $actual = $this->o2t->renderTemplate($templateName, $templateData);
@@ -85,15 +84,15 @@ class TemplateFactoryTest extends TestCase
 
     public function testCleanTemplateData(): void
     {
-        $expected = TestData::ARRAY_ALPHA_KEY3;
-        $templateData = TestData::ARRAY_ALPHA_KEY3;
+        $expected = TeDa::ARRAY_ALPHA_KEY3;
+        $templateData = TeDa::ARRAY_ALPHA_KEY3;
         $actual = $this->o2t::cleanTemplateData($templateData);
 
         self::assertEquals($expected, $actual);
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function provideTemplateData(): array
     {

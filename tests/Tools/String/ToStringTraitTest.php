@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools\String;
 
-use ollily\Tools\Test\TestData;
+use ollily\Tools\Test\TestData as TeDa;
 use ollily\Tools\Test\TestDataFoo;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -68,7 +67,7 @@ class ToStringTraitTest extends TestCase
         $this->o2t->__wakeup();
     }
 
-    #[DataProvider('provideDataToString')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataToString')]
     public function testToString(mixed $data, string $expected): void
     {
         $actualObj = new ToStringTraitTestDummyClazz($data);
@@ -79,7 +78,7 @@ class ToStringTraitTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      *
      * @psalm-suppress InvalidArgument
      */
@@ -87,64 +86,64 @@ class ToStringTraitTest extends TestCase
     {
         return [
             'StringAsValue' => [
-                TestData::DATA_ALPHA1,
-                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TestData::DATA_ALPHA1),
+                TeDa::DATA_ALPHA1,
+                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TeDa::DATA_ALPHA1),
             ],
             'ScalarAsValue' => [
-                TestData::DATA_FLOAT1,
-                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TestData::DATA_FLOAT1),
+                TeDa::DATA_FLOAT1,
+                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TeDa::DATA_FLOAT1),
             ],
             'IntegerAsValue' => [
-                TestData::DATA_NUM1,
-                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TestData::DATA_NUM1),
+                TeDa::DATA_NUM1,
+                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TeDa::DATA_NUM1),
             ],
             'BoolAsValue' => [
-                TestData::DATA_BOOL_T,
-                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TestData::DATA_BOOL_T),
+                TeDa::DATA_BOOL_T,
+                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TeDa::DATA_BOOL_T),
             ],
             'ObjectAsValue' => [
-                TestData::DATA_OBJECT1(),
+                TeDa::DATA_OBJECT1(),
                 sprintf(
                     self::FORMAT_OBJECT_IN_OBJECT,
                     ToStringTraitTestDummyClazz::class,
                     TestDataFoo::class,
                     TestDataFoo::class,
-                    TestData::DATA_NUM1
+                    TeDa::DATA_NUM1
                 ),
             ],
             'ArrayWithNumKey' => [
-                TestData::ARRAY_ALPHA3,
+                TeDa::ARRAY_ALPHA3,
                 sprintf(
                     self::FORMAT_ARRAY_IN_OBJECT,
                     ToStringTraitTestDummyClazz::class,
                     preg_replace(
                         self::FORMAT_ARRAY_KEY_NUM_SEARCH,
                         self::FORMAT_ARRAY_ELEM_REPLACE,
-                        self::implode_recursive(self::FORMAT_ARRAY_SPACE_SEP, TestData::ARRAY_ALPHA3, false, true)
+                        self::implode_recursive(self::FORMAT_ARRAY_SPACE_SEP, TeDa::ARRAY_ALPHA3, false, true)
                     )
                 ),
             ],
             'ArrayWithAlphaKeys' => [
-                TestData::ARRAY_ALPHA_KEY2,
+                TeDa::ARRAY_ALPHA_KEY2,
                 sprintf(
                     self::FORMAT_ARRAY_IN_OBJECT,
                     ToStringTraitTestDummyClazz::class,
                     preg_replace(
                         self::FORMAT_ARRAY_KEY_ALPHA_SEARCH,
                         self::FORMAT_ARRAY_ELEM_REPLACE,
-                        self::implode_recursive(self::FORMAT_ARRAY_SPACE_SEP, TestData::ARRAY_ALPHA_KEY2, false, true)
+                        self::implode_recursive(self::FORMAT_ARRAY_SPACE_SEP, TeDa::ARRAY_ALPHA_KEY2, false, true)
                     )
                 ),
             ],
             'ArrayWithObjectValues' => [
-                TestData::ARRAY_OBJECT1(),
+                TeDa::ARRAY_OBJECT1(),
                 sprintf(
                     self::FORMAT_ARRAY_IN_OBJECT_2,
                     ToStringTraitTestDummyClazz::class,
-                    TestData::KEY_ALPHA1,
+                    TeDa::KEY_ALPHA1,
                     TestDataFoo::class,
                     TestDataFoo::class,
-                    TestData::DATA_NUM1
+                    TeDa::DATA_NUM1
                 ),
             ],
         ];

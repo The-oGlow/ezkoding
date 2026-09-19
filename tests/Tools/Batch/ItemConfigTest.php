@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use Ds\Map;
-use ollily\Tools\Test\TestData;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
 class ItemConfigTest extends TestCase
@@ -37,8 +37,8 @@ class ItemConfigTest extends TestCase
 
     public function testGetConfig(): void
     {
-        $expectedKey = TestData::KEY_ALPHA1;
-        $expectedValue = TestData::DATA_NULL;
+        $expectedKey = TeDa::KEY_ALPHA1;
+        $expectedValue = TeDa::DATA_NULL;
         $actual = $this->o2t->getConfig($expectedKey);
 
         self::assertEquals($expectedValue, $actual);
@@ -46,12 +46,12 @@ class ItemConfigTest extends TestCase
 
     public function testSetConfig(): void
     {
-        $expectedKey = TestData::KEY_ALPHA1;
-        $expectedValueBefore = TestData::DATA_NULL;
+        $expectedKey = TeDa::KEY_ALPHA1;
+        $expectedValueBefore = TeDa::DATA_NULL;
         $actual = $this->o2t->getConfig($expectedKey);
         self::assertEquals($expectedValueBefore, $actual);
 
-        $expectedValueAfter = TestData::DATA_ALPHA2;
+        $expectedValueAfter = TeDa::DATA_ALPHA2;
         $this->o2t->setConfig($expectedKey, $expectedValueAfter);
         $actual = $this->o2t->getConfig($expectedKey);
         self::assertEquals($expectedValueAfter, $actual);

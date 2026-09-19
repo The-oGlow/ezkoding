@@ -27,7 +27,6 @@
     "require": {
         "php": ">=8.4.1",
         "ext-ds": "^1.0",
-        "php-ds/php-ds": "^1.0",
         "composer/composer": "^2.0",
         "psr/log": "^2.0||^3.0",
         "twig/twig": "^3.27"
@@ -37,6 +36,7 @@
     "suggest": {
     },
     "require-dev": {
+        "php-ds/php-ds": "^1.0",
         "phpunit/phpunit": "^13.1",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-strict-rules": "^2.0",
@@ -75,6 +75,7 @@
     "autoload": {
         "psr-4": {
             "Monolog\\": "src/Monolog",
+            "ollily\\Common\\": "src/Common",
             "ollily\\Tools\\": "src/Tools",
             "PHPUnit\\": "src/PHPUnit"
         }
@@ -82,6 +83,7 @@
     "autoload-dev": {
         "psr-4": {
             "Monolog\\": "tests/Monolog",
+            "ollily\\Common\\": "tests/Common",
             "ollily\\Tools\\": "tests/Tools",
             "PHPUnit\\": "tests/PHPUnit"
         }

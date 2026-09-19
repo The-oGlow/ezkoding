@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-use ReflectionClass;
-use ReflectionException;
-
+/**
+ * Helping functions for handling a clazz.
+ *
+ * @author ollily
+ */
 class ClazzHelper
 {
     private function __construct()
@@ -24,23 +26,25 @@ class ClazzHelper
     }
 
     /**
-     * @param string $clazz
+     * Returns the full filename of the clazz.
      *
-     * @phpstan-param class-string $clazz
+     * @param string $clazzName The name of the clazz
      *
-     * @return string
+     * @return string The full filename or empty
      */
-    public static function getClazzFile(string $clazz): string
+    public static function getClazzFile(string $clazzName): string
     {
         $file = '';
 
         try {
-            $reflection = new ReflectionClass($clazz);
+            /** @psalm-suppress ArgumentTypeCoercion
+             * @phpstan-ignore argument.type */
+            $reflection = new \ReflectionClass($clazzName);
             $file = $reflection->getFileName();
             if (false === $file) {
                 $file = '';
             }
-        } catch (ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             // nothing to do
         }
 
@@ -48,43 +52,44 @@ class ClazzHelper
     }
 
     /**
-     * @param string $clazz
+     * Returns the path to the file of the clazz.
      *
-     * @phpstan-param class-string $clazz
+     * @param string $clazzName The name of the clazz
      *
-     * @return string
+     * @return string The path to the file
      */
-    public static function getClazzPath(string $clazz): string
+    public static function getClazzPath(string $clazzName): string
     {
-        $file = self::getClazzFile($clazz);
+        $file = self::getClazzFile($clazzName);
 
         return pathinfo($file, PATHINFO_DIRNAME);
     }
 
     /**
-     * @param string $clazz
+     * Returns the name of the file of the clazz.
      *
-     * @phpstan-param class-string $clazz
+     * @param string $clazzName The name of the clazz
      *
-     * @return string
+     * @return string The name of the file
      */
-    public static function getClazzFilename(string $clazz): string
+    public static function getClazzFilename(string $clazzName): string
     {
-        $file = self::getClazzFile($clazz);
+        $file = self::getClazzFile($clazzName);
 
         return pathinfo($file, PATHINFO_FILENAME);
     }
 
     /**
-     * Retrieve all child classes of a given class.
+     * Retrieve all child clazzes of a given clazz.
      *
-     * @param mixed $clazzName
+     * @param string $clazzName The name of the clazz
      *
-     * @return string[]
+     * @return array<string> All child clazzes as array or empty array
      */
     public static function getAllChildren(mixed $clazzName): array
     {
         $children = [];
+        /** @psalm-suppress ArgumentTypeCoercion */
         foreach (get_declared_classes() as $currentClazz) {
             if (is_subclass_of($currentClazz, $clazzName)) {
                 $children[] = $currentClazz;

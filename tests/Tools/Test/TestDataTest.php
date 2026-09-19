@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Test;
 
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ class TestDataTest extends TestCase
 {
     private static string $fileName;
 
-    #[DataProvider('providerData')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerData')]
     public function testData(int $expectedCount, mixed $actual): void
     {
         if (is_array($actual)) {
@@ -32,15 +32,15 @@ class TestDataTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerData(): array
     {
         return [
-            'oneD' => [1, TestData::DATA_OBJECT1()],
-            'oneA' => [1, TestData::ARRAY_OBJECT1()],
-            'twoA' => [2, TestData::ARRAY_OBJECT2()],
-            'threeA' => [3, TestData::ARRAY_OBJECT3()],
+            'oneD' => [1, TeDa::DATA_OBJECT1()],
+            'oneA' => [1, TeDa::ARRAY_OBJECT1()],
+            'twoA' => [2, TeDa::ARRAY_OBJECT2()],
+            'threeA' => [3, TeDa::ARRAY_OBJECT3()],
         ];
     }
 
@@ -71,7 +71,7 @@ class TestDataTest extends TestCase
      */
     public function verifyResult(int $expectedCount, string $pivot): void
     {
-        $refClazz = new \ReflectionClass(TestData::class);
+        $refClazz = new \ReflectionClass(TeDa::class);
 
         $callback = /**
          * @param mixed $key
@@ -93,7 +93,7 @@ class TestDataTest extends TestCase
     public function testDataObject(): void
     {
         $expected = TestDataFoo::class;
-        $actual = TestData::DATA_OBJECT1();
+        $actual = TeDa::DATA_OBJECT1();
 
         self::assertInstanceOf($expected, $actual);
     }
@@ -101,8 +101,8 @@ class TestDataTest extends TestCase
     public function testArrayObject(): void
     {
         $expected = TestDataFoo::class;
-        /** @var array<mixed,mixed> $actuals */
-        $actuals = [1 => TestData::ARRAY_OBJECT1(), 2 => TestData::ARRAY_OBJECT2(), 3 => TestData::ARRAY_OBJECT3()];
+        /** @var array<mixed> $actuals */
+        $actuals = [1 => TeDa::ARRAY_OBJECT1(), 2 => TeDa::ARRAY_OBJECT2(), 3 => TeDa::ARRAY_OBJECT3()];
 
         foreach ($actuals as $key => $actual) {
             self::assertIsArray($actual);
@@ -114,7 +114,7 @@ class TestDataTest extends TestCase
 
     public function testPrepareTempFile(): void
     {
-        self::$fileName = TestData::prepareTempFile();
+        self::$fileName = TeDa::prepareTempFile();
 
         self::assertFileExists(self::$fileName);
     }
@@ -122,7 +122,7 @@ class TestDataTest extends TestCase
     #[Depends('testPrepareTempFile')]
     public function testCleanupTempFile(): void
     {
-        TestData::cleanupTempFile(self::$fileName);
+        TeDa::cleanupTempFile(self::$fileName);
 
         self::assertFileDoesNotExist(self::$fileName);
     }

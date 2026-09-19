@@ -14,8 +14,7 @@ declare(strict_types=1);
 namespace ollily\Tools;
 
 use FilesystemIterator;
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -100,7 +99,7 @@ class UnzipTest extends TestCase
      * @param string $zipFile
      * @param string $targetDir
      */
-    #[DataProvider('providerMyFile')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerMyFile')]
     public function testMyFile(int $expected, string $zipFile, string $targetDir): void
     {
         $actual = Unzip::myFile($zipFile, $targetDir);
@@ -127,7 +126,7 @@ class UnzipTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerMyFile(): array
     {
@@ -136,9 +135,9 @@ class UnzipTest extends TestCase
         self::$targetTestFolder = self::prepareTargetFolder();
 
         return[
-            'noZipFile' => [Unzip::ZIP_NOT_EXIST, TestData::FILE_FILENAME_EMPTY, TestData::FILE_FOLDERNAME_EMPTY],
-            'notAZipFile' => [Unzip::ZIP_NOT_OPENED, self::$notZipTestFile, TestData::FILE_FOLDERNAME_EMPTY],
-            'ZipWithDefaultDir' => [Unzip::OK, self::$zipTestFile, TestData::FILE_FOLDERNAME_EMPTY],
+            'noZipFile' => [Unzip::ZIP_NOT_EXIST, TeDa::FILE_FILENAME_EMPTY, TeDa::FILE_FOLDERNAME_EMPTY],
+            'notAZipFile' => [Unzip::ZIP_NOT_OPENED, self::$notZipTestFile, TeDa::FILE_FOLDERNAME_EMPTY],
+            'ZipWithDefaultDir' => [Unzip::OK, self::$zipTestFile, TeDa::FILE_FOLDERNAME_EMPTY],
             'ZipWithCustomDir' => [Unzip::OK, self::$zipTestFile, self::$targetTestFolder],
         ];
     }

@@ -222,7 +222,7 @@ class TestData
 
     public static function DATA_OBJECT1(): TestDataFoo // NOSONAR: php:S100
     {
-        return TestDataFoo::init(TestData::DATA_NUM1);
+        return TestDataFoo::init(self::DATA_NUM1);
     }
 
     /**
@@ -280,7 +280,7 @@ class TestData
      *
      * @return string Full filename for a temporary file
      *
-     * @see TestData::FILE_FILENAME_PREFIX
+     * @see self::FILE_FILENAME_PREFIX
      */
     public static function prepareTempFile(string $prefix = self::FILE_FILENAME_PREFIX): string
     {

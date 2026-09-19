@@ -18,26 +18,36 @@ use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 use UnitEnum;
 
+/**
+ * The only testcase class you will ever need.
+ *
+ * @author ollily
+ */
 abstract class EasyGoingTestCase extends TestCase
 {
-    /** Separator for static access */
+    /** @var string Separator for static access */
     public const string    C_STATIC_SEP = '::';
 
-    /** All primitive datatypes */
+    /** @var string All primitive datatypes */
     protected const string C_PRIMITIVES = 'int|integer|bool|boolean|float|double';
 
+    /** @var LoggerInterface The logger for this clazz */
     private static LoggerInterface $logger;
 
-    /** The object which will be tested. */
+    /** @var mixed The object which will be tested. */
     protected mixed $o2t;
 
     /**
-     * @return mixed new created instance
+     * Create and setup the testcase object.
+     *
+     * @return mixed A new created instance
      */
     abstract protected static function prepareO2t(): mixed;
 
     /**
-     * @return mixed current instance
+     * Returns a typed reference to the testcase object.
+     *
+     * @return mixed Reference on the current instance
      */
     abstract protected function getCasto2t(): mixed;
 
@@ -86,6 +96,15 @@ abstract class EasyGoingTestCase extends TestCase
         return $calledClazz;
     }
 
+    /**
+     * Checks, if the given value is a primitive datatype.
+     *
+     * @param mixed $var The value to check
+     *
+     * @return bool TRUE=the value is a primitive datatype, else FALSE
+     *
+     * @see EasyGoingTestCase::C_PRIMITIVES
+     */
     protected static function isPrimitive(mixed $var): bool
     {
         $primitive = false;
@@ -98,9 +117,13 @@ abstract class EasyGoingTestCase extends TestCase
     }
 
     /**
-     * @param mixed $clazzName
+     * Returns a list of all public constants in the clazz.
      *
-     * @return array<mixed,mixed>
+     * @param mixed $clazzName The name of the clazz
+     *
+     * @return array<mixed> Array of all public constants in the clazz
+     *
+     * @see EasyGoingTestCase::filterConsts()
      */
     protected static function getAllDefinedConsts(mixed $clazzName): array
     {
@@ -109,7 +132,17 @@ abstract class EasyGoingTestCase extends TestCase
         return $instance->getConstants(); // NOSONAR: php:S3011
     }
 
-    protected static function isConstExist(mixed $clazz, string $constantName): bool
+    /**
+     * Checks, if a constant exists in a clazz.
+     *
+     * @param mixed  $clazzName    The name of the clazz to check
+     * @param string $constantName The name of the constant to check
+     *
+     * @return bool TRUE=the constant exists in the clazz, else FALSE
+     *
+     * @see EasyGoingTestCase->verifyConstExists()
+     */
+    protected static function isConstExist(mixed $clazzName, string $constantName): bool
     {
         self::$logger->debug('START');
 
@@ -121,7 +154,7 @@ abstract class EasyGoingTestCase extends TestCase
             $isDefined = false;
         }
         if (!$isDefined) {
-            $allConsts  = self::getAllDefinedConsts($clazz);
+            $allConsts  = self::getAllDefinedConsts($clazzName);
             $splitClazz = explode(self::C_STATIC_SEP, $constantName);
             $isDefined  = isset($allConsts[$splitClazz[count($splitClazz) - 1]]);
             self::$logger->debug('Verify existence by reflection', [$constantName]);
@@ -132,8 +165,66 @@ abstract class EasyGoingTestCase extends TestCase
         return $isDefined;
     }
 
+    /**
+     * Returns a filtered list of all public constants in the clazz.
+     *
+     * @param string $filterTerm A filter text matching a constant from the beginning
+     * @param mixed  $clazzName  The name of the clazz
+     *
+     * @see EasyGoingTestCase::getAllDefinedConsts()
+     *
+     * @phpstan-param class-string $clazzName
+     *
+     * @return array<mixed> Array of all public constants in the clazz
+     */
+    protected static function filterConsts(string $filterTerm, mixed $clazzName): array
+    {
+        $callback = function (mixed $val, mixed $key) use ($filterTerm): bool {
+            return str_starts_with($key, $filterTerm);
+        };
+        $consts = array_filter(self::getAllDefinedConsts($clazzName), $callback, ARRAY_FILTER_USE_BOTH);
+        $constsMap = function (mixed $val) use ($clazzName): string {
+            return $clazzName . self::C_STATIC_SEP . $val;
+        };
+
+        return array_map($constsMap, array_keys($consts));
+    }
+
+    /**
+     * Returns the value of a constants.
+     *
+     * @param mixed  $clazzName    The name of the clazz to check
+     * @param string $constantName The name of the constant to check
+     *
+     * @return mixed The value of the constants
+     */
+    protected static function getConstValue(mixed $clazzName, string $constantName): mixed
+    {
+        self::$logger->debug('START');
+
+        try {
+            $constantValue = constant($constantName);
+            self::$logger->debug('Recieved by constant()', [$constantName]);
+        } catch (\Throwable $e) {
+            self::$logger->debug('Cannot get value by constant()', [$constantName]);
+        }
+        if (!isset($constantValue)) {
+            $reflectionClazz = new \ReflectionClass($clazzName);
+            $splitClazz      = explode(self::C_STATIC_SEP, $constantName);
+            $constantValue   = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR: php:S3011
+            self::$logger->debug('Recieved by reflection', [$constantName]);
+        }
+
+        self::$logger->debug('END');
+
+        return $constantValue;
+    }
+
     // Test functions
 
+    /**
+     * Basic test, if test object ist instantiated.
+     */
     public function testInit(): void
     {
         self::$logger->debug('START');
@@ -148,44 +239,12 @@ abstract class EasyGoingTestCase extends TestCase
     // Misc functions
 
     /**
-     * @param string $filterTerm
-     * @param string $clazzName
+     * Checks, if a constant exists in the current instance.
      *
-     * @phpstan-param class-string $clazzName
+     * @param string $constantName The name of the constant to check
      *
-     * @return array<mixed,mixed>
+     * @see EasyGoingTestCase::isConstExist()
      */
-    protected static function filterConsts(string $filterTerm, string $clazzName): array
-    {
-        $callback = fn ($val, $key) => str_starts_with($key, $filterTerm);
-        $consts = array_filter(self::getAllDefinedConsts($clazzName), $callback, ARRAY_FILTER_USE_BOTH);
-        $constsMap = fn ($val) => $clazzName . self::C_STATIC_SEP . $val;
-
-        return array_map($constsMap, array_keys($consts));
-    }
-
-    protected static function getConstValue(mixed $clazz, string $constantName): mixed
-    {
-        self::$logger->debug('START');
-
-        try {
-            $constantValue = constant($constantName);
-            self::$logger->debug('Recieved by constant()', [$constantName]);
-        } catch (\Throwable $e) {
-            self::$logger->debug('Cannot get value by constant()', [$constantName]);
-        }
-        if (!isset($constantValue)) {
-            $reflectionClazz = new \ReflectionClass($clazz);
-            $splitClazz      = explode(self::C_STATIC_SEP, $constantName);
-            $constantValue   = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR: php:S3011
-            self::$logger->debug('Recieved by reflection', [$constantName]);
-        }
-
-        self::$logger->debug('END');
-
-        return $constantValue;
-    }
-
     protected function verifyConstExists(string $constantName): void
     {
         self::$logger->debug('START');
