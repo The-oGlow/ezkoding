@@ -156,7 +156,7 @@ abstract class EasyGoingTestCase extends TestCase
         if (!$isDefined) {
             $allConsts  = self::getAllDefinedConsts($clazzName);
             $splitClazz = explode(self::C_STATIC_SEP, $constantName);
-            $isDefined  = isset($allConsts[$splitClazz[count($splitClazz) - 1]]);
+            $isDefined = isset($allConsts[$splitClazz[count($splitClazz) - 1]]);
             self::$logger->debug('Verify existence by reflection', [$constantName]);
         }
 

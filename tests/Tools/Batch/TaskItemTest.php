@@ -17,12 +17,15 @@ use Ds\Map;
 use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\EasyGoingTestCase;
 
+/**
+ * @phpstan-import-type TDataKey from ITaskItem
+ * @phpstan-import-type TDataValue from ITaskItem
+ */
 class TaskItemTest extends EasyGoingTestCase
 {
     public const int LIST_ID = TeDa::KEY_NUM1;
 
-    /** @var Map<mixed,mixed>
-     * @param-var Map<TDataKey,TDataValue> */
+    /** @var Map<TDataKey,TDataValue> */
     public static Map $data;
 
     #[\Override]
