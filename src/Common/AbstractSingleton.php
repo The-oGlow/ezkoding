@@ -65,7 +65,8 @@ abstract class AbstractSingleton implements ISingleton
      *
      * @SuppressWarnings("PHPMD.ShortMethodName")
      */
-    public static function i(bool $withLogger = true, int|LogLevel|string $level = ISingleton::LEVEL_DEFAULT): mixed
+    #[\Override]
+    final public static function i(bool $withLogger = true, int|LogLevel|string $level = ISingleton::LEVEL_DEFAULT): mixed
     {
         $key = static::class;
         if (!array_key_exists($key, self::$instance)) {
