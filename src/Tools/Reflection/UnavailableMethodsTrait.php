@@ -13,22 +13,27 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-use ReflectionMethod;
-
+/**
+ * Provides access on non public methods in a clazz.
+ *
+ * @author ollily
+ */
 trait UnavailableMethodsTrait
 {
     /**
      * Calls hidden method (private, protected, package) without parameters by reflection.
      *
-     * @param mixed  $clazzName
-     * @param string $methodName
-     * @param mixed  $instance
+     * @param mixed  $clazzName  The name of the clazz
+     * @param string $methodName The name of the method to call
+     * @param mixed  $instance   The current instance to call on
+     *
+     * @return mixed The result of the called method
      */
     protected function callMethodByReflection(mixed $clazzName, string $methodName, mixed $instance): mixed
     {
         $result = null;
         if (!empty($clazzName)) {
-            $refObject = new ReflectionMethod($clazzName, $methodName);
+            $refObject = new \ReflectionMethod($clazzName, $methodName);
             $refObject->setAccessible(true); // NOSONAR: php:S3011
 
             $result = $refObject->invoke($instance);
@@ -38,9 +43,11 @@ trait UnavailableMethodsTrait
     }
 
     /**
-     * Calls a hidden method on an object which shall be tested (o2t).
+     * Calls a hidden method on an instance of the test object (o2t).
      *
-     * @param string $methodName
+     * @param string $methodName The name of the method to call
+     *
+     * @return mixed The result of the called method
      */
     protected function callMethodOnO2t(string $methodName): mixed
     {

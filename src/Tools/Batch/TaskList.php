@@ -30,12 +30,10 @@ class TaskList implements ITaskList
 
     private static LoggerInterface $logger;
 
-    /** @var mixed
-     * @phpstan-var TTaskListId $listId */
+    /** @var TTaskListId */
     private mixed $listId;
 
-    /** @var Vector<mixed>
-     * @phpstan-var Vector<TDataKey> $dataItemIds */
+    /** @var Vector<TDataKey> */
     private Vector $dataItemIds;
 
     private bool $isDataItemIdRead = false;
@@ -223,10 +221,11 @@ class TaskList implements ITaskList
 
         $newTask = null;
         if (is_string($taskDataLine)) {
+            /** @var string */
             $rawDataLine = preg_filter(self::LINE_ENDS, '', $taskDataLine);
             self::$logger->debug('newLine', [$rawDataLine]);
-            /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($rawDataLine)) {
+                /** @var Map<mixed,mixed> */
                 $taskData = new Map();
                 if ($this->withDataItemId && $this->isDataItemIdRead) {
                     $taskData->putAll(array_combine($this->dataItemIds->toArray(), explode(self::DEFAULT_ITEM_SEP, $rawDataLine)));

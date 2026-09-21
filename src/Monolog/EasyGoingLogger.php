@@ -18,18 +18,33 @@ use ollily\Tools\Emergency;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
+/**
+ * The only logger you will ever need.
+ *
+ * @author ollily
+ */
 class EasyGoingLogger
 {
+    /** @var string Default output level */
     public const string DEFAULT_LEVEL = LogLevel::INFO;
 
-    public const string LOGGER_DEFAULT = 'Monolog\Logger';
+    /** @var string This level disables the logging */
+    public const string DISABLE_LEVEL = '';
 
+    /** @var string Logging to console */
     public const string LOGGER_CONSOLE = 'Monolog\ConsoleLogger';
 
+    /** @var string Logger, which loggs nothing */
+    public const string LOGGER_NOTHING = 'Monolog\DoNothingLogger';
+
+    /** @var string Monolog standard logger */
+    public const string LOGGER_DEFAULT = 'Monolog\Logger';
+
+    /** @var string PSR null logger */
     public const string LOGGER_NULL = 'Psr\Log\NullLogger';
 
-    /** @var array<mixed,mixed> LOGGER_CHOICE */
-    private const array LOGGER_CHOICE = [self::LOGGER_CONSOLE, self::LOGGER_DEFAULT, self::LOGGER_NULL];
+    /** @var array<mixed> LOGGER_CHOICE */
+    private const array LOGGER_CHOICE = [self::LOGGER_CONSOLE, self::LOGGER_DEFAULT, self::LOGGER_NOTHING, self::LOGGER_NULL];
 
     private function __construct()
     {
@@ -37,17 +52,19 @@ class EasyGoingLogger
     }
 
     /**
-     * @param string             $name
-     * @param string             $level
-     * @param array<mixed,mixed> $handlers
-     * @param array<mixed,mixed> $processors
-     * @param ?DateTimeZone      $timezone
+     * Creates a new logging instance.
      *
-     * @return LoggerInterface
+     * @param string                 $name       The class for which the logger is assigned to
+     * @param int|LogLevel::*|string $level      The minimum logging level at which this handler will be triggered (Default: {@link self::LEVEL_DEFAULT})
+     * @param array<mixed>           $handlers   The list of logger handler (Default: empty)
+     * @param array<mixed>           $processors The list of logging processors (Default: empty)
+     * @param ?DateTimeZone          $timezone   The timezone to log (Default: null)
+     *
+     * @return LoggerInterface The new logger
      */
     public static function init(
         string $name,
-        string $level = self::DEFAULT_LEVEL,
+        int|LogLevel|string $level = self::DEFAULT_LEVEL,
         array $handlers = [],
         array $processors = [],
         ?DateTimeZone $timezone = null
@@ -61,7 +78,7 @@ class EasyGoingLogger
                 break;
             }
         }
-        if (empty($clazzName)) {
+        if (empty($clazzName) || self::DISABLE_LEVEL == $level) {
             $clazzName = self::LOGGER_NULL;
         }
 
@@ -74,7 +91,11 @@ class EasyGoingLogger
             if (is_null($refClazz->getConstructor())) {
                 $instance = $refClazz->newInstance();
             } else {
-                $instance = $refClazz->newInstance($name, $handlers, $processors, $timezone, $level);
+                if (self::LOGGER_CONSOLE == $clazzName) {
+                    $instance = $refClazz->newInstance($name, $handlers, $processors, $timezone, $level);
+                } else {
+                    $instance = $refClazz->newInstance($name, $handlers, $processors, $timezone);
+                }
             }
         } catch (\ReflectionException $refExp) {
             Emergency::exceptionStop($refExp);

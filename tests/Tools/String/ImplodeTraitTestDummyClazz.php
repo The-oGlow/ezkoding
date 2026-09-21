@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\String;
 
-use ollily\Tools\Test\TestData;
+use ollily\Tools\Test\TestData as TeDa;
 
 /**
  * This is the test clazz which will be tested.
@@ -24,18 +24,18 @@ class ImplodeTraitTestDummyClazz
 {
     use ImplodeTrait;
 
-    /** @var array<mixed,mixed> */
-    public array $traitData = TestData::ARRAY_ALPHA2;
+    /** @var array<mixed> */
+    public array $traitData = TeDa::ARRAY_ALPHA2;
 
-    /** @var array<mixed,mixed> */
-    public array $traitObject = TestData::ARRAY_EMPTY;
+    /** @var array<mixed> */
+    public array $traitObject = TeDa::ARRAY_EMPTY;
 
     public function __construct()
     {
         $this->traitObject[] = new ImplodeTraitTestFooClazz();
         $this->traitObject[] = [
-            TestData::KEY_NUM1 => new ImplodeTraitTestFooClazz(),
-            TestData::KEY_NUM2 => new ImplodeTraitTestFooClazz(),
+            TeDa::KEY_NUM1 => new ImplodeTraitTestFooClazz(),
+            TeDa::KEY_NUM2 => new ImplodeTraitTestFooClazz(),
         ];
     }
 }

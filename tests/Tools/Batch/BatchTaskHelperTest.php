@@ -14,13 +14,12 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use Ds\Map;
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
 class BatchTaskHelperTest extends TestCase
 {
-    #[DataProvider('providerTaskList')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerTaskList')]
     public function testGetTaskList(string $expectedKey, int $expectedCount, bool $expectedEmpty, string $listKey): void
     {
         $actual = BatchTaskHelper::getTaskList($listKey);
@@ -31,7 +30,7 @@ class BatchTaskHelperTest extends TestCase
         self::assertEquals($expectedEmpty, $actual->isEmpty());
     }
 
-    #[DataProvider('providerTaskListFile')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerTaskListFile')]
     public function testReadTaskList(string $expectedKey, int $expectedCount, bool $expectedEmpty, string $fileName, IBatchConfig $itemConfig, string $listKey): void
     {
         $actual = BatchTaskHelper::readTaskList($fileName, $itemConfig, $listKey);
@@ -45,23 +44,23 @@ class BatchTaskHelperTest extends TestCase
     // Dataprovider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerTaskList(): array
     {
         return [
-          'empty' => [BatchTaskHelper::DEFAULT, 0, true, TestData::KEY_EMPTY],
+          'empty' => [BatchTaskHelper::DEFAULT, 0, true, TeDa::KEY_EMPTY],
         ];
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerTaskListFile(): array
     {
         return [
-            'empty' => [BatchTaskHelper::DEFAULT, 0, true, TestData::FILE_FILENAME_EMPTY, new BatchConfig(new Map()), TestData::KEY_EMPTY],
-            'simpleFile' => [BatchTaskHelper::DEFAULT, 3, false, TaskListTest::prepareFiles()[2], new BatchConfig(new Map()), TestData::KEY_EMPTY],
+            'empty' => [BatchTaskHelper::DEFAULT, 0, true, TeDa::FILE_FILENAME_EMPTY, new BatchConfig(new Map()), TeDa::KEY_EMPTY],
+            'simpleFile' => [BatchTaskHelper::DEFAULT, 3, false, TaskListTest::prepareFiles()[2], new BatchConfig(new Map()), TeDa::KEY_EMPTY],
         ];
     }
 }

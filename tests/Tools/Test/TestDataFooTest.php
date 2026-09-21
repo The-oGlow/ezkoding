@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Test;
 
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
 class TestDataFooTest extends TestCase
@@ -23,7 +24,7 @@ class TestDataFooTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->o2t = TestDataFoo::init(TestData::KEY_ALPHA1);
+        $this->o2t = TestDataFoo::init(TeDa::KEY_ALPHA1);
     }
 
     public function testInit(): void
@@ -33,7 +34,7 @@ class TestDataFooTest extends TestCase
 
     public function testToString(): void
     {
-        $expected = sprintf('%s:\'%s\'', get_class($this->o2t), TestData::KEY_ALPHA1);
+        $expected = sprintf('%s:\'%s\'', get_class($this->o2t), TeDa::KEY_ALPHA1);
 
         $actual = $this->o2t->__toString();
 

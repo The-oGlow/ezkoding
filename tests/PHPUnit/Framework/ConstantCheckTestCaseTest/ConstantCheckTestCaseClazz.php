@@ -50,8 +50,8 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
     // Override the visibility for the test cases
 
     /**
-     * @param mixed              $clazz
-     * @param array<mixed,mixed> $actualConstants
+     * @param mixed        $clazz
+     * @param array<mixed> $actualConstants
      */
     public static function publicCrossCheckConstants(mixed $clazz, array $actualConstants): void
     {
@@ -59,7 +59,7 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
     }
 
     /**
-     * @param null|array<mixed,mixed> $checkedConsts
+     * @param null|array<mixed> $checkedConsts
      */
     public static function publicUpdateActualConsts(?array $checkedConsts): void
     {
@@ -67,10 +67,10 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
     }
 
     /**
-     * @param int                $expectedCount
-     * @param array<mixed,mixed> $allDefinedConsts
+     * @param int          $expectedCount
+     * @param array<mixed> $allDefinedConsts
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function publicCheckConstantsCount(int $expectedCount, array $allDefinedConsts): array
     {
@@ -78,7 +78,7 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
     }
 
     /**
-     * @param array<mixed,mixed> $constants
+     * @param array<mixed> $constants
      */
     public function publicVerifyConstAllExists(array $constants = []): void
     {
@@ -86,7 +86,7 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
     }
 
     /**
-     * @param array<mixed,mixed> $constants
+     * @param array<mixed> $constants
      */
     public function publicVerifyConstArrayAllExists(array $constants = []): void
     {
@@ -114,7 +114,7 @@ class ConstantCheckTestCaseClazz extends ConstantCheckTestCase // NOSONAR: php:S
     // Misc functions
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function prepareAllConsts(): array
     {

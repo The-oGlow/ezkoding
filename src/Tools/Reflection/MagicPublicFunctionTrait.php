@@ -13,49 +13,56 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-use Ds\Set;
+use Ds\Sequence;
+use Ds\Vector;
 
+/**
+ * Extends the clazz to provide a list of all public methods of a clazz.
+ *
+ * @author ollily
+ */
 trait MagicPublicFunctionTrait
 {
     /**
-     * @return Set<string>
+     * Returns all public method names as sequence.
      *
-     * @phpstan-return Set<non-empty-string>
+     * @return Vector<string> All public method names of this clazz
      */
-    final public static function existingMethodNames(): Set
+    final public static function existingMethodNames(): Sequence
     {
         $callback = function (\ReflectionMethod $method): string {
             return $method->getName();
         };
         $availableMethodNames = array_map($callback, self::existingMethods()->toArray());
 
-        return new Set($availableMethodNames);
+        return new Vector($availableMethodNames); // @phpstan-ignore return.type
     }
 
     /**
-     * @return Set<\ReflectionMethod> All public methods of this clazz
+     * Returns all public methods as sequence.
+     *
+     * @return Vector<\ReflectionMethod> All public methods of this clazz
      */
-    final public static function existingMethods(): Set
+    final public static function existingMethods(): Sequence
     {
-        $callback = function (\ReflectionMethod $method): bool {
-            $notAllowed = new Set(['__call', 'existingMethodNames', 'existingMethods']);
-
+        $notAllowed = new Vector(['__call', 'existingMethodNames', 'existingMethods']);
+        $callback = function (\ReflectionMethod $method) use ($notAllowed): bool {
             return !$notAllowed->contains($method->getName());
         };
 
         $availableMethods = self::collectPublicMethods(static::class);
         $availableMethods = array_filter($availableMethods, $callback);
 
-        return new Set($availableMethods);
+        return new Vector($availableMethods);
     }
 
     /**
-     * @param string             $methodName Name of the called function
-     * @param array<mixed,mixed> $arguments  All arguments send with the function
+     * Entrypoint for magic calls.
      *
-     * @phpstan-param non-empty-string $methodName
+     * @param string       $methodName Name of the called method
+     * @param array<mixed> $arguments  All arguments send with the method
      *
-     * @return mixed
+     * @return mixed Result of the magic called method
      */
     public function __call(string $methodName, array $arguments): mixed
     {
@@ -74,18 +81,20 @@ trait MagicPublicFunctionTrait
     }
 
     /**
+     * Collecting the public methods of a clazz.
+     *
      * @param string $clazzName Name of the clazz
      *
      * @phpstan-param class-string $clazzName
      *
-     * @return array<mixed,\ReflectionMethod> All public methods of {@link $clazzName)
+     * @return array<\ReflectionMethod> All public methods of {@link $clazzName)
      */
     final protected static function collectPublicMethods(string $clazzName): array
     {
         $publicMethods = [];
 
         $reflectObj = new \ReflectionClass($clazzName);
-        /** @var array<mixed,\ReflectionMethod> */
+        /** @var array<\ReflectionMethod> */
         $foundMethods = $reflectObj->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         if (count($foundMethods) > 0) {
@@ -101,11 +110,13 @@ trait MagicPublicFunctionTrait
     }
 
     /**
-     * @param object             $instance   The current instance
-     * @param string             $methodName Name of the called function
-     * @param array<mixed,mixed> $arguments  All arguments send with the function
+     * Call a magic method in this instance of the clazz.
      *
-     * @return mixed Result of the called method
+     * @param object       $instance   The current instance
+     * @param string       $methodName Name of the called method
+     * @param array<mixed> $arguments  All arguments send with the method
+     *
+     * @return mixed Result of the magic called method
      */
     final protected static function callThatMethod(object $instance, string $methodName, array $arguments): mixed
     {

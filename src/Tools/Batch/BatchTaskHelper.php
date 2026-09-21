@@ -150,7 +150,7 @@ class BatchTaskHelper
             $taskList = self::getTaskList($listId, $listConfig, $withHeader);
             $taskList->readFile($fileName);
         } else {
-            self::logger()->warning('File does not exists!', [$fileName]);
+            self::logger()->warning('File does not exists', [$fileName]);
             $taskList = self::getTaskList($listId, $listConfig, $withHeader);
         }
 

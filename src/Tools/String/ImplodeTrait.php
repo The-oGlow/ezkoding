@@ -45,8 +45,6 @@ trait ImplodeTrait
      * @return string imploded array
      *
      * @see https://www.php.net/manual/en/language.types.type-system.php
-     *
-     * @SuppressWarnings("PHPMD.CamelCaseMethodName")
      */
     // @phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     final public static function implode_recursive(string $glue, mixed $anyData, bool $withTextSep = false, bool $withKeys = false): string // NOSONAR: php:S100
@@ -101,17 +99,15 @@ trait ImplodeTrait
      * Flatten a multidimensional anyData to one dimension, optionally preserving keys.
      * Original found on {@link https://stackoverflow.com/a/526633}.
      *
-     * @param array<mixed,mixed> $anyData      the anyData to flatten
-     * @param int                $preserveKeys 0 to not preserve keys (default),
-     *                                         1 to preserve string keys only,
-     *                                         2 to preserve all keys
-     * @param array<mixed,mixed> $output       internal use argument for recursion
+     * @param array<mixed> $anyData      the anyData to flatten
+     * @param int          $preserveKeys 0 to not preserve keys (default),
+     *                                   1 to preserve string keys only,
+     *                                   2 to preserve all keys
+     * @param array<mixed> $output       internal use argument for recursion
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      *
      * @see https://stackoverflow.com/a/526633
-     *
-     * @SuppressWarnings("PHPMD.CamelCaseMethodName")
      */
     // @phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     final public function array_flatten(array $anyData, int $preserveKeys = 0, array &$output = []): array // NOSONAR: php:S100

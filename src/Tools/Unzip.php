@@ -59,36 +59,38 @@ final class Unzip
         if (!empty($zipFile)) {
             $zipFile = realpath($zipFile);
         }
+
         if (is_string($zipFile) && file_exists($zipFile) && is_file($zipFile)) {
             if (empty($targetDir)) {
                 $targetDir = pathinfo($zipFile, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . pathinfo($zipFile, PATHINFO_FILENAME);
             }
-            if (!file_exists($targetDir)) {
-                echo sprintf("\nmyFile: Creating folder '%s'!", $targetDir);
-                mkdir($targetDir, recursive: true);
-            }
-            if (file_exists($targetDir) && is_dir($targetDir)) {
-                try {
-                    $zip = new ZipArchive();
-                    $isOpen = $zip->open($zipFile, ZipArchive::RDONLY);
-                    if ($isOpen === true) {
+
+            try {
+                $zip = new ZipArchive();
+                $isOpen = $zip->open($zipFile, ZipArchive::RDONLY);
+                if ($isOpen === true) {
+                    if (!file_exists($targetDir)) {
+                        echo sprintf("\nmyFile: Creating folder '%s'", $targetDir);
+                        mkdir($targetDir, recursive: true);
+                    }
+                    if (file_exists($targetDir) && is_dir($targetDir)) {
                         $zip->extractTo($targetDir);
-                        $zip->close();
                         $isSucc = self::OK;
                     } else {
-                        echo sprintf("\nmyFile: Zip file '%s' cannot be opened!", $zipFile);
-                        $isSucc = self::ZIP_NOT_OPENED;
+                        echo sprintf("\nmyFile: Target folder '%s' does not exists", $targetDir);
+                        $isSucc = self::TARGET_NOT_EXIST;
                     }
-                } catch (\Throwable $except) {
-                    echo sprintf("\nmyFile: ZipArchive error %s:'%s'", $except->getCode(), $except->getMessage());
-                    $isSucc = self::ZIPARCHIVE_ERROR;
+                    $zip->close();
+                } else {
+                    echo sprintf("\nmyFile: Zip file '%s' cannot be opened", $zipFile);
+                    $isSucc = self::ZIP_NOT_OPENED;
                 }
-            } else {
-                echo sprintf("\nmyFile: Target folder '%s' does not exists!", $targetDir);
-                $isSucc = self::TARGET_NOT_EXIST;
+            } catch (\Throwable $except) {
+                echo sprintf("\nmyFile: ZipArchive error %s:'%s'", $except->getCode(), $except->getMessage());
+                $isSucc = self::ZIPARCHIVE_ERROR;
             }
         } else {
-            echo sprintf("\nmyFile: Zip file '%s' does not exists or is not a file!", "$zipFile");
+            echo sprintf("\nmyFile: Zip file '%s' does not exists or is not a file", "$zipFile");
             $isSucc = self::ZIP_NOT_EXIST;
         }
 

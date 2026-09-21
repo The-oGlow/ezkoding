@@ -16,9 +16,8 @@ namespace PHPUnit\Framework\EasyGoingTestCaseTest;
 use Monolog\EasyGoingLogger;
 use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Reflection\UnavailableMethodsTrait;
-use ollily\Tools\Test\TestData;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\AssertionFailedError;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -53,7 +52,7 @@ class EasyGoingTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     protected static function prepareAllConsts(): array
     {
@@ -112,7 +111,7 @@ class EasyGoingTestCaseTest extends TestCase
         }
     }
 
-    #[DataProvider('providerConstant')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerConstant')]
     public function testIsConstExist(bool $expectedBool, string $constName, string $expected): void
     {
         self::$logger->debug('parameters', [$expectedBool, $constName, $expected]);
@@ -124,7 +123,7 @@ class EasyGoingTestCaseTest extends TestCase
         self::assertEquals($expectedBool, $actual, sprintf("Not equals: '%s'='%s'", "$expectedBool", "$actual"));
     }
 
-    #[DataProvider('providerConstant')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerConstant')]
     public function testGetConstValue(bool $expectedBool, string $constName, string $expected): void
     {
         self::$logger->debug('parameters', [$expectedBool, $constName, $expected]);
@@ -136,7 +135,7 @@ class EasyGoingTestCaseTest extends TestCase
         self::assertEquals($expected, $actual, sprintf("Not equals: '%s'='%s'", $expected, $actual));
     }
 
-    #[DataProvider('providerPrimitives')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerPrimitives')]
     public function testIsPrimitive(bool $expected, mixed $value): void
     {
         $actual = $this->o2t::publicIsPrimitive($value);
@@ -163,7 +162,7 @@ class EasyGoingTestCaseTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    #[DataProvider('providerVerifyConstExists')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerVerifyConstExists')]
     public function testVerifyConstExists(bool $expected, string $expectedError, string $constantSuffix): void
     {
         $constantName = get_class($this->o2t) . '::C_TEST_' . $constantSuffix;
@@ -171,14 +170,14 @@ class EasyGoingTestCaseTest extends TestCase
         try {
             $this->o2t->publicVerifyConstExists($constantName);
             if (!$expected) {
-                throw new \Exception('FAIL: Should raised any exception!');
+                throw new \Exception('FAIL: Should raised any exception');
             }
         } catch (AssertionFailedError $exception) {
             if ($expected) {
-                self::fail(sprintf('FAIL: Should not raise any exception: \'%s\'', $exception->getMessage()));
+                self::fail(sprintf("FAIL: Should not raise any exception: '%s'", $exception->getMessage()));
             }
             if (!str_starts_with($exception->getMessage(), $expectedError)) {
-                self::fail(sprintf('FAIL: Wrong exception raised: \'%s\'', $exception->getMessage()));
+                self::fail(sprintf("FAIL: Wrong exception raised: '%s'", $exception->getMessage()));
             }
         }
     }
@@ -195,7 +194,7 @@ class EasyGoingTestCaseTest extends TestCase
     // Data Provider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerConstant(): array
     {
@@ -208,24 +207,24 @@ class EasyGoingTestCaseTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerPrimitives(): array
     {
         return [
-            'int' => [true,TestData::DATA_NUM1],
-            'float' => [true,  TestData::DATA_FLOAT3],
-            'double' => [true,  TestData::DATA_FLOAT3],
-            'boolTrue' => [true,  TestData::DATA_BOOL_F],
-            'boolFalse' => [true,  TestData::DATA_BOOL_T],
-            'stringEmpty' => [false,TestData::DATA_EMPTY],
-            'stringText' => [false,TestData::DATA_ALPHA1],
-            'mixed' => [false, TestData::DATA_NULL],
+            'int' => [true,TeDa::DATA_NUM1],
+            'float' => [true,  TeDa::DATA_FLOAT3],
+            'double' => [true,  TeDa::DATA_FLOAT3],
+            'boolTrue' => [true,  TeDa::DATA_BOOL_F],
+            'boolFalse' => [true,  TeDa::DATA_BOOL_T],
+            'stringEmpty' => [false,TeDa::DATA_EMPTY],
+            'stringText' => [false,TeDa::DATA_ALPHA1],
+            'mixed' => [false, TeDa::DATA_NULL],
         ];
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerVerifyConstExists(): array
     {

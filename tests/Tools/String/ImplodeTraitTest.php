@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\String;
 
-use ollily\Tools\Test\TestData;
-use PHPUnit\Framework\Attributes\DataProvider;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -71,11 +70,11 @@ class ImplodeTraitTest extends TestCase
     }
 
     /**
-     * @param int                $expectedCount
-     * @param array<mixed,mixed> $testData
-     * @param int                $preserveKeys
+     * @param int          $expectedCount
+     * @param array<mixed> $testData
+     * @param int          $preserveKeys
      */
-    #[DataProvider('providerArrayFlatten')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerArrayFlatten')]
     public function testArray_flatten(int $expectedCount, array $testData, int $preserveKeys): void
     {
         $actual = $this->o2t->array_flatten($testData, $preserveKeys);
@@ -106,23 +105,23 @@ class ImplodeTraitTest extends TestCase
     // Dataprovider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerArrayFlatten(): array
     {
         return [
             'emptyDefault' => [0, [], 0],
-            'noChangeDefault' => [5, TestData::ARRAY_ALPHA5, 0],
+            'noChangeDefault' => [5, TeDa::ARRAY_ALPHA5, 0],
             'oneLevelDefault' => [4, [
-                    TestData::DATA_ALPHA1,
-                    TestData::ARRAY_ALPHA2,
-                    TestData::DATA_BOOL_F,
+                    TeDa::DATA_ALPHA1,
+                    TeDa::ARRAY_ALPHA2,
+                    TeDa::DATA_BOOL_F,
                 ], 0,
             ],
             'twoLevelDefault' => [8, [
-                    TestData::ARRAY_ALPHA2,
-                    [TestData::ARRAY_ALPHA2, TestData::ARRAY_ALPHA2],
-                    TestData::ARRAY_ALPHA2,
+                    TeDa::ARRAY_ALPHA2,
+                    [TeDa::ARRAY_ALPHA2, TeDa::ARRAY_ALPHA2],
+                    TeDa::ARRAY_ALPHA2,
                 ], 0,
             ],
         ];

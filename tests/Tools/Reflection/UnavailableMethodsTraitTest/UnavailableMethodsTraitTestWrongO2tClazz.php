@@ -25,7 +25,6 @@ class UnavailableMethodsTraitTestWrongO2tClazz
 {
     use UnavailableMethodsTrait;
 
-    /** @SuppressWarnings("PHPMD.UnusedPrivateField") */
     private UnavailableMethodsTraitDummyClazz $wrongO2t;
 
     public function __construct()

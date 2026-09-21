@@ -13,33 +13,31 @@ declare(strict_types=1);
 
 namespace ollily\Tools;
 
-use ollily\Tools\Test\TestData;
+use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
-class EnvironmentVariableTraitTest extends TestCase
+class EnvironmentHelperTest extends TestCase
 {
-    use EnvironmentVariableTrait;
+    private const string PHP_VERSION_MIN = '0.0.1';
+
+    private const string PHP_VERSION_CURR = PHP_VERSION;
+
+    private const string PHP_VERSION_MAX = '99.99.999';
 
     private const string PROJECT_NAME = 'ezkoding';
 
-    private const string HOME_WIN = 'USERPROFILE';
-
-    private const string HOME_LINUX = 'HOME';
-
-    private const string HOME_NOTEXIST = 'NOTEXISTS';
-
     public function testHomeDefault(): void
     {
-        $actual = self::getHome();
+        $actual = EnvironmentHelper::getHome();
 
         $this->validateActualContains(DIRECTORY_SEPARATOR, $actual);
     }
 
     public function testHomeUserProfileDirect(): void
     {
-        $actual = self::getHome(self::HOME_WIN);
+        $actual = EnvironmentHelper::getHome(EnvironmentHelper::ENV_HOME_WIN);
         if (empty($actual)) {
-            $actual = self::getHome(self::HOME_LINUX);
+            $actual = EnvironmentHelper::getHome(EnvironmentHelper::ENV_HOME_LINUX);
         }
 
         $this->validateActualContains(DIRECTORY_SEPARATOR, $actual);
@@ -47,21 +45,21 @@ class EnvironmentVariableTraitTest extends TestCase
 
     public function testHomeUserProfileIndirect(): void
     {
-        $actual = self::getHome(self::HOME_NOTEXIST);
+        $actual = EnvironmentHelper::getHome(TeDa::NOTEXIST_NAME);
 
-        self::assertEquals(TestData::DATA_EMPTY, $actual);
+        self::assertEquals(TeDa::DATA_EMPTY, $actual);
     }
 
     public function testGetProjectRoot(): void
     {
-        $actual = self::getProjectRoot();
+        $actual = EnvironmentHelper::getProjectRoot();
 
         $this->validateActualEnds(self::PROJECT_NAME, $actual);
     }
 
     public function testGetSystemTemp(): void
     {
-        $actual = self::getSystemTemp();
+        $actual = EnvironmentHelper::getSystemTemp();
 
         self::assertNotEmpty($actual);
         self::assertFileExists($actual);
@@ -69,9 +67,9 @@ class EnvironmentVariableTraitTest extends TestCase
 
     public function testGetSystemTempWithSub(): void
     {
-        $expected = TestData::FILE_FOLDERNAME;
+        $expected = TeDa::FILE_FOLDERNAME;
 
-        $actual = self::getSystemTemp($expected);
+        $actual = EnvironmentHelper::getSystemTemp($expected);
 
         self::assertNotEmpty($actual);
         $this->validateActualEnds(DIRECTORY_SEPARATOR . $expected, $actual);
@@ -79,18 +77,29 @@ class EnvironmentVariableTraitTest extends TestCase
 
     public function testGetComposerFilePath(): void
     {
-        $actual = self::getComposerFilePath();
+        $actual = EnvironmentHelper::getComposerFilePath();
 
         $this->validateActualEnds(self::PROJECT_NAME, $actual);
     }
 
     public function testGetProjectRootFallback(): void
     {
-        $actual = self::getProjectRootFallback();
+        $actual = EnvironmentHelper::getProjectRootFallback();
 
         $this->validateActualEnds(self::PROJECT_NAME, $actual);
     }
 
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerPhpVersion')]
+    public function testIsPhpGreater(bool $expected, string $checkVersion): void
+    {
+        $actual = EnvironmentHelper::isPhpGreater($checkVersion);
+        self::assertEquals($expected, $actual);
+    }
+
+    /**
+     * @param non-empty-string $expected
+     * @param string           $actual
+     */
     private function validateActualContains(string $expected, string $actual): void
     {
         self::assertNotEmpty($actual);
@@ -105,5 +114,20 @@ class EnvironmentVariableTraitTest extends TestCase
     {
         self::assertNotEmpty($actual);
         self::assertStringEndsWith($expected, $actual);
+    }
+
+    // Dataprovider
+
+    /**
+     * @return array<mixed>
+     */
+    public static function providerPhpVersion(): array
+    {
+        return [
+            'equal' => [true, self::PHP_VERSION_CURR],
+            'lower' => [true, self::PHP_VERSION_MIN],
+            'higher' => [false, self::PHP_VERSION_MAX],
+            'wrong' => [true, TeDa::DATA_INVALID],
+        ];
     }
 }

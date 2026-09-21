@@ -16,7 +16,7 @@ namespace ollily\Tools\Twig;
 use Exception;
 use Monolog\EasyGoingLogger;
 use ollily\Tools\Emergency;
-use ollily\Tools\EnvironmentVariableTrait;
+use ollily\Tools\EnvironmentHelper;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Error\Error;
@@ -26,8 +26,6 @@ use Twig\TemplateWrapper;
 
 class TemplateFactory
 {
-    use EnvironmentVariableTrait;
-
     public const string DEFAULT_TEMPLATE_FOLDER = 'resources/src/Twig';
 
     public const string DEFAULT_TEMPLATE_EXT = '.html.twig';
@@ -41,9 +39,9 @@ class TemplateFactory
     private Environment $environment;
 
     /**
-     * @param array<mixed,mixed> $templateData
+     * @param array<mixed> $templateData
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function cleanTemplateData(array $templateData): array
     {
@@ -65,7 +63,7 @@ class TemplateFactory
     {
         self::$logger = EasyGoingLogger::init(TemplateFactory::class);
         if (empty($cachePath)) {
-            $cachePath = self::getSystemTemp(self::DEFAULT_CACHE_FOLDER);
+            $cachePath = EnvironmentHelper::getSystemTemp(self::DEFAULT_CACHE_FOLDER);
         }
         [$templatePath, $cachePath] = $this->verifyConfig($templatePath, $cachePath);
 
@@ -86,8 +84,8 @@ class TemplateFactory
     }
 
     /**
-     * @param string             $templateName
-     * @param array<mixed,mixed> $templateData
+     * @param string       $templateName
+     * @param array<mixed> $templateData
      *
      * @return string
      */
@@ -140,7 +138,7 @@ class TemplateFactory
      * @param string $templatePath
      * @param string $cachePath
      *
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     protected function verifyConfig(string $templatePath, string $cachePath): array
     {

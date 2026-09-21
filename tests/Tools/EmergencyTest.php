@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace ollily\Tools;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class EmergencyTest extends TestCase
@@ -34,7 +33,7 @@ class EmergencyTest extends TestCase
 
     public const string MSG_02    = 'There is something worried';
 
-    #[DataProvider('providerBreakSystem')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerBreakSystem')]
     public function testBreakSystem(int $errCode, string $errMessage, int $expected): void
     {
         $actual = Emergency::breakSystem($errCode, $errMessage, true);
@@ -42,7 +41,7 @@ class EmergencyTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    #[DataProvider('providerExceptionStop')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerExceptionStop')]
     public function testExceptionStop(\Throwable $throwable, int $expected): void
     {
         $actual = Emergency::exceptionStop($throwable, true);
@@ -53,7 +52,7 @@ class EmergencyTest extends TestCase
     // Dataprovider
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerBreakSystem(): array
     {
@@ -66,7 +65,7 @@ class EmergencyTest extends TestCase
     }
 
     /**
-     * @return array<mixed,mixed>
+     * @return array<mixed>
      */
     public static function providerExceptionStop(): array
     {
