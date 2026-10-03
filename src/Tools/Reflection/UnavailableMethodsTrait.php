@@ -26,17 +26,21 @@ trait UnavailableMethodsTrait
      * @param mixed  $clazzName  The name of the clazz
      * @param string $methodName The name of the method to call
      * @param mixed  $instance   The current instance to call on
+     * @param array<mixed> $parameters = The parameters for the method to call (Default: [])
      *
      * @return mixed The result of the called method
      */
-    protected function callMethodByReflection(mixed $clazzName, string $methodName, mixed $instance): mixed
+    protected function callMethodByReflection(mixed $clazzName, string $methodName, mixed $instance, array $parameters=[]): mixed
     {
         $result = null;
         if (!empty($clazzName)) {
             $refObject = new \ReflectionMethod($clazzName, $methodName);
             $refObject->setAccessible(true); // NOSONAR: php:S3011
-
-            $result = $refObject->invoke($instance);
+            if (count($parameters) > 0) {
+                $result = $refObject->invokeArgs($instance, $parameters);
+            } else {
+                $result = $refObject->invoke($instance);
+            }
         }
 
         return $result;
@@ -46,10 +50,11 @@ trait UnavailableMethodsTrait
      * Calls a hidden method on an instance of the test object (o2t).
      *
      * @param string $methodName The name of the method to call
+     * @param array<mixed> $parameters = The parameters for the method to call (Default: [])
      *
      * @return mixed The result of the called method
      */
-    protected function callMethodOnO2t(string $methodName): mixed
+    protected function callMethodOnO2t(string $methodName, array $parameters = []): mixed
     {
         $result = null;
 
@@ -61,7 +66,7 @@ trait UnavailableMethodsTrait
             $clazzName = get_class($this->o2t);
             /** @psalm-suppress RedundantCondition */
             if (!empty($clazzName)) {
-                $result = $this->callMethodByReflection($clazzName, $methodName, $this->o2t);
+                $result = $this->callMethodByReflection($clazzName, $methodName, $this->o2t, $parameters);
             }
         }
 
