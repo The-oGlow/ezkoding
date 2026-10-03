@@ -11,6 +11,7 @@
     reportInfo="false"
     reportMixedIssues="true"
     allowStringToStandInForClass="true"
+    forceJit="true"
 >
     <projectFiles>
         <directory name="src"/>
