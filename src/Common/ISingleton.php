@@ -31,9 +31,9 @@ interface ISingleton
      * @param bool                   $withLogger TRUE=activate logging, else FALSE
      * @param int|LogLevel::*|string $level      The minimum logging level at which this handler will be triggered (Default: {@link ISingleton::LEVEL_DEFAULT})
      *
-     * @return mixed Reference on this singleton
+     * @return static Reference on this singleton
      *
      * @SuppressWarnings("PHPMD.ShortMethodName")
      */
-    public static function i(bool $withLogger = true, int|LogLevel|string $level = ISingleton::LEVEL_DEFAULT): mixed;
+    public static function i(bool $withLogger = true, int|LogLevel|string $level = ISingleton::LEVEL_DEFAULT): static;
 }

@@ -28,7 +28,7 @@ use Psr\Log\LogLevel;
  */
 abstract class AbstractSingleton implements ISingleton
 {
-    /** @var array<object> the real instance of the singleton */
+    /** @var array<ISingleton> the real instance of the singleton */
     private static array $instance = [];
 
     private static LoggerInterface $logger;
@@ -56,23 +56,20 @@ abstract class AbstractSingleton implements ISingleton
     }
 
     /**
-     * Returns static access on this singletion.
-     *
-     * @param bool                   $withLogger TRUE=activate logging, else FALSE
-     * @param int|LogLevel::*|string $level      The minimum logging level at which this handler will be triggered (Default: {@link ISingleton::LEVEL_DEFAULT})
-     *
-     * @return mixed Reference on this singleton
+     * @inheritDoc
      *
      * @SuppressWarnings("PHPMD.ShortMethodName")
      */
     #[\Override]
-    final public static function i(bool $withLogger = true, int|LogLevel|string $level = ISingleton::LEVEL_DEFAULT): mixed
+    final public static function i(bool $withLogger = true, int|LogLevel|string $level = ISingleton::LEVEL_DEFAULT): static
     {
         $key = static::class;
         if (!array_key_exists($key, self::$instance)) {
             self::$instance[$key] = new static($withLogger, $level);
         }
 
+        /** @psalm-suppress LessSpecificReturnStatement
+         * @phpstan-ignore return.type */
         return self::$instance[$key];
     }
 
