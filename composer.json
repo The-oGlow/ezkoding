@@ -10,6 +10,7 @@
         "reflection"
     ],
     "homepage": "https://github.com/ollily/ezkoding",
+    "readme": "README.adoc",
     "license": "Apache-2.0",
     "authors": [
         {
@@ -20,7 +21,10 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/ollily/ezkoding/issues"
+        "issues": "https://github.com/ollily/ezkoding/issues",
+        "docs": "https://github.com/ollily/ezkoding/wiki",
+        "wiki": "https://github.com/ollily/ezkoding/wiki",
+        "source": "https://github.com/ollily/ezkoding"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -47,7 +51,8 @@
         "phpmd/phpmd": "^2.0"
     },
     "config": {
-        "optimize-autoloader": false,
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
         "sort-packages": true,
         "allow-plugins": {
             "phpstan/extension-installer": true,

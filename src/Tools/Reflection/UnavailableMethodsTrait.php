@@ -23,14 +23,14 @@ trait UnavailableMethodsTrait
     /**
      * Calls hidden method (private, protected, package) without parameters by reflection.
      *
-     * @param mixed  $clazzName  The name of the clazz
-     * @param string $methodName The name of the method to call
-     * @param mixed  $instance   The current instance to call on
+     * @param mixed        $clazzName  The name of the clazz
+     * @param string       $methodName The name of the method to call
+     * @param mixed        $instance   The current instance to call on
      * @param array<mixed> $parameters = The parameters for the method to call (Default: [])
      *
      * @return mixed The result of the called method
      */
-    protected function callMethodByReflection(mixed $clazzName, string $methodName, mixed $instance, array $parameters=[]): mixed
+    protected function callMethodByReflection(mixed $clazzName, string $methodName, mixed $instance, array $parameters = []): mixed
     {
         $result = null;
         if (!empty($clazzName)) {
@@ -49,7 +49,7 @@ trait UnavailableMethodsTrait
     /**
      * Calls a hidden method on an instance of the test object (o2t).
      *
-     * @param string $methodName The name of the method to call
+     * @param string       $methodName The name of the method to call
      * @param array<mixed> $parameters = The parameters for the method to call (Default: [])
      *
      * @return mixed The result of the called method
