@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Common;
 
-use Ds\Collection;
+use Ds\Map;
 
 /**
  * @author ollily
@@ -23,19 +23,19 @@ class AbstractSingletonTestDummyClazz extends AbstractSingleton
     // Change visibility
 
     /**
-     * @param Collection<mixed,mixed> $overrideParameters
+     * @param Map<mixed,mixed> $overrideParameters
      */
-    public function publicPrepareSettings(Collection $overrideParameters): void
+    public function publicPrepareSettings(Map $overrideParameters): void
     {
         $this->prepareSettings($overrideParameters);
     }
 
     /**
-     * @param Collection<mixed,mixed> $overrideParameters
+     * @param Map<mixed,mixed> $overrideParameters
      *
      * @return bool
      */
-    public function publicValidateSettings(Collection $overrideParameters): bool
+    public function publicValidateSettings(Map $overrideParameters): bool
     {
         return $this->validateSettings($overrideParameters);
     }
@@ -57,12 +57,12 @@ class AbstractSingletonTestDummyClazz extends AbstractSingleton
     }
 
     /**
-     * @param Collection<mixed, mixed> $overrideParameters
-     * @param string                   $keyName
+     * @param Map<mixed, mixed> $overrideParameters
+     * @param string            $keyName
      *
      * @return mixed
      */
-    public function publicParseBoolCollection(Collection $overrideParameters, string $keyName): mixed
+    public function publicParseBoolMap(Map $overrideParameters, string $keyName): mixed
     {
         return $this->parseBool($overrideParameters, $keyName);
     }

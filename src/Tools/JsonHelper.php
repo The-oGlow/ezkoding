@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools;
 
-use Ds\Collection;
+use Ds\Map;
 use InvalidArgumentException;
 
 class JsonHelper
@@ -107,16 +107,16 @@ class JsonHelper
     }
 
     /**
-     * @param Collection<mixed,mixed> $data
-     * @param string                  $file
-     * @param string                  $fileExt
-     * @param bool                    $prettyPrint
+     * @param Map<mixed,mixed> $data
+     * @param string           $file
+     * @param string           $fileExt
+     * @param bool             $prettyPrint
      *
      * @return bool
      *
      * @throws InvalidArgumentException
      */
-    public static function storeJsonCollection(Collection $data, string $file, string $fileExt = '', bool $prettyPrint = false): bool
+    public static function storeJsonMap(Map $data, string $file, string $fileExt = '', bool $prettyPrint = false): bool
     {
         return self::storeJson($data->toArray(), $file, $fileExt, $prettyPrint);
     }

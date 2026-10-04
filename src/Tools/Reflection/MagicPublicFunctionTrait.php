@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-use Ds\Sequence;
-use Ds\Vector;
+use Ds\Seq;
 
 /**
  * Extends the clazz to provide a list of all public methods of a clazz.
@@ -24,28 +23,28 @@ use Ds\Vector;
 trait MagicPublicFunctionTrait
 {
     /**
-     * Returns all public method names as sequence.
+     * Returns all public method names as seq.
      *
-     * @return Vector<string> All public method names of this clazz
+     * @return Seq All public method names of this clazz
      */
-    final public static function existingMethodNames(): Sequence
+    final public static function existingMethodNames(): Seq
     {
         $callback = function (\ReflectionMethod $method): string {
             return $method->getName();
         };
         $availableMethodNames = array_map($callback, self::existingMethods()->toArray());
 
-        return new Vector($availableMethodNames); // @phpstan-ignore return.type
+        return new Seq($availableMethodNames); // @phpstan-ignore return.type
     }
 
     /**
-     * Returns all public methods as sequence.
+     * Returns all public methods as seq.
      *
-     * @return Vector<\ReflectionMethod> All public methods of this clazz
+     * @return Seq All public methods of this clazz
      */
-    final public static function existingMethods(): Sequence
+    final public static function existingMethods(): Seq
     {
-        $notAllowed = new Vector(['__call', 'existingMethodNames', 'existingMethods']);
+        $notAllowed = new Seq(['__call', 'existingMethodNames', 'existingMethods']);
         $callback = function (\ReflectionMethod $method) use ($notAllowed): bool {
             return !$notAllowed->contains($method->getName());
         };
@@ -53,7 +52,7 @@ trait MagicPublicFunctionTrait
         $availableMethods = self::collectPublicMethods(static::class);
         $availableMethods = array_filter($availableMethods, $callback);
 
-        return new Vector($availableMethods);
+        return new Seq($availableMethods);
     }
 
     /**

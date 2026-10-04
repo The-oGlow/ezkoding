@@ -30,7 +30,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.4.1",
-        "ext-ds": "^1.0",
+        "ext-ds": "^2.0",
         "composer/composer": "^2.0",
         "psr/log": "^2.0||^3.0",
         "twig/twig": "^3.27"
@@ -40,7 +40,7 @@
     "suggest": {
     },
     "require-dev": {
-        "php-ds/php-ds": "^1.0",
+        "php-ds/php-ds": "^2.0",
         "phpunit/phpunit": "^13.1",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-strict-rules": "^2.0",

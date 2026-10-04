@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-use Ds\Vector;
+use Ds\Seq;
 use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testExistingMethodNames(): void
     {
-        $expected = Vector::class;
+        $expected = Seq::class;
         $expectedCount = 3;
 
         $actual = $this->o2t::existingMethodNames();
@@ -47,7 +47,7 @@ class MagicPublicFunctionTraitTest extends TestCase
 
     public function testExistingMethods(): void
     {
-        $expected = Vector::class;
+        $expected = Seq::class;
         $expectedCount = 3;
 
         $actual = $this->o2t::existingMethods();

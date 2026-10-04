@@ -14,8 +14,7 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use Ds\Map;
-use Ds\Queue;
-use Ds\Vector;
+use Ds\Seq;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
@@ -33,8 +32,8 @@ class TaskList implements ITaskList
     /** @var TTaskListId */
     private mixed $listId;
 
-    /** @var Vector<TDataKey> */
-    private Vector $dataItemIds;
+    /** @var Seq<TDataKey> */
+    private Seq $dataItemIds;
 
     private bool $isDataItemIdRead = false;
 
@@ -42,8 +41,8 @@ class TaskList implements ITaskList
 
     private IBatchConfig $listConfig;
 
-    /** @var Queue<ITaskItem> */
-    private Queue $tasks;
+    /** @var Seq<ITaskItem> */
+    private Seq $tasks;
 
     /**
      * @param mixed        $listId
@@ -58,8 +57,8 @@ class TaskList implements ITaskList
         $this->listId = $listId;
         $this->withDataItemId = $withDataItemId;
         $this->listConfig = $listConfig;
-        $this->tasks = new Queue();
-        $this->dataItemIds = new Vector();
+        $this->tasks = new Seq();
+        $this->dataItemIds = new Seq();
     }
 
     /**
@@ -254,7 +253,7 @@ class TaskList implements ITaskList
             $newLine = preg_filter(self::LINE_ENDS, '', $dataKeysLine);
             /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($newLine)) {
-                $this->dataItemIds = new Vector(explode(self::DEFAULT_ITEM_SEP, $newLine));
+                $this->dataItemIds = new Seq(explode(self::DEFAULT_ITEM_SEP, $newLine));
             }
             $this->isDataItemIdRead = true;
         }
