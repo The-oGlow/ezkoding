@@ -24,7 +24,12 @@ class TestDataFoo
 
     private mixed $fooValue;
 
-    public static function init(mixed $fooValue = null): TestDataFoo
+    /**
+     * @param null|int|string $fooValue
+     *
+     * @psalm-param 'KEY-ALPHA1'|11|22|33|null $fooValue
+     */
+    public static function init(string|int|null $fooValue = null): TestDataFoo
     {
         return new TestDataFoo($fooValue);
     }

@@ -16,6 +16,7 @@ namespace ollily\Tools\Test;
 use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class TestDataTest extends TestCase
 {
@@ -71,7 +72,7 @@ class TestDataTest extends TestCase
      */
     public function verifyResult(int $expectedCount, string $pivot): void
     {
-        $refClazz = new \ReflectionClass(TeDa::class);
+        $refClazz = new ReflectionClass(TeDa::class);
 
         $callback = /**
          * @param mixed $key

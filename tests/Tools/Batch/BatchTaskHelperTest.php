@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
+use loophp\collection\Collection;
 use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
@@ -59,8 +59,8 @@ class BatchTaskHelperTest extends TestCase
     public static function providerTaskListFile(): array
     {
         return [
-            'empty' => [BatchTaskHelper::DEFAULT, 0, true, TeDa::FILE_FILENAME_EMPTY, new BatchConfig(new Map()), TeDa::KEY_EMPTY],
-            'simpleFile' => [BatchTaskHelper::DEFAULT, 3, false, TaskListTest::prepareFiles()[2], new BatchConfig(new Map()), TeDa::KEY_EMPTY],
+            'empty' => [BatchTaskHelper::DEFAULT, 0, true, TeDa::FILE_FILENAME_EMPTY, new BatchConfig(Collection::empty()), TeDa::KEY_EMPTY],
+            'simpleFile' => [BatchTaskHelper::DEFAULT, 3, false, TaskListTest::prepareFiles()[2], new BatchConfig(Collection::empty()), TeDa::KEY_EMPTY],
         ];
     }
 }

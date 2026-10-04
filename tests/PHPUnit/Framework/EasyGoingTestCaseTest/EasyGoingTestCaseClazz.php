@@ -59,12 +59,12 @@ class EasyGoingTestCaseClazz extends EasyGoingTestCase // NOSONAR: php:S3360
 
     // Override the visibility for the test cases
 
-    public static function publicIsConstExist(mixed $clazzName, string $constantName): bool
+    public static function publicIsConstExist(EasyGoingTestCaseDummyClazz $clazzName, string $constantName): bool
     {
         return parent::isConstExist($clazzName, $constantName);
     }
 
-    public static function publicGetConstValue(mixed $clazzName, string $constantName): mixed
+    public static function publicGetConstValue(EasyGoingTestCaseDummyClazz $clazzName, string $constantName): mixed
     {
         return parent::getConstValue($clazzName, $constantName);
     }

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools;
 
-use Ds\Collection;
 use InvalidArgumentException;
+use loophp\collection\Collection;
 
 class JsonHelper
 {
@@ -118,6 +118,6 @@ class JsonHelper
      */
     public static function storeJsonCollection(Collection $data, string $file, string $fileExt = '', bool $prettyPrint = false): bool
     {
-        return self::storeJson($data->toArray(), $file, $fileExt, $prettyPrint);
+        return self::storeJson($data->all(), $file, $fileExt, $prettyPrint);
     }
 }

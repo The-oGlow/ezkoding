@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
-use Ds\Sequence;
-use Ds\Vector;
+use loophp\collection\Collection;
+use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * Extends the clazz to provide a list of all public methods of a clazz.
@@ -24,36 +25,41 @@ use Ds\Vector;
 trait MagicPublicFunctionTrait
 {
     /**
-     * Returns all public method names as sequence.
+     * Returns all public method names as collection.
      *
-     * @return Vector<string> All public method names of this clazz
+     * @psalm-suppress InvalidReturnType
+     *
+     * @return Collection<mixed,mixed> All public method names of this clazz
      */
-    final public static function existingMethodNames(): Sequence
+    final public static function existingMethodNames(): Collection
     {
-        $callback = function (\ReflectionMethod $method): string {
+        $callback = function (ReflectionMethod $method): string {
             return $method->getName();
         };
-        $availableMethodNames = array_map($callback, self::existingMethods()->toArray());
+        $availableMethodNames = array_map($callback, self::existingMethods()->all());
 
-        return new Vector($availableMethodNames); // @phpstan-ignore return.type
+        return Collection::fromIterable($availableMethodNames); // @phpstan-ignore return.type
     }
 
     /**
-     * Returns all public methods as sequence.
+     * Returns all public methods as collection.
      *
-     * @return Vector<\ReflectionMethod> All public methods of this clazz
+     * @psalm-suppress InvalidReturnType
+     *
+     * @return Collection<mixed,mixed> All public methods of this clazz
      */
-    final public static function existingMethods(): Sequence
+    final public static function existingMethods(): Collection
     {
-        $notAllowed = new Vector(['__call', 'existingMethodNames', 'existingMethods']);
-        $callback = function (\ReflectionMethod $method) use ($notAllowed): bool {
+        /** @var Collection<mixed,non-empty-string> */
+        $notAllowed = Collection::fromIterable(['__call', 'existingMethodNames', 'existingMethods']);
+        $callback = function (ReflectionMethod $method) use ($notAllowed): bool {
             return !$notAllowed->contains($method->getName());
         };
 
         $availableMethods = self::collectPublicMethods(static::class);
         $availableMethods = array_filter($availableMethods, $callback);
 
-        return new Vector($availableMethods);
+        return Collection::fromIterable($availableMethods);
     }
 
     /**
@@ -87,20 +93,20 @@ trait MagicPublicFunctionTrait
      *
      * @phpstan-param class-string $clazzName
      *
-     * @return array<\ReflectionMethod> All public methods of {@link $clazzName)
+     * @return array<ReflectionMethod> All public methods of {@link $clazzName)
      */
     final protected static function collectPublicMethods(string $clazzName): array
     {
         $publicMethods = [];
 
-        $reflectObj = new \ReflectionClass($clazzName);
-        /** @var array<\ReflectionMethod> */
-        $foundMethods = $reflectObj->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $reflectObj = new ReflectionClass($clazzName);
+        /** @var array<ReflectionMethod> */
+        $foundMethods = $reflectObj->getMethods(ReflectionMethod::IS_PUBLIC);
 
         if (count($foundMethods) > 0) {
-            /** @var \ReflectionMethod $foundMethod */
+            /** @var ReflectionMethod $foundMethod */
             foreach ($foundMethods as $foundMethod) {
-                if (($foundMethod->getModifiers() & \ReflectionMethod::IS_ABSTRACT) !== \ReflectionMethod::IS_ABSTRACT) {
+                if (($foundMethod->getModifiers() & ReflectionMethod::IS_ABSTRACT) !== ReflectionMethod::IS_ABSTRACT) {
                     $publicMethods[] = $foundMethod;
                 }
             }
@@ -120,7 +126,7 @@ trait MagicPublicFunctionTrait
      */
     final protected static function callThatMethod(object $instance, string $methodName, array $arguments): mixed
     {
-        $reflectMethod = new \ReflectionMethod($instance, $methodName);
+        $reflectMethod = new ReflectionMethod($instance, $methodName);
         echo sprintf("\nCalling '%s'->'%s'\n", get_class($instance), $methodName);
 
         return $reflectMethod->invokeArgs($instance, $arguments);

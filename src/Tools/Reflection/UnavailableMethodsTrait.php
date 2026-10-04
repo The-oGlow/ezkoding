@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
+use ReflectionMethod;
+
 /**
  * Provides access on non public methods in a clazz.
  *
@@ -34,7 +36,7 @@ trait UnavailableMethodsTrait
     {
         $result = null;
         if (!empty($clazzName)) {
-            $refObject = new \ReflectionMethod($clazzName, $methodName);
+            $refObject = new ReflectionMethod($clazzName, $methodName);
             $refObject->setAccessible(true); // NOSONAR: php:S3011
             if (count($parameters) > 0) {
                 $result = $refObject->invokeArgs($instance, $parameters);

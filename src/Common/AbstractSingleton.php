@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Common;
 
-use Ds\Collection;
-use Ds\Map;
+use loophp\collection\Collection;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -95,8 +94,10 @@ abstract class AbstractSingleton implements ISingleton
     {
         /** @var mixed */
         $foundBool = '';
-        if (array_key_exists($keyName, $overrideParameters->toArray())) {
-            $foundBool = $overrideParameters->toArray()[$keyName];
+
+        $options = $overrideParameters->all();
+        if (array_key_exists($keyName, $options)) {
+            $foundBool = $options[$keyName];
         }
         if ('' !== $foundBool) {
             $foundBool = filter_var($foundBool, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
@@ -111,18 +112,20 @@ abstract class AbstractSingleton implements ISingleton
      * @param string       $shortOpts Override parameter as short version
      * @param array<mixed> $longOpts  Override parameter as long version
      *
-     * @return Collection<mixed, mixed> A collection of override parameter
+     * @psalm-suppress InvalidReturnType
+     *
+     * @return Collection<mixed,mixed>
      */
     private static function parseArguments(string $shortOpts, array $longOpts): Collection
     {
-        /** @var Map<mixed,mixed> */
-        $mapOpts = new Map();
+        $options = Collection::empty();
         $opts = getopt($shortOpts, $longOpts);
         if (is_array($opts)) {
-            $mapOpts = new Map($opts);
+            $options = Collection::fromIterable($opts);
         }
 
-        return $mapOpts;
+        /** @psalm-suppress InvalidReturnStatement */
+        return $options;
     }
 
     /**

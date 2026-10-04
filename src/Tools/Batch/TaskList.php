@@ -13,9 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
-use Ds\Queue;
-use Ds\Vector;
+use loophp\collection\Collection;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
@@ -33,8 +31,8 @@ class TaskList implements ITaskList
     /** @var TTaskListId */
     private mixed $listId;
 
-    /** @var Vector<TDataKey> */
-    private Vector $dataItemIds;
+    /** @var Collection<TDataKey> */
+    private Collection $dataItemIds;
 
     private bool $isDataItemIdRead = false;
 
@@ -42,8 +40,8 @@ class TaskList implements ITaskList
 
     private IBatchConfig $listConfig;
 
-    /** @var Queue<ITaskItem> */
-    private Queue $tasks;
+    /** @var Collection<ITaskItem> */
+    private Collection $tasks;
 
     /**
      * @param mixed        $listId
@@ -58,8 +56,8 @@ class TaskList implements ITaskList
         $this->listId = $listId;
         $this->withDataItemId = $withDataItemId;
         $this->listConfig = $listConfig;
-        $this->tasks = new Queue();
-        $this->dataItemIds = new Vector();
+        $this->tasks = Collection::empty();
+        $this->dataItemIds = Collection::empty();
     }
 
     /**
@@ -183,7 +181,7 @@ class TaskList implements ITaskList
             $fHandle = fopen($fileName, 'w');
             if (is_resource($fHandle)) {
                 if ($this->withDataItemId && $this->isDataItemIdRead) {
-                    $rawIdLine = implode(self::DEFAULT_ITEM_SEP, $this->dataItemIds->toArray());
+                    $rawIdLine = implode(self::DEFAULT_ITEM_SEP, $this->dataItemIds->all());
                     fwrite($fHandle, $rawIdLine);
                 }
 
@@ -225,12 +223,12 @@ class TaskList implements ITaskList
             $rawDataLine = preg_filter(self::LINE_ENDS, '', $taskDataLine);
             self::$logger->debug('newLine', [$rawDataLine]);
             if (!empty($rawDataLine)) {
-                /** @var Map<mixed,mixed> */
-                $taskData = new Map();
+                /** @var Collection<mixed,mixed> */
+                $taskData = Collection::empty();
                 if ($this->withDataItemId && $this->isDataItemIdRead) {
-                    $taskData->putAll(array_combine($this->dataItemIds->toArray(), explode(self::DEFAULT_ITEM_SEP, $rawDataLine)));
+                    $taskData->append(array_combine($this->dataItemIds->all(), explode(self::DEFAULT_ITEM_SEP, $rawDataLine)));
                 } else {
-                    $taskData->putAll(explode(self::DEFAULT_ITEM_SEP, $rawDataLine));
+                    $taskData->append(explode(self::DEFAULT_ITEM_SEP, $rawDataLine));
                 }
                 $newTask = new TaskItem($taskItemId, $taskData);
             }
@@ -254,7 +252,7 @@ class TaskList implements ITaskList
             $newLine = preg_filter(self::LINE_ENDS, '', $dataKeysLine);
             /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($newLine)) {
-                $this->dataItemIds = new Vector(explode(self::DEFAULT_ITEM_SEP, $newLine));
+                $this->dataItemIds = Collection::fromIterable(explode(self::DEFAULT_ITEM_SEP, $newLine));
             }
             $this->isDataItemIdRead = true;
         }

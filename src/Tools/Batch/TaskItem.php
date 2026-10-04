@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
-use Ds\Set;
+use loophp\collection\Collection;
 use ollily\Tools\String\ToStringTrait;
 
 /**
@@ -30,18 +29,18 @@ class TaskItem implements ITaskItem
      *  @phpstan-var TTaskItemId $itemId */
     private mixed $itemId = '';
 
-    /** @var Map<mixed,mixed>
-     *  @phpstan-var Map<TDataKey,TDataValue> $data */
-    private Map $data;
+    /** @var Collection<mixed,mixed>
+     *  @phpstan-var Collection<TDataKey,TDataValue> $data */
+    private Collection $data;
 
     /**
-     * @param mixed            $itemId
-     * @param Map<mixed,mixed> $data
+     * @param mixed                   $itemId
+     * @param Collection<mixed,mixed> $data
      *
-     * @phpstan-param TTaskItemId              $itemId
-     * @phpstan-param Map<TDataKey,TDataValue> $data
+     * @phpstan-param TTaskItemId                     $itemId
+     * @phpstan-param Collection<TDataKey,TDataValue> $data
      */
-    public function __construct(mixed $itemId, Map $data)
+    public function __construct(mixed $itemId, Collection $data)
     {
         $this->itemId = $itemId;
         $this->data = $data;
@@ -54,13 +53,13 @@ class TaskItem implements ITaskItem
     }
 
     #[\Override]
-    public function getData(): Map
+    public function getData(): Collection
     {
         return $this->data;
     }
 
     #[\Override]
-    public function getDataKeys(): Set
+    public function getDataKeys(): Collection
     {
         return $this->data->keys();
     }

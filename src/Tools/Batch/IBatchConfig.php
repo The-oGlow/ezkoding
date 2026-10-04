@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
+use loophp\collection\Collection;
 
 /**
  * @phpstan-type ConfigKey mixed
@@ -22,11 +22,11 @@ use Ds\Map;
 interface IBatchConfig
 {
     /**
-     * @return Map<mixed,mixed>
+     * @return Collection<mixed,mixed>
      *
-     * @phpstan-return Map<ConfigKey,ConfigData>
+     * @phpstan-return Collection<ConfigKey,ConfigData>
      */
-    public function getFullConfig(): Map;
+    public function getFullConfig(): Collection;
 
     /**
      * @param mixed $key

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
+use loophp\collection\Collection;
 use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
 
@@ -24,12 +24,12 @@ class ItemConfigTest extends TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $this->o2t = new BatchConfig(new Map());
+        $this->o2t = new BatchConfig(Collection::empty());
     }
 
     public function testGetFullConfig(): void
     {
-        $expected = new Map();
+        $expected = Collection::empty();
         $actual = $this->o2t->getFullConfig();
 
         self::assertEquals($expected, $actual);

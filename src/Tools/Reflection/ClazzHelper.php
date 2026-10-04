@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
+use ReflectionClass;
+
 /**
  * Helping functions for handling a clazz.
  *
@@ -39,7 +41,7 @@ class ClazzHelper
         try {
             /** @psalm-suppress ArgumentTypeCoercion
              * @phpstan-ignore argument.type */
-            $reflection = new \ReflectionClass($clazzName);
+            $reflection = new ReflectionClass($clazzName);
             $file = $reflection->getFileName();
             if (false === $file) {
                 $file = '';

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
+use loophp\collection\Collection;
 
 /**
  * @phpstan-import-type ConfigKey from IBatchConfig
@@ -21,22 +21,22 @@ use Ds\Map;
  */
 class BatchConfig implements IBatchConfig
 {
-    /** @var Map<mixed,mixed>
-     * @phpstan-var Map<ConfigKey,ConfigData> */
-    private Map $fullConfig;
+    /** @var Collection<mixed,mixed>
+     * @phpstan-var Collection<ConfigKey,ConfigData> */
+    private Collection $fullConfig;
 
     /**
-     * @param Map<mixed,mixed> $fullConfig
+     * @param Collection<mixed,mixed> $fullConfig
      *
-     * @phpstan-param Map<ConfigKey,ConfigData> $fullConfig
+     * @phpstan-param Collection<ConfigKey,ConfigData> $fullConfig
      */
-    public function __construct(Map $fullConfig)
+    public function __construct(Collection $fullConfig)
     {
         $this->fullConfig = $fullConfig;
     }
 
     #[\Override]
-    public function getFullConfig(): Map
+    public function getFullConfig(): Collection
     {
         return $this->fullConfig;
     }
@@ -50,6 +50,6 @@ class BatchConfig implements IBatchConfig
     #[\Override]
     public function setConfig(mixed $key, mixed $value): void
     {
-        $this->fullConfig->put($key, $value);
+        $this->fullConfig->append([$key => $value]);
     }
 }

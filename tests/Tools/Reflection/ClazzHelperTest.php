@@ -15,6 +15,7 @@ namespace ollily\Tools\Reflection;
 
 use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class ClazzHelperTest extends TestCase
 {
@@ -86,7 +87,7 @@ class ClazzHelperTest extends TestCase
      */
     public static function providerGetClazzFile(): array
     {
-        $expectedClazz = new \ReflectionClass(ClazzHelperTest::class);
+        $expectedClazz = new ReflectionClass(ClazzHelperTest::class);
         $expectedFile = $expectedClazz->getFileName();
 
         return [

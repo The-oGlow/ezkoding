@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
-use Ds\Set;
+use loophp\collection\Collection;
 
 /**
  * @phpstan-type TTaskItemId mixed
@@ -31,16 +30,16 @@ interface ITaskItem extends \Stringable
     public function getItemId(): mixed;
 
     /**
-     * return Map<mixed,mixed>.
+     * return Collection<mixed,mixed>.
      *
-     * @phpstan-return Map<TDataKey,TDataValue>
+     * @phpstan-return Collection<TDataKey,TDataValue>
      */
-    public function getData(): Map;
+    public function getData(): Collection;
 
     /**
-     * return Set<mixed>.
+     * return Collection<mixed>.
      *
-     * @phpstan-return Set<TDataKey>
+     * @phpstan-return Collection<TDataKey>
      */
     public function getDataKeys(): Set;
 

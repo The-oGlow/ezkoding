@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
+use ReflectionProperty;
+
 /**
  * Provides access on non public fields in a clazz.
  *
@@ -33,7 +35,7 @@ trait UnavailableFieldsTrait
     {
         $result = null;
         if (!empty($clazzName)) {
-            $refObject = new \ReflectionProperty($clazzName, $fieldName);
+            $refObject = new ReflectionProperty($clazzName, $fieldName);
             $refObject->setAccessible(true); // NOSONAR: php:S3011
 
             $result = $refObject->getValue($instance);  // NOSONAR: php:S3011
@@ -53,7 +55,7 @@ trait UnavailableFieldsTrait
     protected function setFieldByReflection(mixed $clazzName, string $fieldName, mixed $instance, mixed $newValue): void
     {
         if (!empty($clazzName)) {
-            $refObject = new \ReflectionProperty($clazzName, $fieldName);
+            $refObject = new ReflectionProperty($clazzName, $fieldName);
             $refObject->setAccessible(true); // NOSONAR: php:S3011
 
             $refObject->setValue($instance, $newValue);  // NOSONAR: php:S3011

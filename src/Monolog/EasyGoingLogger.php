@@ -17,6 +17,7 @@ use DateTimeZone;
 use ollily\Tools\Emergency;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use ReflectionClass;
 
 /**
  * The only logger you will ever need.
@@ -87,7 +88,7 @@ class EasyGoingLogger
              * @psalm-suppress ArgumentTypeCoercion
              * @phpstan-ignore argument.type
              */
-            $refClazz = new \ReflectionClass($clazzName);
+            $refClazz = new ReflectionClass($clazzName);
             if (is_null($refClazz->getConstructor())) {
                 $instance = $refClazz->newInstance();
             } else {

@@ -82,7 +82,14 @@ class ImplodeTraitTest extends TestCase
         self::assertCount($expectedCount, $actual);
     }
 
-    public function verifyResult(mixed $actual, mixed $testData, int $expectedKeyCount, int $expectedItemCount, bool $withClazz = false): void
+    /**
+     * @param string       $actual
+     * @param array<mixed> $testData
+     * @param int          $expectedKeyCount
+     * @param int          $expectedItemCount
+     * @param bool         $withClazz
+     */
+    public function verifyResult(string $actual, array $testData, int $expectedKeyCount, int $expectedItemCount, bool $withClazz = false): void
     {
         self::assertNotEmpty($actual);
         self::assertEquals($expectedKeyCount, substr_count($actual, self::KEY_SEP));

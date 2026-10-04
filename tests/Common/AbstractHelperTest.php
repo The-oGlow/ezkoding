@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Common;
 
-use Ds\Map;
+use loophp\collection\Collection;
 use ollily\Tools\Test\TestData;
 use PHPUnit\Framework\EasyGoingTestCase;
 
@@ -62,7 +62,7 @@ class AbstractHelperTest extends EasyGoingTestCase
     {
         $expected = true;
 
-        $actual = $this->getCasto2t()->publicValidateSettings(new Map());
+        $actual = $this->getCasto2t()->publicValidateSettings(Collection::empty());
 
         self::assertEquals($expected, $actual);
     }

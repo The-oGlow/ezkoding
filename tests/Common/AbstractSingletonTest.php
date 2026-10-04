@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Common;
 
-use Ds\Map;
+use loophp\collection\Collection;
 use Monolog\EasyGoingLogger;
 use ollily\Tools\Reflection\UnavailableFieldsTrait;
 use ollily\Tools\Test\TestData as TeDa;
@@ -71,7 +71,7 @@ class AbstractSingletonTest extends EasyGoingTestCase
     {
         $expected = TeDa::DATA_EMPTY;
 
-        $actual = $this->getCasto2t()->publicParseBoolCollection(new Map(), TeDa::KEY_ALPHA1);
+        $actual = $this->getCasto2t()->publicParseBoolCollection(Collection::empty(), TeDa::KEY_ALPHA1);
 
         self::assertEquals($expected, $actual);
     }
@@ -96,7 +96,7 @@ class AbstractSingletonTest extends EasyGoingTestCase
 
     public function testPrepareSettings(): void
     {
-        $this->getCasto2t()->publicPrepareSettings(new Map());
+        $this->getCasto2t()->publicPrepareSettings(Collection::empty());
 
         self::assertTrue(true);
     }
@@ -105,7 +105,7 @@ class AbstractSingletonTest extends EasyGoingTestCase
     {
         $expected = true;
 
-        $actual = $this->getCasto2t()->publicValidateSettings(new Map());
+        $actual = $this->getCasto2t()->publicValidateSettings(Collection::empty());
 
         self::assertEquals($expected, $actual);
     }

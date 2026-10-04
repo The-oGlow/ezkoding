@@ -30,8 +30,8 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.4.1",
-        "ext-ds": "^1.0",
         "composer/composer": "^2.0",
+        "loophp/collection": "*",
         "psr/log": "^2.0||^3.0",
         "twig/twig": "^3.27"
     },
@@ -40,7 +40,6 @@
     "suggest": {
     },
     "require-dev": {
-        "php-ds/php-ds": "^1.0",
         "phpunit/phpunit": "^13.1",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-strict-rules": "^2.0",
@@ -125,8 +124,8 @@
         ],
         "c-phpstan": "@php vendor/bin/phpstan analyse",
         "c-psalm": "@php vendor/bin/psalm --report=target/analysis/psalm/psalm-report.txt",
-        "c-dry-psalter": "@php vendor/bin/psalter --dry-run --issues=MissingReturnType,MissingClosureReturnType,MissingParamType,MissingPropertyType,PossiblyUndefinedVariable,PossiblyUndefinedGlobalVariable,ParamNameMismatch",
-        "c-psalter": "@php vendor/bin/psalter --issues=MissingReturnType,MissingClosureReturnType,MissingParamType,MissingPropertyType,PossiblyUndefinedVariable,PossiblyUndefinedGlobalVariable,ParamNameMismatch",
+        "c-dry-psalter": "@php vendor/bin/psalter --dry-run --issues=InvalidReturnType,MissingReturnType,MissingClosureReturnType,MissingParamType,MissingPropertyType,PossiblyUndefinedVariable,PossiblyUndefinedGlobalVariable,ParamNameMismatch",
+        "c-psalter": "@php vendor/bin/psalter --issues=InvalidReturnType,MissingReturnType,MissingClosureReturnType,MissingParamType,MissingPropertyType,PossiblyUndefinedVariable,PossiblyUndefinedGlobalVariable,ParamNameMismatch",
         "c-sonar": [
             "composer c-test",
             "@php -Dproject.settings=sonar-project.properties vendor/bin/sonar-scanner"

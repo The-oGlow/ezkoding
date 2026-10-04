@@ -16,6 +16,7 @@ namespace PHPUnit\Framework;
 use BackedEnum;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
+use ReflectionClass;
 use UnitEnum;
 
 /**
@@ -127,7 +128,7 @@ abstract class EasyGoingTestCase extends TestCase
      */
     protected static function getAllDefinedConsts(mixed $clazzName): array
     {
-        $instance = new \ReflectionClass($clazzName);
+        $instance = new ReflectionClass($clazzName);
 
         return $instance->getConstants(); // NOSONAR: php:S3011
     }
@@ -183,11 +184,11 @@ abstract class EasyGoingTestCase extends TestCase
             return str_starts_with($key, $filterTerm);
         };
         $consts = array_filter(self::getAllDefinedConsts($clazzName), $callback, ARRAY_FILTER_USE_BOTH);
-        $constsMap = function (mixed $val) use ($clazzName): string {
+        $callback = function (mixed $val) use ($clazzName): string {
             return $clazzName . self::C_STATIC_SEP . $val;
         };
 
-        return array_map($constsMap, array_keys($consts));
+        return array_map($callback, array_keys($consts));
     }
 
     /**
@@ -209,7 +210,7 @@ abstract class EasyGoingTestCase extends TestCase
             self::$logger->debug('Cannot get value by constant()', [$constantName]);
         }
         if (!isset($constantValue)) {
-            $reflectionClazz = new \ReflectionClass($clazzName);
+            $reflectionClazz = new ReflectionClass($clazzName);
             $splitClazz      = explode(self::C_STATIC_SEP, $constantName);
             $constantValue   = $reflectionClazz->getConstant($splitClazz[count($splitClazz) - 1]); // NOSONAR: php:S3011
             self::$logger->debug('Recieved by reflection', [$constantName]);

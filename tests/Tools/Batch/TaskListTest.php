@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
+use loophp\collection\Collection;
 use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\EasyGoingTestCase;
+use ReflectionClass;
 
 class TaskListTest extends EasyGoingTestCase
 {
@@ -32,7 +33,7 @@ class TaskListTest extends EasyGoingTestCase
     #[\Override]
     public function setUp(): void
     {
-        self::$listConfig = new BatchConfig(new Map([TeDa::KEY_ALPHA1 => TeDa::DATA_ALPHA1]));
+        self::$listConfig = new BatchConfig(Collection::fromIterable([TeDa::KEY_ALPHA1 => TeDa::DATA_ALPHA1]));
         parent::setUp();
     }
 
@@ -114,7 +115,7 @@ class TaskListTest extends EasyGoingTestCase
             $item = $this->getCasto2t()->nextTask();
             self::assertNotNull($item);
             self::assertEquals($listKey . $idx, $item->getItemId());
-            self::assertEquals(new Map([self::DATA . $idx, $idx * 10]), $item->getData());
+            self::assertEquals(Collection::fromIterable([self::DATA . $idx, $idx * 10]), $item->getData());
         }
 
         $item = $this->getCasto2t()->nextTask();
@@ -124,7 +125,7 @@ class TaskListTest extends EasyGoingTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('providerTaskListFile')]
     public function testReadFileFile(bool $expected, int $expectedCount, string $fileName): void
     {
-        $this->o2t = new TaskList(self::class, new BatchConfig(new Map()));
+        $this->o2t = new TaskList(self::class, new BatchConfig(Collection::empty()));
         $actual = $this->getCasto2t()->readFile($fileName);
 
         self::assertEquals($expectedCount, $this->getCasto2t()->count());
@@ -179,7 +180,7 @@ class TaskListTest extends EasyGoingTestCase
      */
     public static function prepareFiles(): array
     {
-        $reflector = new \ReflectionClass(self::class);
+        $reflector = new ReflectionClass(self::class);
         $path = realpath('' . $reflector->getFileName());
         if ($path !== false) {
             $emptyFile = str_replace(TeDa::FILE_EXT_PHP, 'Empty' . TeDa::FILE_EXT_CSV, $path);
@@ -204,8 +205,8 @@ class TaskListTest extends EasyGoingTestCase
 
         for ($idx = 0; $idx < $count; $idx++) {
             $itemId = "$listId" . $idx;
-            /** @var Map<mixed,mixed> */
-            $data = new Map([self::DATA . $idx, $idx * 10]);
+            /** @var Collection<mixed,mixed> */
+            $data = Collection::fromIterable([self::DATA . $idx, $idx * 10]);
             $taskItems[] = new TaskItem($itemId, $data);
         }
 

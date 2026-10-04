@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
+use loophp\collection\Collection;
 use ollily\Tools\Test\TestData as TeDa;
 use PHPUnit\Framework\EasyGoingTestCase;
 
@@ -25,15 +25,15 @@ class TaskItemTest extends EasyGoingTestCase
 {
     public const int LIST_ID = TeDa::KEY_NUM1;
 
-    /** @var Map<TDataKey,TDataValue> */
-    public static Map $data;
+    /** @var Collection<TDataKey,TDataValue> */
+    public static Collection $data;
 
     #[\Override]
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
-        self::$data = new Map([TeDa::DATA_ALPHA1, TeDa::DATA_BOOL_T]);
+        self::$data = Collection::fromIterable([TeDa::DATA_ALPHA1, TeDa::DATA_BOOL_T]);
     }
 
     #[\Override]

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Batch;
 
-use Ds\Map;
+use loophp\collection\Collection;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
@@ -34,9 +34,9 @@ class BatchTaskHelper
 
     private static bool $isInit = false;
 
-    /** @var Map<mixed,TaskList>
-     * @phpstan-var Map<TTaskListId,TaskList> */
-    protected static Map $tasklists;
+    /** @var Collection<mixed,TaskList>
+     * @phpstan-var Collection<TTaskListId,TaskList> */
+    protected static Collection $tasklists;
 
     protected static LoggerInterface $logger;
 
@@ -57,10 +57,10 @@ class BatchTaskHelper
                 self::$logger = EasyGoingLogger::init(BatchTaskHelper::class);
             }
             if (!isset(self::$tasklists)) {
-                self::$tasklists = new Map();
+                self::$tasklists = Collection::empty();
             }
             if (!isset(self::$defaultConfig)) {
-                self::$defaultConfig = new BatchConfig(new Map());
+                self::$defaultConfig = new BatchConfig(Collection::empty());
             }
             self::$isInit = true;
         }
@@ -77,11 +77,11 @@ class BatchTaskHelper
     }
 
     /**
-     * @return Map<mixed,TaskList>
+     * @return Collection<mixed,TaskList>
      *
-     * @phpstan-return Map<TTaskListId,TaskList>
+     * @phpstan-return Collection<TTaskListId,TaskList>
      */
-    private static function taskLists(): Map
+    private static function taskLists(): Collection
     {
         self::init();
 
@@ -118,7 +118,7 @@ class BatchTaskHelper
         $listId = empty($listId) ? self::DEFAULT : $listId;
         $listConfig = empty($listConfig) ? self::defaultConfig() : $listConfig;
         if (!self::taskLists()->hasKey($listId)) {
-            self::taskLists()->put($listId, new TaskList($listId, $listConfig, $withHeader));
+            self::taskLists()->append([$listId => new TaskList($listId, $listConfig, $withHeader)]);
         }
 
         self::logger()->debug('END');

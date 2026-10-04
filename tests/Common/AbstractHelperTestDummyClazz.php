@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Common;
 
-use Ds\Collection;
+use loophp\collection\Collection;
 
 /**
  * @author ollily

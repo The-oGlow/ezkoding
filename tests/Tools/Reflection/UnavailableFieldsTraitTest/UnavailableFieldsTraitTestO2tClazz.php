@@ -42,7 +42,7 @@ class UnavailableFieldsTraitTestO2tClazz
         return $this->getFieldByReflection(UnavailableFieldsTraitDummyClazz::class, $fieldName, $this->o2t);
     }
 
-    public function publicSetFieldByReflection(string $fieldName, mixed $newValue): void
+    public function publicSetFieldByReflection(string $fieldName, string $newValue): void
     {
         $this->setFieldByReflection(UnavailableFieldsTraitDummyClazz::class, $fieldName, $this->o2t, $newValue);
     }
