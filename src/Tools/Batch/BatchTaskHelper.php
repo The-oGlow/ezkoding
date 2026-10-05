@@ -34,8 +34,7 @@ class BatchTaskHelper
 
     private static bool $isInit = false;
 
-    /** @var Map<mixed,TaskList>
-     * @phpstan-var Map<TTaskListId,TaskList> */
+    /** @var Map<TTaskListId,TaskList> */
     protected static Map $tasklists;
 
     protected static LoggerInterface $logger;
@@ -77,9 +76,7 @@ class BatchTaskHelper
     }
 
     /**
-     * @return Map<mixed,TaskList>
-     *
-     * @phpstan-return Map<TTaskListId,TaskList>
+     * @return Map<TTaskListId,TaskList>
      */
     private static function taskLists(): Map
     {
@@ -99,11 +96,9 @@ class BatchTaskHelper
     }
 
     /**
-     * @param mixed         $listId
+     * @param TTaskListId   $listId
      * @param ?IBatchConfig $listConfig
      * @param bool          $withHeader TRUE=with heade columns, else FALSE (only used, if tasklist will be newly created)
-     *
-     * @phpstan-param $listId TTaskListId
      *
      * @return TaskList
      */
@@ -129,10 +124,8 @@ class BatchTaskHelper
     /**
      * @param string        $fileName
      * @param ?IBatchConfig $listConfig
-     * @param mixed         $listId
+     * @param TTaskListId   $listId
      * @param bool          $withHeader TRUE=with heade columns, else FALSE
-     *
-     * @phpstan-param TTaskListId $listId
      *
      * @return TaskList
      */

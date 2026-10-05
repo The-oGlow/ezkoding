@@ -23,6 +23,7 @@
     <issueHandlers>
         <UnusedPsalmSuppress errorLevel="error"/>
         <!-- too strict -->
+        <AmbiguousConstantInheritance errorLevel="info"/>  
         <ClassMustBeFinal errorLevel="info"/>
         <InternalMethod errorLevel="info"/>
         <LessSpecificImplementedReturnType errorLevel="info"/>
@@ -36,6 +37,7 @@
         <MoreSpecificReturnType errorLevel="suppress"/>
         <PropertyNotSetInConstructor errorLevel="info"/>
         <UndefinedConstant errorLevel="info"/>
+        <!-- Custom suppression -->
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>

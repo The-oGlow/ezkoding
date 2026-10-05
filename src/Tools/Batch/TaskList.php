@@ -32,7 +32,7 @@ class TaskList implements ITaskList
     /** @var TTaskListId */
     private mixed $listId;
 
-    /** @var Seq<TDataKey> */
+    /** @var Seq */
     private Seq $dataItemIds;
 
     private bool $isDataItemIdRead = false;
@@ -41,15 +41,13 @@ class TaskList implements ITaskList
 
     private IBatchConfig $listConfig;
 
-    /** @var Seq<ITaskItem> */
+    /** @var Seq */
     private Seq $tasks;
 
     /**
-     * @param mixed        $listId
+     * @param TTaskListId  $listId
      * @param IBatchConfig $listConfig
      * @param bool         $withDataItemId
-     *
-     * @phpstan-param TTaskListId $listId
      */
     public function __construct(mixed $listId, IBatchConfig $listConfig, bool $withDataItemId = self::DEFAULT_WITH_DATA_ITEM_ID)
     {
@@ -209,10 +207,8 @@ class TaskList implements ITaskList
     }
 
     /**
-     * @param mixed $taskItemId
-     * @param mixed $taskDataLine The raw taskdata
-     *
-     * @phpstan-param TTaskItemId $taskItemId
+     * @param TTaskItemId $taskItemId
+     * @param mixed       $taskDataLine The raw taskdata
      */
     protected function parseTaskData(mixed $taskItemId, mixed $taskDataLine): ?ITaskItem
     {

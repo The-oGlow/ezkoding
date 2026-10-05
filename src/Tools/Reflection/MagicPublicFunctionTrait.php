@@ -82,9 +82,7 @@ trait MagicPublicFunctionTrait
     /**
      * Collecting the public methods of a clazz.
      *
-     * @param string $clazzName Name of the clazz
-     *
-     * @phpstan-param class-string $clazzName
+     * @param class-string $clazzName Name of the clazz
      *
      * @return array<\ReflectionMethod> All public methods of {@link $clazzName)
      */

@@ -110,6 +110,8 @@ abstract class AbstractSingleton implements ISingleton
      * @param string       $shortOpts Override parameter as short version
      * @param array<mixed> $longOpts  Override parameter as long version
      *
+     * @psalm-suppress InvalidReturnType
+     *
      * @return Map<mixed, mixed> A map of override parameter
      */
     private static function parseArguments(string $shortOpts, array $longOpts): Map
@@ -121,6 +123,7 @@ abstract class AbstractSingleton implements ISingleton
             $mapOpts = new Map($opts);
         }
 
+        /** @psalm-suppress InvalidReturnStatement */
         return $mapOpts;
     }
 

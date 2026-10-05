@@ -168,14 +168,12 @@ abstract class EasyGoingTestCase extends TestCase
     /**
      * Returns a filtered list of all public constants in the clazz.
      *
-     * @param string $filterTerm A filter text matching a constant from the beginning
-     * @param mixed  $clazzName  The name of the clazz
-     *
-     * @see EasyGoingTestCase::getAllDefinedConsts()
-     *
-     * @phpstan-param class-string $clazzName
+     * @param string       $filterTerm A filter text matching a constant from the beginning
+     * @param class-string $clazzName  The name of the clazz
      *
      * @return array<mixed> Array of all public constants in the clazz
+     *
+     * @see EasyGoingTestCase::getAllDefinedConsts()
      */
     protected static function filterConsts(string $filterTerm, mixed $clazzName): array
     {

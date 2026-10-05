@@ -26,20 +26,15 @@ class TaskItem implements ITaskItem
 {
     use ToStringTrait;
 
-    /** @var mixed
-     *  @phpstan-var TTaskItemId $itemId */
+    /** @var TTaskItemId */
     private mixed $itemId = '';
 
-    /** @var Map<mixed,mixed>
-     *  @phpstan-var Map<TDataKey,TDataValue> $data */
+    /** @var Map<TDataKey,TDataValue> */
     private Map $data;
 
     /**
-     * @param mixed            $itemId
-     * @param Map<mixed,mixed> $data
-     *
-     * @phpstan-param TTaskItemId              $itemId
-     * @phpstan-param Map<TDataKey,TDataValue> $data
+     * @param TTaskItemId              $itemId
+     * @param Map<TDataKey,TDataValue> $data
      */
     public function __construct(mixed $itemId, Map $data)
     {
@@ -47,24 +42,38 @@ class TaskItem implements ITaskItem
         $this->data = $data;
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     public function getItemId(): mixed
     {
         return $this->itemId;
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     public function getData(): Map
     {
         return $this->data;
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @phpstan-ignore missingType.generics
+     */
     #[\Override]
     public function getDataKeys(): Set
     {
         return $this->data->keys();
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     public function getDataValue(mixed $dataKey): mixed
     {
@@ -77,24 +86,36 @@ class TaskItem implements ITaskItem
         return $value;
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     public function isDataKeyExist(mixed $dataKey): bool
     {
         return $this->data->hasKey($dataKey);
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     public function empty(): bool
     {
         return $this->data->isEmpty();
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     public function count(): int
     {
         return $this->data->count();
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     protected function __toStringValues(): mixed // NOSONAR: php:S100
     {
