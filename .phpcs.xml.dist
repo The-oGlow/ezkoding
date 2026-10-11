@@ -40,7 +40,7 @@
     <rule ref="Generic.Formatting.MultipleStatementAlignment">
         <properties>
             <property name="alignAtEnd" value="true" />
-            <property name="maxPadding" value="30" />
+            <property name="maxPadding" value="50" />
         </properties>
     </rule>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax" />

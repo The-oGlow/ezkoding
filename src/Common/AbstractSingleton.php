@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace ollily\Common;
 
-use Ds\Collection;
 use Ds\Map;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
@@ -28,7 +27,7 @@ use Psr\Log\LogLevel;
  */
 abstract class AbstractSingleton implements ISingleton
 {
-    /** @var array<object> the real instance of the singleton */
+    /** @var array<ISingleton> the real instance of the singleton */
     private static array $instance = [];
 
     private static LoggerInterface $logger;
@@ -56,23 +55,20 @@ abstract class AbstractSingleton implements ISingleton
     }
 
     /**
-     * Returns static access on this singletion.
-     *
-     * @param bool                   $withLogger TRUE=activate logging, else FALSE
-     * @param int|LogLevel::*|string $level      The minimum logging level at which this handler will be triggered (Default: {@link ISingleton::LEVEL_DEFAULT})
-     *
-     * @return mixed Reference on this singleton
+     * @inheritDoc
      *
      * @SuppressWarnings("PHPMD.ShortMethodName")
      */
     #[\Override]
-    final public static function i(bool $withLogger = true, int|LogLevel|string $level = ISingleton::LEVEL_DEFAULT): mixed
+    final public static function i(bool $withLogger = true, int|LogLevel|string $level = ISingleton::LEVEL_DEFAULT): static
     {
         $key = static::class;
         if (!array_key_exists($key, self::$instance)) {
             self::$instance[$key] = new static($withLogger, $level);
         }
 
+        /** @psalm-suppress LessSpecificReturnStatement
+         * @phpstan-ignore return.type */
         return self::$instance[$key];
     }
 
@@ -89,12 +85,12 @@ abstract class AbstractSingleton implements ISingleton
     /**
      * Returns a boolean value from a settings entry (incl. overrides).
      *
-     * @param Collection<mixed, mixed> $overrideParameters Override the settings with these parameters
-     * @param string                   $keyName            The id of a bool parameter
+     * @param Map<mixed, mixed> $overrideParameters Override the settings with these parameters
+     * @param string            $keyName            The id of a bool parameter
      *
      * @return mixed The boolean value of the parameter or ''
      */
-    protected function parseBool(Collection $overrideParameters, string $keyName): mixed
+    protected function parseBool(Map $overrideParameters, string $keyName): mixed
     {
         /** @var mixed */
         $foundBool = '';
@@ -114,9 +110,11 @@ abstract class AbstractSingleton implements ISingleton
      * @param string       $shortOpts Override parameter as short version
      * @param array<mixed> $longOpts  Override parameter as long version
      *
-     * @return Collection<mixed, mixed> A collection of override parameter
+     * @psalm-suppress InvalidReturnType
+     *
+     * @return Map<mixed, mixed> A map of override parameter
      */
-    private static function parseArguments(string $shortOpts, array $longOpts): Collection
+    private static function parseArguments(string $shortOpts, array $longOpts): Map
     {
         /** @var Map<mixed,mixed> */
         $mapOpts = new Map();
@@ -125,17 +123,18 @@ abstract class AbstractSingleton implements ISingleton
             $mapOpts = new Map($opts);
         }
 
+        /** @psalm-suppress InvalidReturnStatement */
         return $mapOpts;
     }
 
     /**
      * Initialize this singleton with the settings.
      *
-     * @param Collection<mixed, mixed> $overrideParameters Override the settings with these parameters
+     * @param Map<mixed, mixed> $overrideParameters Override the settings with these parameters
      *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
-    protected function prepareSettings(Collection $overrideParameters): void
+    protected function prepareSettings(Map $overrideParameters): void
     {
         // nothing to do here
     }
@@ -143,13 +142,13 @@ abstract class AbstractSingleton implements ISingleton
     /**
      * Check, if the settings are valid.
      *
-     * @param Collection<mixed, mixed> $overrideParameters Verify the settings with these parameters
+     * @param Map<mixed, mixed> $overrideParameters Verify the settings with these parameters
      *
      * @return bool TRUE=settings are valid, else FALSE
      *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
-    protected function validateSettings(Collection $overrideParameters): bool
+    protected function validateSettings(Map $overrideParameters): bool
     {
         return true;
     }

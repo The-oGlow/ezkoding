@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace ollily\Common;
 
-use Ds\Collection;
+use Ds\Map;
 
 /**
  * @author ollily
@@ -24,7 +24,7 @@ class AbstractHelperTestDummyClazz extends AbstractHelper
      * @inheritDoc
      */
     #[\Override]
-    protected function validateSettings(Collection $overrideParameters): bool
+    protected function validateSettings(Map $overrideParameters): bool
     {
         $result = false;
         if ($overrideParameters->isEmpty()) {
@@ -37,11 +37,11 @@ class AbstractHelperTestDummyClazz extends AbstractHelper
     // Change visibility
 
     /**
-     * @param Collection<mixed,mixed> $overrideParameters
+     * @param Map<mixed,mixed> $overrideParameters
      *
      * @return bool
      */
-    public function publicValidateSettings(Collection $overrideParameters): bool
+    public function publicValidateSettings(Map $overrideParameters): bool
     {
         return $this->validateSettings($overrideParameters);
     }

@@ -28,20 +28,30 @@ class TaskItemTest extends EasyGoingTestCase
     /** @var Map<TDataKey,TDataValue> */
     public static Map $data;
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
+        /** @psalm-suppress InvalidPropertyAssignmentValue */
         self::$data = new Map([TeDa::DATA_ALPHA1, TeDa::DATA_BOOL_T]);
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     protected static function prepareO2t(): ITaskItem
     {
         return new TaskItem(self::LIST_ID, self::$data);
     }
 
+    /**
+     * @inheritDoc
+     */
     #[\Override]
     protected function getCasto2t(): ITaskItem
     {

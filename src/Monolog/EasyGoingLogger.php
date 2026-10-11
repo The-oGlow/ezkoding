@@ -72,7 +72,7 @@ class EasyGoingLogger
         /** @var mixed $instance */
         $instance = null;
 
-        /** @phpstan-var class-string<LoggerInterface> $clazzName */
+        /** @var class-string<LoggerInterface> $clazzName */
         foreach (self::LOGGER_CHOICE as $clazzName) {
             if (class_exists($clazzName)) {
                 break;

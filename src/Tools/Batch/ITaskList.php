@@ -28,9 +28,7 @@ interface ITaskList
     public const bool DEFAULT_WITH_DATA_ITEM_ID = false;
 
     /**
-     * @return mixed The unique identifier of this task list
-     *
-     * @phpstan-return TTaskListId
+     * @return TTaskListId The unique identifier of this task list
      */
     public function getListId(): mixed;
 
@@ -40,16 +38,12 @@ interface ITaskList
     public function getListConfig(): IBatchConfig;
 
     /**
-     * @param ITaskItem $taskItem Add a new task
-     *
-     * @phpstan-param TTaskItem $taskItem
+     * @param TTaskItem $taskItem Add a new task
      */
     public function addTask(ITaskItem $taskItem): void;
 
     /**
-     * @return null|ITaskItem The task item on top of the queue or null
-     *
-     * @phpstan-return TTaskItem
+     * @return null|TTaskItem The task item on top of the queue or null
      */
     public function nextTask(): ?ITaskItem;
 

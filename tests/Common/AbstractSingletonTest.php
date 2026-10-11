@@ -67,11 +67,11 @@ class AbstractSingletonTest extends EasyGoingTestCase
         self::assertContains($actual, $expected);
     }
 
-    public function testParseBoolCollection(): void
+    public function testParseBoolMap(): void
     {
         $expected = TeDa::DATA_EMPTY;
 
-        $actual = $this->getCasto2t()->publicParseBoolCollection(new Map(), TeDa::KEY_ALPHA1);
+        $actual = $this->getCasto2t()->publicParseBoolMap(new Map(), TeDa::KEY_ALPHA1);
 
         self::assertEquals($expected, $actual);
     }

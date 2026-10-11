@@ -21,14 +21,11 @@ use Ds\Map;
  */
 class BatchConfig implements IBatchConfig
 {
-    /** @var Map<mixed,mixed>
-     * @phpstan-var Map<ConfigKey,ConfigData> */
+    /** @var Map<ConfigKey,ConfigData> */
     private Map $fullConfig;
 
     /**
-     * @param Map<mixed,mixed> $fullConfig
-     *
-     * @phpstan-param Map<ConfigKey,ConfigData> $fullConfig
+     * @param Map<ConfigKey,ConfigData> $fullConfig
      */
     public function __construct(Map $fullConfig)
     {

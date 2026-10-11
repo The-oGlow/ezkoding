@@ -14,8 +14,7 @@ declare(strict_types=1);
 namespace ollily\Tools\Batch;
 
 use Ds\Map;
-use Ds\Queue;
-use Ds\Vector;
+use Ds\Seq;
 use Monolog\EasyGoingLogger;
 use Psr\Log\LoggerInterface;
 
@@ -33,8 +32,8 @@ class TaskList implements ITaskList
     /** @var TTaskListId */
     private mixed $listId;
 
-    /** @var Vector<TDataKey> */
-    private Vector $dataItemIds;
+    /** @var Seq */
+    private Seq $dataItemIds;
 
     private bool $isDataItemIdRead = false;
 
@@ -42,15 +41,13 @@ class TaskList implements ITaskList
 
     private IBatchConfig $listConfig;
 
-    /** @var Queue<ITaskItem> */
-    private Queue $tasks;
+    /** @var Seq */
+    private Seq $tasks;
 
     /**
-     * @param mixed        $listId
+     * @param TTaskListId  $listId
      * @param IBatchConfig $listConfig
      * @param bool         $withDataItemId
-     *
-     * @phpstan-param TTaskListId $listId
      */
     public function __construct(mixed $listId, IBatchConfig $listConfig, bool $withDataItemId = self::DEFAULT_WITH_DATA_ITEM_ID)
     {
@@ -58,8 +55,8 @@ class TaskList implements ITaskList
         $this->listId = $listId;
         $this->withDataItemId = $withDataItemId;
         $this->listConfig = $listConfig;
-        $this->tasks = new Queue();
-        $this->dataItemIds = new Vector();
+        $this->tasks = new Seq();
+        $this->dataItemIds = new Seq();
     }
 
     /**
@@ -210,10 +207,8 @@ class TaskList implements ITaskList
     }
 
     /**
-     * @param mixed $taskItemId
-     * @param mixed $taskDataLine The raw taskdata
-     *
-     * @phpstan-param TTaskItemId $taskItemId
+     * @param TTaskItemId $taskItemId
+     * @param mixed       $taskDataLine The raw taskdata
      */
     protected function parseTaskData(mixed $taskItemId, mixed $taskDataLine): ?ITaskItem
     {
@@ -254,7 +249,7 @@ class TaskList implements ITaskList
             $newLine = preg_filter(self::LINE_ENDS, '', $dataKeysLine);
             /** @psalm-suppress RiskyTruthyFalsyComparison */
             if (!empty($newLine)) {
-                $this->dataItemIds = new Vector(explode(self::DEFAULT_ITEM_SEP, $newLine));
+                $this->dataItemIds = new Seq(explode(self::DEFAULT_ITEM_SEP, $newLine));
             }
             $this->isDataItemIdRead = true;
         }

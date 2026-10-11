@@ -24,41 +24,31 @@ use Ds\Set;
 interface ITaskItem extends \Stringable
 {
     /**
-     * return mixed.
-     *
-     * @phpstan-return TTaskItemId
+     * @return TTaskItemId
      */
     public function getItemId(): mixed;
 
     /**
-     * return Map<mixed,mixed>.
-     *
-     * @phpstan-return Map<TDataKey,TDataValue>
+     * @return Map<TDataKey,TDataValue>
      */
     public function getData(): Map;
 
     /**
-     * return Set<mixed>.
+     * return Set<TDataKey>.
      *
-     * @phpstan-return Set<TDataKey>
+     * @phpstan-ignore missingType.generics
      */
     public function getDataKeys(): Set;
 
     /**
-     * @param mixed $dataKey
+     * @param TDataKey $dataKey
      *
-     * @phpstan-param TDataKey $dataKey
-     *
-     * @return mixed
-     *
-     * @phpstan-return TDataValue
+     * @return TDataValue
      */
     public function getDataValue(mixed $dataKey): mixed;
 
     /**
-     * @param mixed $dataKey
-     *
-     * @phpstan-param TDataKey $dataKey
+     * @param TDataKey $dataKey
      *
      * @return bool TRUE=Item is empty, else false
      */
