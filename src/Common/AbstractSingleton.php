@@ -27,7 +27,7 @@ use Psr\Log\LogLevel;
  */
 abstract class AbstractSingleton implements ISingleton
 {
-    /** @var array<ISingleton> the real instance of the singleton */
+    /** @var array<AbstractSingleton> the real instance of the singleton */
     private static array $instance = [];
 
     private static LoggerInterface $logger;
@@ -67,7 +67,9 @@ abstract class AbstractSingleton implements ISingleton
             self::$instance[$key] = new static($withLogger, $level);
         }
 
-        /** @psalm-suppress LessSpecificReturnStatement
+        /**
+         * Does not recognize that it is static.
+         *
          * @phpstan-ignore return.type */
         return self::$instance[$key];
     }
@@ -110,8 +112,6 @@ abstract class AbstractSingleton implements ISingleton
      * @param string       $shortOpts Override parameter as short version
      * @param array<mixed> $longOpts  Override parameter as long version
      *
-     * @psalm-suppress InvalidReturnType
-     *
      * @return Map<mixed, mixed> A map of override parameter
      */
     private static function parseArguments(string $shortOpts, array $longOpts): Map
@@ -120,10 +120,10 @@ abstract class AbstractSingleton implements ISingleton
         $mapOpts = new Map();
         $opts = getopt($shortOpts, $longOpts);
         if (is_array($opts)) {
+            /** @var Map<mixed,mixed> */
             $mapOpts = new Map($opts);
         }
 
-        /** @psalm-suppress InvalidReturnStatement */
         return $mapOpts;
     }
 

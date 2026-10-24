@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace ollily\Tools\Reflection;
 
+use TypeError;
+
 /**
  * Provides access on non public methods in a clazz.
  *
@@ -59,14 +61,17 @@ trait UnavailableMethodsTrait
         $result = null;
 
         /**
-         * @psalm-suppress RedundantPropertyInitializationCheck,UndefinedThisPropertyFetch
+         * Trait does not know where it is used.
+         *
+         * @psalm-suppress UndefinedThisPropertyFetch
          * @phpstan-ignore isset.property,property.notFound
          */
         if (isset($this->o2t)) {
-            $clazzName = get_class($this->o2t);
-            /** @psalm-suppress RedundantCondition */
-            if (!empty($clazzName)) {
+            try {
+                $clazzName = get_class($this->o2t);
                 $result = $this->callMethodByReflection($clazzName, $methodName, $this->o2t, $parameters);
+            } catch (TypeError $tException) {
+                // ignore
             }
         }
 

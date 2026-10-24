@@ -28,7 +28,7 @@ class Emergency
     private const int ERR_CODE_MAX = 254;
 
     /**
-     * Immediately stopping the application caused by an exception. As a hmomage to "Knight Rider".
+     * Immediately stopping the application caused by an exception.
      *
      * @param \Throwable $throwable The exception which is thrown to end the application
      * @param bool       $unitTest  TRUE=don't call exit(), it's an unit test, FALSE= Standard termination (Default: FALSE)
@@ -39,12 +39,11 @@ class Emergency
     {
         $errMsg = sprintf('\%s - %s', $throwable::class, $throwable->getMessage());
 
-        /** @psalm-suppress PossiblyInvalidArgument */
-        return static::breakSystem($throwable->getCode(), $errMsg, $unitTest);
+        return static::breakSystem(intval($throwable->getCode()), $errMsg, $unitTest);
     }
 
     /**
-     * Immediately stopping the application. As a hmomage to "Knight Rider"'s "Emergency Break System".
+     * Immediately stopping the application. As a homage to "Knight Rider"'s "Emergency Break System".
      *
      * @param int    $errorCode    The error code for ending the application
      * @param string $errorMessage The error message for ending the application

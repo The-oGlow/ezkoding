@@ -79,8 +79,6 @@ class ToStringTraitTest extends TestCase
 
     /**
      * @return array<mixed>
-     *
-     * @psalm-suppress InvalidArgument
      */
     public static function provideDataToString(): array
     {
@@ -99,7 +97,7 @@ class ToStringTraitTest extends TestCase
             ],
             'BoolAsValue' => [
                 TeDa::DATA_BOOL_T,
-                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, TeDa::DATA_BOOL_T),
+                sprintf(self::FORMAT_OBJECT, ToStringTraitTestDummyClazz::class, strval(TeDa::DATA_BOOL_T)),
             ],
             'ObjectAsValue' => [
                 TeDa::DATA_OBJECT1(),
@@ -120,7 +118,7 @@ class ToStringTraitTest extends TestCase
                         self::FORMAT_ARRAY_KEY_NUM_SEARCH,
                         self::FORMAT_ARRAY_ELEM_REPLACE,
                         self::implode_recursive(self::FORMAT_ARRAY_SPACE_SEP, TeDa::ARRAY_ALPHA3, false, true)
-                    )
+                    ) ?? '',
                 ),
             ],
             'ArrayWithAlphaKeys' => [
@@ -132,7 +130,7 @@ class ToStringTraitTest extends TestCase
                         self::FORMAT_ARRAY_KEY_ALPHA_SEARCH,
                         self::FORMAT_ARRAY_ELEM_REPLACE,
                         self::implode_recursive(self::FORMAT_ARRAY_SPACE_SEP, TeDa::ARRAY_ALPHA_KEY2, false, true)
-                    )
+                    ) ?? '',
                 ),
             ],
             'ArrayWithObjectValues' => [

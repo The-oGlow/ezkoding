@@ -19,7 +19,7 @@ class EasyGoingLoggerTest extends TestCase
 {
     public function testInit(): void
     {
-        /** @psalm-var class-string */
+        /** @var class-string */
         $expected = 'Psr\Log\NullLogger';
 
         $actual = EasyGoingLogger::init(self::class);

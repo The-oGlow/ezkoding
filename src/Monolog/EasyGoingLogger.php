@@ -69,12 +69,11 @@ class EasyGoingLogger
         array $processors = [],
         ?DateTimeZone $timezone = null
     ): LoggerInterface {
-        /** @var mixed $instance */
-        $instance = null;
-
-        /** @var class-string<LoggerInterface> $clazzName */
-        foreach (self::LOGGER_CHOICE as $clazzName) {
-            if (class_exists($clazzName)) {
+        /** @var mixed $clazzName */
+        $clazzName = self::LOGGER_NULL;
+        foreach (self::LOGGER_CHOICE as $loggerChoice) {
+            if (class_exists($loggerChoice)) {
+                $clazzName = $loggerChoice;
                 break;
             }
         }
@@ -83,17 +82,16 @@ class EasyGoingLogger
         }
 
         try {
-            /**
-             * @psalm-suppress ArgumentTypeCoercion
-             * @phpstan-ignore argument.type
-             */
             $refClazz = new \ReflectionClass($clazzName);
             if (is_null($refClazz->getConstructor())) {
+                /** @var LoggerInterface */
                 $instance = $refClazz->newInstance();
             } else {
                 if (self::LOGGER_CONSOLE == $clazzName) {
+                    /** @var LoggerInterface */
                     $instance = $refClazz->newInstance($name, $handlers, $processors, $timezone, $level);
                 } else {
+                    /** @var LoggerInterface */
                     $instance = $refClazz->newInstance($name, $handlers, $processors, $timezone);
                 }
             }
@@ -102,8 +100,10 @@ class EasyGoingLogger
         }
 
         /**
-         * @psalm-suppress LessSpecificReturnStatement
-         */
+         * Variable is always defined!
+         *
+         * @psalm-suppress PossiblyUndefinedVariable
+         * @phpstan-ignore variable.undefined */
         return $instance;
     }
 }

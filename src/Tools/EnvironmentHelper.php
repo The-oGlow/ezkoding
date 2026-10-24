@@ -48,8 +48,7 @@ class EnvironmentHelper
     final public static function getHome(string $homeVariable = self::ENV_HOME_LINUX): string
     {
         $home = getenv($homeVariable);
-        /** @psalm-suppress RiskyTruthyFalsyComparison */
-        if ($homeVariable == self::ENV_HOME_LINUX && empty($home)) {
+        if ($homeVariable == self::ENV_HOME_LINUX && ($home === false || $home === '')) {
             // we are on windows?
             $home = getenv(self::ENV_HOME_WIN);
         }

@@ -28,17 +28,15 @@ class ClazzHelper
     /**
      * Returns the full filename of the clazz.
      *
-     * @param string $clazzName The name of the clazz
+     * @param mixed $clazzName The name of the clazz
      *
      * @return string The full filename or empty
      */
-    public static function getClazzFile(string $clazzName): string
+    public static function getClazzFile(mixed $clazzName): string
     {
         $file = '';
 
         try {
-            /** @psalm-suppress ArgumentTypeCoercion
-             * @phpstan-ignore argument.type */
             $reflection = new \ReflectionClass($clazzName);
             $file = $reflection->getFileName();
             if (false === $file) {
@@ -82,14 +80,13 @@ class ClazzHelper
     /**
      * Retrieve all child clazzes of a given clazz.
      *
-     * @param string $clazzName The name of the clazz
+     * @param mixed $clazzName The name of the clazz
      *
      * @return array<string> All child clazzes as array or empty array
      */
     public static function getAllChildren(mixed $clazzName): array
     {
         $children = [];
-        /** @psalm-suppress ArgumentTypeCoercion */
         foreach (get_declared_classes() as $currentClazz) {
             if (is_subclass_of($currentClazz, $clazzName)) {
                 $children[] = $currentClazz;
