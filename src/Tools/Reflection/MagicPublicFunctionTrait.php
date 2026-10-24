@@ -34,7 +34,7 @@ trait MagicPublicFunctionTrait
         };
         $availableMethodNames = array_map($callback, self::existingMethods()->toArray());
 
-        return new Seq($availableMethodNames); // @phpstan-ignore return.type
+        return new Seq($availableMethodNames);
     }
 
     /**

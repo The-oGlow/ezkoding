@@ -46,9 +46,6 @@ class BatchTaskHelper
         self::init();
     }
 
-    /**
-     * @psalm-suppress RedundantPropertyInitializationCheck
-     */
     public static function init(): void
     {
         if (!self::$isInit) {

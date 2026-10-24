@@ -35,8 +35,6 @@ interface ITaskItem extends \Stringable
 
     /**
      * return Set<TDataKey>.
-     *
-     * @phpstan-ignore missingType.generics
      */
     public function getDataKeys(): Set;
 

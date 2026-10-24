@@ -107,8 +107,10 @@ class TestDataTest extends TestCase
         foreach ($actuals as $key => $actual) {
             self::assertIsArray($actual);
             self::assertEquals($key, count($actual));
-            /** @psalm-suppress PossiblyNullArrayOffset */
-            self::assertInstanceOf($expected, $actual[array_key_first($actual)]);
+            $firstIndex = array_key_first($actual);
+            if (!is_null($firstIndex)) {
+                self::assertInstanceOf($expected, $actual[$firstIndex]);
+            }
         }
     }
 

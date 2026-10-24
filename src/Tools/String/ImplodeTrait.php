@@ -55,7 +55,12 @@ trait ImplodeTrait
         $objWithArray = (is_object($anyData) && is_subclass_of($anyData, ArrayAccess::class));
 
         if (is_array($anyData) || $objWithArray) {
-            foreach ($anyData as $key => $value) { // @phpstan-ignore foreach.nonIterable
+            /**
+             * Not recognize it is an Iterable.
+             *
+             * @phpstan-ignore foreach.nonIterable
+             */
+            foreach ($anyData as $key => $value) {
                 $currKey = ($withKeys ? (is_int($key) ? $key : "'$key'") . '=>' : ''); // NOSONAR: php:S3358
                 $output .= ($valueIdx > 0 ? $glue : '') .  $currKey;
 

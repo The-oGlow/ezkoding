@@ -62,8 +62,6 @@ class TaskItem implements ITaskItem
 
     /**
      * @inheritDoc
-     *
-     * @phpstan-ignore missingType.generics
      */
     #[\Override]
     public function getDataKeys(): Set

@@ -48,10 +48,13 @@ class TemplateFactory
         $callback = function (mixed $key): mixed {
             return str_replace(' ', '', $key);
         };
-        /** @var array<string,string>
-         * @phpstan-ignore varTag.type */
         $fixedKeys = array_map($callback, array_keys($templateData));
 
+        /**
+         * Does not recognize it is array.
+         *
+         * @psalm-suppress InvalidArgument
+         */
         return array_combine($fixedKeys, array_values($templateData));
     }
 

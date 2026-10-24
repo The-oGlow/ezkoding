@@ -83,8 +83,12 @@ class MagicPublicFunctionTraitTest extends TestCase
         $arg2 = TeDa::DATA_ALPHA1;
 
         $this->expectException(\TypeError::class);
-        /** @psalm-suppress InvalidArgument
-         * @phpstan-ignore argument.type,argument.type */
+        /**
+         * Intentional use of wrong args.
+         *
+         * @psalm-suppress InvalidArgument
+         * @phpstan-ignore argument.type,argument.type
+         */
         $this->o2t->publicFunctionWithArgs($arg2, $arg1);
     }
 
@@ -103,8 +107,10 @@ class MagicPublicFunctionTraitTest extends TestCase
     {
         $expected = TeDa::DATA_NULL;
 
-        /** @psalm-suppress UndefinedMagicMethod
-         *  @phpstan-ignore method.protected */
+        /** Intentional use of protected method.
+         * @psalm-suppress UndefinedMagicMethod
+         * @phpstan-ignore method.protected
+         */
         $actual = $this->o2t->protectedFunction();
 
         self::assertEquals($expected, $actual);
@@ -114,8 +120,12 @@ class MagicPublicFunctionTraitTest extends TestCase
     {
         $expected = TeDa::DATA_NULL;
 
-        /** @psalm-suppress UndefinedMagicMethod
-         * @phpstan-ignore method.private */
+        /**
+         * Intentional use of private method.
+         *
+         * @psalm-suppress UndefinedMagicMethod
+         * @phpstan-ignore method.private
+         */
         $actual = $this->o2t->privateFunction();
 
         self::assertEquals($expected, $actual);
