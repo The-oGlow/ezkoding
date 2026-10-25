@@ -19,7 +19,7 @@ use Twig\TemplateWrapper;
 
 class TemplateFactoryTest extends TestCase
 {
-    public const string DEFAULT_TEMPLATE_FOLDER = 'resources/tests/Twig';
+    public const string DEFAULT_TEMPLATE_FOLDER = 'resources/twig';
 
     public const string DEFAULT_TEMPLATE_NAME = 'simpleTemplate';
 
